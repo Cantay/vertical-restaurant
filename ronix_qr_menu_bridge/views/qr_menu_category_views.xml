@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_menu_category_form_bridge" model="ir.ui.view">
+        <field name="name">qr.menu.category.form.bridge</field>
+        <field name="model">qr.menu.category</field>
+        <field name="inherit_id" ref="ronix_qr_menu.view_qr_menu_category_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence']" position="after">
+                <field name="food_category_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

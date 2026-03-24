@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_account_page" name="Food Account">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="no_copyright" t-value="True"/>
+                <t t-set="title">Hesap Bilgilerim</t>
+
+                <!-- Need food app specific custom classes -->
+                <style>
+                    body, #wrapwrap { background-color: #f8f9fa !important; }
+                    footer, .o_footer_copyright { display: none !important; }
+                </style>
+                <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top px-3 pt-3 pb-3 shadow-sm z-index-1030 food-bg-orange-gradient text-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/food-profile" class="btn btn-link p-0 text-white text-decoration-none d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.25rem; height:2.25rem;">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="h6 fw-bold mb-0 flex-grow-1 text-truncate">Hesap Bilgilerim</h1>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-3" style="padding-top: 5rem; padding-bottom: 5rem;">
+                        <div class="d-flex flex-column align-items-center mb-4">
+                            <div class="position-relative">
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow border" style="width:6rem; height:6rem;">
+                                    <i class="ri-user-fill food-text-orange" style="font-size:3rem;"></i>
+                                </div>
+                                <button class="btn p-0 position-absolute bottom-0 end-0 rounded-circle shadow-sm d-flex align-items-center justify-content-center food-bg-orange text-white" style="width:2rem; height:2rem;">
+                                    <i class="ri-camera-line" style="font-size:0.875rem;"></i>
+                                </button>
+                            </div>
+                            <p class="text-secondary mt-2 mb-0" style="font-size:0.75rem;">Profil fotoğrafını değiştir</p>
+                        </div>
+                        
+                        <t t-set="partner" t-value="user_id.partner_id"/>
+                        
+                        <!-- Success/Error Message -->
+                        <t t-if="request.params.get('success')">
+                            <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+                                <i class="ri-checkbox-circle-fill me-2 fs-5"></i>
+                                <div>Bilgileriniz başarıyla güncellendi.</div>
+                            </div>
+                        </t>
+
+                        <form method="post" action="/food-account/update" class="d-flex flex-column gap-3">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            
+                            <div class="bg-white rounded-4 p-4 shadow-sm border space-y-3 d-flex flex-column gap-3">
+                                <div>
+                                    <label class="text-secondary mb-1 d-block" style="font-size:0.75rem;">Ad Soyad</label>
+                                    <input name="name" class="form-control bg-light border-0 py-2 rounded-3 food-text-sm text-dark shadow-none" type="text" t-att-value="partner.name" required="1"/>
+                                </div>
+                                <div>
+                                    <label class="text-secondary mb-1 d-block" style="font-size:0.75rem;">E-posta</label>
+                                    <input name="email" class="form-control bg-light border-0 py-2 rounded-3 food-text-sm text-dark shadow-none" type="email" t-att-value="partner.email" required="1"/>
+                                </div>
+                                <div>
+                                    <label class="text-secondary mb-1 d-block" style="font-size:0.75rem;">Telefon (Mobil)</label>
+                                    <input name="mobile" class="form-control bg-light border-0 py-2 rounded-3 food-text-sm text-dark shadow-none" type="tel" t-att-value="partner.mobile"/>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn w-100 mt-4 food-bg-orange-gradient text-white py-3 rounded-4 fw-bold shadow-sm">Değişiklikleri Kaydet</button>
+                            <a href="/my/security" class="btn w-100 mt-3 btn-white food-text-orange border border-warning-subtle py-3 rounded-4 fw-bold shadow-sm text-decoration-none text-center d-none" style="display: none !important;">Şifre Değiştir</a>
+                        </form>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

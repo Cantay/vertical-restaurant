@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="food_checkout_payment_template" name="Food Checkout Payment">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            <t t-set="title">Sipariş Onayı</t>
+
+            <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5">
+                <!-- Header -->
+                <div class="fixed-top px-3 py-3 bg-white z-index-1030 shadow-sm d-flex align-items-center gap-3">
+                    <a href="/food-home" class="btn bg-light rounded-circle d-flex align-items-center justify-content-center p-0 border-0 active-scale shadow-none" style="width:2.25rem; height:2.25rem;">
+                        <i class="ri-arrow-left-line text-dark fs-5"></i>
+                    </a>
+                    <h1 class="h6 fw-bold text-dark mb-0 flex-grow-1">Sipariş Onayı</h1>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="bg-white shadow-sm mt-5 pt-5 pb-3 px-3 position-relative z-index-1020">
+                    <div class="d-flex align-items-center justify-content-between position-relative z-index-1">
+                        <!-- Step 1 (Completed) -->
+                        <div class="d-flex flex-column align-items-center gap-1 position-relative" style="flex: 1;">
+                            <div class="w-2 h-2 rounded-circle food-bg-orange shadow-sm d-flex align-items-center justify-content-center text-white" style="width:1.5rem; height:1.5rem;">
+                                <i class="ri-check-line food-text-xs"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Line between 1 and 2 -->
+                        <div class="flex-grow-1 bg-light rounded-pill overflow-hidden mx-n3" style="height: 0.25rem; z-index: -1;">
+                            <div class="h-100 food-bg-orange w-100"></div>
+                        </div>
+
+                        <!-- Step 2 (Active) -->
+                        <div class="d-flex flex-column align-items-center gap-1 position-relative" style="flex: 1;">
+                            <div class="w-2 h-2 rounded-circle food-bg-orange shadow-sm d-flex align-items-center justify-content-center text-white food-text-xs fw-bold border border-2 border-white" style="width:1.5rem; height:1.5rem;">
+                                2
+                            </div>
+                        </div>
+
+                        <!-- Line between 2 and 3 -->
+                        <div class="flex-grow-1 bg-light rounded-pill overflow-hidden mx-n3" style="height: 0.25rem; z-index: -1;">
+                            <div class="h-100 food-bg-orange w-0"></div>
+                        </div>
+
+                        <!-- Step 3 (Pending) -->
+                        <div class="d-flex flex-column align-items-center gap-1 position-relative" style="flex: 1;">
+                            <div class="w-2 h-2 rounded-circle bg-light border border-secondary shadow-sm d-flex align-items-center justify-content-center text-secondary food-text-xs fw-bold" style="width:1.5rem; height:1.5rem;">
+                                3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-3 pt-4 mb-5 pb-5">
+                    <div class="d-flex flex-column gap-3">
+                        <h2 class="h6 fw-bold text-dark mb-1">Ödeme Yöntemi</h2>
+                        
+                        <!-- Saved Cards -->
+                        <div t-if="tokens" class="d-flex flex-column gap-3">
+                            <t t-foreach="tokens" t-as="token">
+                                <div t-attf-class="bg-white rounded-4 p-4 border transition-all active-scale js-food-payment-card #{'food-border-orange shadow' if token.default_card else 'border-light shadow-sm'}" 
+                                     t-att-data-token-id="token.id" style="cursor: pointer; border-radius: 1rem !important;">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div t-attf-class="rounded-circle border-2 d-flex align-items-center justify-content-center flex-shrink-0 transition-colors #{'food-bg-orange food-border-orange' if token.default_card else 'border-secondary bg-white'}" style="width: 1.25rem; height: 1.25rem;">
+                                            <i t-if="token.default_card" class="ri-check-line text-white" style="font-size: 0.75rem;"></i>
+                                        </div>
+                                        <div class="rounded-3 bg-light d-flex align-items-center justify-content-center flex-shrink-0" style="width: 2.5rem; height: 2.5rem;">
+                                            <i class="ri-bank-card-line fs-4 text-dark"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <h3 class="food-text-sm fw-bold text-dark mb-0"><t t-out="token.display_name"/></h3>
+                                        </div>
+                                        <span t-if="token.default_card" class="px-2 py-1 food-bg-orange-light food-text-orange text-uppercase fw-bold rounded-pill flex-shrink-0" style="font-size: 0.55rem;">VARSAYILAN</span>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+
+                        <!-- Add New Card Button -->
+                        <a href="/food/payment/manage?landing_route=/food/checkout/payment" class="btn w-100 py-3 border border-secondary rounded-4 text-dark food-text-sm fw-bold d-flex align-items-center justify-content-center gap-2 active-scale transition-transform bg-white shadow-sm mt-2" style="border-radius: 1rem !important;">
+                            <i class="ri-add-line fs-5"></i>Yeni Kart Ekle
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Fixed Bottom Continue Button -->
+                <div class="fixed-bottom px-3 pb-4 pt-3 bg-white border-top shadow-lg">
+                    <button class="btn food-bg-orange text-white w-100 py-3 rounded-4 food-text-sm fw-bold shadow-lg transition-all active-scale js-food-confirm-payment" 
+                            t-att-disabled="not tokens">
+                        Devam Et
+                    </button>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

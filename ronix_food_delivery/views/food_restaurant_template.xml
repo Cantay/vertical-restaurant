@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_restaurant_page" name="Food Restaurant">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Restoran Detayı</t>
+
+                <!-- Need food app specific custom classes -->
+                <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5 mb-5">
+                    
+                    <!-- Header (Absolute/Fixed) -->
+                    <div class="fixed-top bg-white z-index-1030 shadow-sm">
+                        <div class="d-flex align-items-center px-3 py-2">
+                            <a href="/food-home" class="btn btn-link p-0 text-dark text-decoration-none me-3 d-flex align-items-center justify-content-center" style="width:2rem; height:2rem;">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="h6 fw-bold text-dark text-truncate flex-grow-1 mb-0" t-out="restaurant.name"/>
+                            <button class="btn btn-link p-0 text-decoration-none d-flex align-items-center justify-content-center js-food-toggle-favorite" t-att-data-restaurant-id="restaurant.id" style="width:2rem; height:2rem;">
+                                <i t-attf-class="ri-heart-#{'fill text-danger' if request.env.user in restaurant.favorite_user_ids else 'line text-secondary'} fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Hero Image -->
+                    <div style="padding-top: 3.5rem;">
+                        <div class="position-relative overflow-hidden" style="height: 12rem;">
+                            <img t-att-alt="restaurant.name" class="w-100 h-100 object-fit-cover" t-attf-src="/web/image/food.restaurant/#{restaurant.id}/image_1024?format=webp"/>
+                            <div class="position-absolute top-0 bottom-0 start-0 end-0 bg-dark" style="opacity:0.3;"></div>
+                        </div>
+                        
+                        <!-- Restaurant Info -->
+                        <div class="bg-white px-3 py-3 shadow-sm">
+                            <h2 class="h5 fw-bolder text-dark mb-2" t-out="restaurant.name"/>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-1">
+                                    <i class="ri-star-fill text-warning" style="font-size:0.875rem;"></i>
+                                    <span class="fw-semibold text-dark" style="font-size:0.875rem;" t-out="restaurant.rating"/>
+                                    <span class="text-secondary opacity-75" style="font-size:0.75rem;">(<t t-out="restaurant.review_count"/> değerlendirme)</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <i class="ri-time-line food-text-orange" style="font-size:0.875rem;"></i>
+                                    <span class="text-secondary" style="font-size:0.75rem;"><t t-out="restaurant.delivery_time_min"/>-<t t-out="restaurant.delivery_time_max"/> dk</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <i class="ri-shopping-bag-line food-text-orange" style="font-size:0.875rem;"></i>
+                                    <span class="text-secondary" style="font-size:0.75rem;">Min $<t t-out="int(restaurant.min_order_amount)"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Section -->
+                    <div class="px-3 py-4">
+                        <h3 class="h6 fw-bolder text-dark mb-3">Menü</h3>
+                        <div class="row g-2">
+                            
+                            <t t-foreach="restaurant_foods" t-as="food">
+                                <div class="col-6">
+                                    <div class="bg-white rounded-4 overflow-hidden shadow-sm h-100 cursor-pointer food-active-scale js-open-food-detail" data-bs-toggle="offcanvas" data-bs-target="#foodDetailOffcanvas" t-att-data-food-id="food.id">
+                                        <div class="position-relative overflow-hidden" style="height: 8rem;">
+                                            <img t-att-alt="food.name" class="w-100 h-100 object-fit-cover object-top" t-attf-src="/web/image?model=product.template&amp;id=#{food.id}&amp;field=image_512&amp;format=webp" loading="lazy"/>
+                                            <div class="position-absolute bottom-0 w-100" style="height:3rem; background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);"></div>
+                                        </div>
+                                        <div class="p-2">
+                                            <h4 class="fw-bold text-dark text-truncate mb-1" style="font-size:0.75rem;"><t t-out="food.name"/></h4>
+                                            <p t-if="food.public_categ_ids" class="text-secondary mb-2" style="font-size:0.625rem;"><t t-out="food.public_categ_ids[0].name"/></p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="fw-bold food-text-orange" style="font-size:0.875rem;">$<t t-out="int(food.list_price)"/></span>
+                                                <div class="d-flex align-items-center gap-1">
+                                                    <i class="ri-star-fill text-warning" style="font-size:0.75rem;"></i>
+                                                    <span class="text-secondary fw-medium" style="font-size:0.625rem;"><t t-out="food.food_rating"/> (<t t-out="food.food_review_count"/>)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                        </div>
+                    </div>
+
+                    <!-- Reviews Section -->
+                    <div class="px-3 py-4 bg-white mt-3 border-top border-bottom shadow-sm mb-5">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h3 class="h6 fw-bolder text-dark mb-0">Değerlendirmeler</h3>
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="ri-star-fill text-warning"></i>
+                                <span class="fw-bold text-dark" t-out="restaurant.rating"/>
+                                <span class="text-secondary opacity-75 small">(<t t-out="restaurant.review_count"/>)</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mb-3 js-review-filters">
+                            <button type="button" class="btn btn-sm rounded-pill food-bg-orange text-white px-3 js-review-filter active" data-rating="">Tum</button>
+                            <t t-foreach="[5, 4, 3, 2, 1]" t-as="rating_value">
+                                <button type="button" class="btn btn-sm btn-light rounded-pill border px-3 js-review-filter" t-att-data-rating="rating_value">
+                                    <t t-out="rating_value"/> Yildiz
+                                </button>
+                            </t>
+                        </div>
+                        <div class="js-review-feed"
+                             data-review-type="restaurant"
+                             t-att-data-record-id="restaurant.id"
+                             data-page-size="20">
+                            <div class="d-flex flex-column gap-3 js-review-list"></div>
+                            <div class="text-center py-3 text-secondary small d-none js-review-loading">
+                                <i class="ri-loader-4-line ri-spin me-1"></i> Yorumlar yukleniyor...
+                            </div>
+                            <p class="text-secondary text-center py-3 small mb-0 font-italic d-none js-review-empty">Henüz değerlendirme yapılmamış.</p>
+                            <div class="js-review-sentinel" style="height: 1px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav Container (Fixed) -->
+                    <div class="fixed-bottom bg-white border-top shadow-sm z-index-1030 pb-2 pb-md-0">
+                        <div class="container-fluid px-0">
+                            <div class="row text-center align-items-center m-0" style="height: 4rem;">
+                                <div class="col px-0">
+                                    <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Keşfet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-shopping-cart-line fs-4 mb-0"></i>
+                                        <span t-attf-class="js-cart-badge position-absolute d-flex align-items-center justify-content-center fw-bold text-white rounded-circle food-text-3xs food-bg-orange shadow-sm #{'d-none' if not order or not sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) else ''}" style="top:-0.25rem; right:-0.25rem; width:1rem; height:1rem;">
+                                            <t t-out="int(sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) if order else 0)"/>
+                                        </span>
+                                        <span class="food-text-2xs mt-1">Sepet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-file-list-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Siparişler</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-user-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Profil</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offcanvas: Food Detail Box Shell (Populated by JS AJAX) -->
+                    <div class="offcanvas offcanvas-bottom rounded-top-4 border-0 p-0 overflow-hidden" tabindex="-1" id="foodDetailOffcanvas" aria-labelledby="foodDetailOffcanvasLabel" style="height: auto; max-height: 90vh;">
+                        <div class="d-flex justify-content-center align-items-center h-100 w-100 py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <t t-call="ronix_food_delivery.food_common_modals"/>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

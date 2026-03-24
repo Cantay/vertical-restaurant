@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_menu_restaurant_form_bridge" model="ir.ui.view">
+        <field name="name">qr.menu.restaurant.form.bridge</field>
+        <field name="model">qr.menu.restaurant</field>
+        <field name="inherit_id" ref="ronix_qr_menu.view_qr_menu_restaurant_form"/>
+        <field name="arch" type="xml">
+            <!-- Pull button in header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_pull_from_food_delivery"
+                        type="object"
+                        string="Food Delivery'den Çek"
+                        class="btn-primary"
+                        invisible="not food_restaurant_id"/>
+            </xpath>
+            <!-- Link + rating fields after manager_ids group -->
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="food_restaurant_id"/>
+                <field name="food_rating" invisible="not food_restaurant_id"/>
+                <field name="food_rating_avg" invisible="not food_restaurant_id"/>
+                <field name="food_review_count" invisible="not food_restaurant_id"/>
+                <field name="always_open" invisible="not food_restaurant_id"/>
+            </xpath>
+            <!-- Work hours page in notebook -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Çalışma Saatleri (Food Delivery)" name="work_hours_bridge"
+                      invisible="not food_restaurant_id">
+                    <div class="p-3">
+                        <field name="work_hours_html" readonly="1"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

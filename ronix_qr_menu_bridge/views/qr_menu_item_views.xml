@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_menu_item_form_bridge" model="ir.ui.view">
+        <field name="name">qr.menu.item.form.bridge</field>
+        <field name="model">qr.menu.item</field>
+        <field name="inherit_id" ref="ronix_qr_menu.view_qr_menu_item_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='preparation_time']" position="after">
+                <field name="food_product_id"/>
+                <field name="food_item_rating" invisible="not food_product_id"/>
+                <field name="food_item_review_count" invisible="not food_product_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

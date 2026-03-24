@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_addresses_page" name="Food Addresses">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Adreslerim</t>
+
+                <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5 mb-5" t-att-data-google-maps-api-key="google_maps_api_key">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top px-3 pt-3 pb-3 shadow-sm z-index-1030 food-bg-orange-gradient text-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/food-profile" class="btn btn-link p-0 text-white text-decoration-none d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.25rem; height:2.25rem;">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="h6 fw-bold mb-0 flex-grow-1 text-truncate">Adreslerim</h1>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-3" style="padding-top: 5rem; padding-bottom: 5rem;">
+                        <div class="d-flex flex-column gap-3">
+                            
+                            <t t-foreach="addresses" t-as="addr">
+                                <div class="bg-white rounded-4 p-3 shadow-sm border">
+                                    <div class="d-flex align-items-start justify-content-between mb-2">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div t-attf-class="d-flex align-items-center justify-content-center #{'food-bg-orange-light' if addr.is_default else 'bg-light'} rounded-circle" style="width:2.5rem; height:2.5rem;">
+                                                <i t-attf-class="ri-map-pin-fill #{'food-text-orange' if addr.is_default else 'text-secondary'}" style="font-size:1.125rem;"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="food-text-sm fw-bolder text-dark mb-0"><t t-out="addr.name"/></h3>
+                                                <t t-if="addr.is_default">
+                                                    <span class="food-text-orange fw-medium" style="font-size:0.625rem;">Varsayılan Adres</span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                        <form action="/food/address/delete" method="post">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="address_id" t-att-value="addr.id"/>
+                                            <button type="submit" class="btn btn-link p-0 text-danger text-decoration-none d-flex align-items-center justify-content-center shadow-none border-0" style="width:2rem; height:2rem;">
+                                                <i class="ri-delete-bin-line fs-5"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <p class="text-secondary mb-2 lh-sm" style="font-size:0.75rem;"><t t-out="addr.address_details"/></p>
+                                    
+                                    <div class="d-flex gap-2 mt-3">
+                                        <t t-if="not addr.is_default">
+                                            <form action="/food/address/set_default" method="post" class="flex-grow-1">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="address_id" t-att-value="addr.id"/>
+                                                <button type="submit" class="btn w-100 py-1 bg-light text-secondary rounded-3 fw-semibold border-0 shadow-none" style="font-size:0.75rem;">Varsayılan Yap</button>
+                                            </form>
+                                        </t>
+                                         <button type="button" class="btn flex-grow-1 py-1 food-bg-orange-light food-text-orange rounded-3 fw-semibold border-0 shadow-none edit-address-btn" 
+                                                 t-att-data-address-id="addr.id"
+                                                 t-att-data-address-name="addr.name"
+                                                 t-att-data-address-city="addr.city"
+                                                 t-att-data-address-district="addr.district"
+                                                 t-att-data-address-details="addr.address_details"
+                                                 t-att-data-address-directions="addr.address_directions"
+                                                 t-att-data-address-lat="addr.lat"
+                                                 t-att-data-address-lng="addr.lng"
+                                                 style="font-size:0.75rem;" data-bs-toggle="offcanvas" data-bs-target="#newAddressOffcanvas">Düzenle</button>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="not addresses">
+                                <div class="text-center py-5 bg-white rounded-4 border shadow-sm">
+                                    <i class="ri-map-pin-2-line fs-1 text-secondary opacity-25"></i>
+                                    <p class="text-secondary mt-2">Henüz kayıtlı adresiniz bulunmuyor.</p>
+                                </div>
+                            </t>
+
+                            <button class="btn w-100 mt-2 food-bg-orange-gradient text-white py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 border-0 add-new-address-btn" data-bs-toggle="offcanvas" data-bs-target="#newAddressOffcanvas">
+                                <i class="ri-add-line fs-5"></i> Yeni Adres Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Offcanvas: New Address -->
+                    <div class="offcanvas offcanvas-bottom rounded-top-5 border-0" tabindex="-1" id="newAddressOffcanvas" aria-labelledby="newAddressOffcanvasLabel" style="height: auto; max-height: 90vh;">
+                        <div class="offcanvas-header pb-0 bg-white rounded-top-5 p-4 mt-1">
+                            <div class="d-flex align-items-center gap-3">
+                                 <h5 class="offcanvas-title fw-bold text-dark fs-5 mb-0" id="newAddressOffcanvasLabel">Yeni Adres Ekle</h5>
+                            </div>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body p-4 pt-4 pb-5 bg-white">
+                            <form action="/food/address/add" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="redirect" value="/food-addresses"/>
+                                <input type="hidden" name="lat" value=""/>
+                                <input type="hidden" name="lng" value=""/>
+                                <div class="d-flex flex-column gap-3 mb-2">
+                                    <div>
+                                        <input name="address_title" required="required" placeholder="Adres Başlığı (Ev, İş vb.)" class="food-search-input w-100 py-3 rounded-4" type="text" style="padding-left: 1.25rem;"/>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <input name="city" placeholder="İl" class="food-search-input w-100 py-3 rounded-4" type="text" style="padding-left: 1.25rem;"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <input name="district" placeholder="İlçe" class="food-search-input w-100 py-3 rounded-4" type="text" style="padding-left: 1.25rem;"/>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <textarea name="address_details" required="required" placeholder="Açık Adres (Mahalle, Sokak, Bina No, Daire No)" rows="3" class="food-search-input w-100 py-3 rounded-4 h-auto" style="padding-left: 1.25rem;"></textarea>
+                                    </div>
+                                    <div>
+                                        <input name="address_directions" placeholder="Adres Tarifi (İsteğe bağlı)" class="food-search-input w-100 py-3 rounded-4" type="text" style="padding-left: 1.25rem;"/>
+                                    </div>
+                                     <button type="submit" class="btn w-100 food-bg-orange text-white py-3 rounded-4 fw-bold active-scale shadow-sm mt-2 border-0">
+                                        Adresi Kaydet
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav Container (Fixed) -->
+                    <div class="fixed-bottom bg-white border-top shadow-sm z-index-1030 pb-2 pb-md-0">
+                        <div class="container-fluid px-0">
+                            <div class="row text-center align-items-center m-0" style="height: 4rem;">
+                                <div class="col px-0">
+                                    <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Keşfet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-shopping-cart-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Sepet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-file-list-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Siparişler</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="ri-user-fill fs-4 food-text-orange mb-0"></i>
+                                        <span class="food-text-2xs fw-bold food-text-orange mt-1">Profil</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

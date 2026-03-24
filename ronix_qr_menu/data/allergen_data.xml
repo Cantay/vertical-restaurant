@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="allergen_gluten" model="qr.menu.allergen">
+            <field name="name">Gluten</field>
+            <field name="icon">🌾</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="allergen_crustaceans" model="qr.menu.allergen">
+            <field name="name">Crustaceans</field>
+            <field name="icon">🦐</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="allergen_eggs" model="qr.menu.allergen">
+            <field name="name">Eggs</field>
+            <field name="icon">🥚</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="allergen_fish" model="qr.menu.allergen">
+            <field name="name">Fish</field>
+            <field name="icon">🐟</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="allergen_peanuts" model="qr.menu.allergen">
+            <field name="name">Peanuts</field>
+            <field name="icon">🥜</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="allergen_soybeans" model="qr.menu.allergen">
+            <field name="name">Soybeans</field>
+            <field name="icon">🫘</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="allergen_milk" model="qr.menu.allergen">
+            <field name="name">Milk</field>
+            <field name="icon">🥛</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="allergen_nuts" model="qr.menu.allergen">
+            <field name="name">Tree Nuts</field>
+            <field name="icon">🌰</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="allergen_celery" model="qr.menu.allergen">
+            <field name="name">Celery</field>
+            <field name="icon">🥬</field>
+            <field name="sequence">9</field>
+        </record>
+        <record id="allergen_mustard" model="qr.menu.allergen">
+            <field name="name">Mustard</field>
+            <field name="icon">🟡</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="allergen_sesame" model="qr.menu.allergen">
+            <field name="name">Sesame</field>
+            <field name="icon">⚪</field>
+            <field name="sequence">11</field>
+        </record>
+        <record id="allergen_sulphites" model="qr.menu.allergen">
+            <field name="name">Sulphites</field>
+            <field name="icon">🧪</field>
+            <field name="sequence">12</field>
+        </record>
+        <record id="allergen_lupin" model="qr.menu.allergen">
+            <field name="name">Lupin</field>
+            <field name="icon">🌸</field>
+            <field name="sequence">13</field>
+        </record>
+        <record id="allergen_molluscs" model="qr.menu.allergen">
+            <field name="name">Molluscs</field>
+            <field name="icon">🐚</field>
+            <field name="sequence">14</field>
+        </record>
+    </data>
+</odoo>

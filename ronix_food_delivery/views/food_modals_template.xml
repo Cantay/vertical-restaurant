@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_common_modals" name="Food Common Modals">
+            <!-- Modal: Address Required -->
+            <div class="modal fade" id="addressRequiredModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered px-4">
+                    <div class="modal-content border-0 food-rounded-2xl shadow-lg animate__animated animate__fadeInUp">
+                        <div class="modal-body p-4 text-center">
+                            <div class="mb-3">
+                                <div class="food-bg-orange-light rounded-circle d-inline-flex align-items-center justify-content-center animate__animated animate__pulse animate__infinite" style="width: 4rem; height: 4rem;">
+                                    <i class="ri-map-pin-2-fill food-text-orange fs-1"></i>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Adres Gerekli</h5>
+                            <p class="text-secondary food-text-sm px-2">Devam etmek için lütfen bir teslimat adresi seçin veya yeni bir adres ekleyin.</p>
+                            
+                            <div class="d-flex flex-column gap-2 mt-4">
+                                <a href="/food-addresses" class="btn food-bg-orange text-white w-100 py-3 food-rounded-xl fw-bold border-0 shadow-sm active-scale d-flex align-items-center justify-content-center">Adres Ekle / Seç</a>
+                                <button type="button" class="btn btn-light w-100 py-3 food-rounded-xl fw-bold border text-secondary active-scale" data-bs-dismiss="modal">Vazgeç</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Different Restaurant Confirmation -->
+            <div class="modal fade" id="differentRestaurantModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered px-4">
+                    <div class="modal-content border-0 food-rounded-2xl shadow-lg animate__animated animate__fadeInUp">
+                        <div class="modal-body p-4 text-center">
+                            <div class="mb-3">
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 4rem; height: 4rem;">
+                                    <i class="ri-restaurant-2-fill text-dark fs-1"></i>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Farklı Bir Restoran?</h5>
+                            <p class="text-secondary food-text-sm mb-3">Sepetinizde zaten <span class="fw-bold js-current-res-name food-text-orange">...</span> ürünleri var. Başka bir restorandan ürün eklemek için mevcut sepetinizin temizlenmesi gerekmektedir.</p>
+                            
+                            <div class="d-flex flex-column gap-2 mt-4">
+                                <button type="button" class="btn food-bg-orange text-white w-100 py-3 food-rounded-xl fw-bold border-0 shadow-sm active-scale js-confirm-clear-cart">Evet, Sepeti Temizle</button>
+                                <button type="button" class="btn btn-light w-100 py-3 food-rounded-xl fw-bold border text-secondary active-scale" data-bs-dismiss="modal">Vazgeç</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

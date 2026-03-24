@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Partner Form Inheritance to show Food Delivery Addresses -->
+    <record id="view_partner_form_food_delivery" model="ir.ui.view">
+        <field name="name">res.partner.form.food.delivery</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="food_delivery_addresses" string="Food Delivery Addresses">
+                    <group>
+                        <field name="current_food_address_id" readonly="1"/>
+                    </group>
+                    <field name="food_address_ids">
+                        <list editable="bottom">
+                            <field name="is_default" widget="boolean_toggle"/>
+                            <field name="name"/>
+                            <field name="city"/>
+                            <field name="district"/>
+                            <field name="address_details"/>
+                            <field name="address_directions"/>
+                            <field name="lat" optional="show"/>
+                            <field name="lng" optional="show"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_food_delivery_address" model="ir.actions.act_window">
+        <field name="name">Food Delivery Addresses</field>
+        <field name="res_model">food.delivery.address</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item under Food Delivery Settings -->
+    <menuitem id="menu_food_delivery_address" 
+              name="Food Delivery Addresses" 
+              parent="ronix_food_delivery.menu_food_delivery_settings" 
+              action="action_food_delivery_address" 
+              groups="base.group_system"
+              sequence="20"/>
+
+    <!-- Tree View -->
+    <record id="view_food_delivery_address_tree" model="ir.ui.view">
+        <field name="name">food.delivery.address.tree</field>
+        <field name="model">food.delivery.address</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="city"/>
+                <field name="district"/>
+                <field name="address_details"/>
+                <field name="is_default"/>
+                <field name="lat" optional="show"/>
+                <field name="lng" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_food_delivery_address_form" model="ir.ui.view">
+        <field name="name">food.delivery.address.form</field>
+        <field name="model">food.delivery.address</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="is_default"/>
+                        </group>
+                        <group>
+                            <field name="city"/>
+                            <field name="district"/>
+                        </group>
+                    </group>
+                    <group string="Address Details">
+                        <field name="address_details"/>
+                        <field name="address_directions"/>
+                    </group>
+                    <group string="Location Data">
+                        <group>
+                            <field name="lat"/>
+                        </group>
+                        <group>
+                            <field name="lng"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

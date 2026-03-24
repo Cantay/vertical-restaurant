@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_qr_menu_waiter_call_list" model="ir.ui.view">
+        <field name="name">qr.menu.waiter.call.list</field>
+        <field name="model">qr.menu.waiter.call</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'pending'" decoration-warning="state == 'acknowledged'" decoration-muted="state in ('completed', 'cancelled')">
+                <field name="create_date" string="Time"/>
+                <field name="restaurant_id"/>
+                <field name="table_id"/>
+                <field name="call_type"/>
+                <field name="custom_message"/>
+                <field name="state" widget="badge" decoration-danger="state == 'pending'" decoration-warning="state == 'acknowledged'" decoration-success="state == 'completed'"/>
+                <field name="acknowledged_by"/>
+                <button name="action_acknowledge" type="object" string="Acknowledge" icon="fa-check" invisible="state != 'pending'"/>
+                <button name="action_complete" type="object" string="Complete" icon="fa-check-circle" invisible="state != 'acknowledged'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_qr_menu_waiter_call_form" model="ir.ui.view">
+        <field name="name">qr.menu.waiter.call.form</field>
+        <field name="model">qr.menu.waiter.call</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_acknowledge" type="object" string="Acknowledge" class="btn-primary" invisible="state != 'pending'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-success" invisible="state != 'acknowledged'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('completed', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,acknowledged,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="restaurant_id"/>
+                            <field name="table_id"/>
+                            <field name="call_type"/>
+                        </group>
+                        <group>
+                            <field name="acknowledged_by"/>
+                            <field name="acknowledged_at"/>
+                            <field name="completed_at"/>
+                        </group>
+                    </group>
+                    <field name="custom_message" placeholder="Custom message from customer..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_qr_menu_waiter_call" model="ir.actions.act_window">
+        <field name="name">Waiter Calls</field>
+        <field name="res_model">qr.menu.waiter.call</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ('pending', 'acknowledged'))]</field>
+    </record>
+
+    <menuitem id="menu_qr_menu_waiter_call"
+              name="Waiter Calls"
+              parent="menu_qr_menu_root"
+              action="action_qr_menu_waiter_call"
+              sequence="50"/>
+</odoo>

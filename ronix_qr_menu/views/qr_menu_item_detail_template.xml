@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- ITEM DETAIL PAGE - Full item info + AR + Nutrition            -->
+    <!-- ============================================================ -->
+    <template id="qr_menu_item_detail" name="QR Menu Item Detail">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div class="qr-menu-container">
+                <!-- Back Header -->
+                <div class="qr-menu-top-bar">
+                    <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, item.category_id.id, ('?table_id=%s' % table.id) if table else '')"
+                       class="text-dark text-decoration-none">
+                        <i class="ri-arrow-left-line fs-5 me-2"></i>
+                    </a>
+                    <h6 class="fw-bold mb-0" t-field="item.name"/>
+                </div>
+
+                <!-- Item Image -->
+                <div class="qr-menu-detail-hero">
+                    <t t-if="item.image_1920">
+                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920' % item.id"
+                             class="w-100" style="max-height: 300px; object-fit: cover;" t-att-alt="item.name"/>
+                    </t>
+                </div>
+
+                <!-- Item Info -->
+                <div class="px-3 py-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h4 class="fw-bold mb-0" t-field="item.name"/>
+                        <span class="qr-menu-price fs-5" t-field="item.price"
+                              t-options="{'widget': 'monetary', 'display_currency': item.currency_id}"/>
+                    </div>
+
+                    <!-- Diet Badges -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span t-if="item.is_vegetarian" class="badge bg-success-subtle text-success px-3 py-2">
+                            <i class="ri-leaf-line me-1"></i>Vejetaryen
+                        </span>
+                        <span t-if="item.is_vegan" class="badge bg-success-subtle text-success px-3 py-2">
+                            <i class="ri-seedling-line me-1"></i>Vegan
+                        </span>
+                        <span t-if="item.is_gluten_free" class="badge bg-info-subtle text-info px-3 py-2">
+                            <i class="ri-bread-line me-1"></i>Glütensiz
+                        </span>
+                        <span t-if="item.is_spicy" class="badge bg-danger-subtle text-danger px-3 py-2">
+                            <i class="ri-fire-line me-1"></i>Acı
+                        </span>
+                        <span t-if="item.preparation_time" class="badge bg-secondary-subtle text-secondary px-3 py-2">
+                            <i class="ri-time-line me-1"></i><t t-out="item.preparation_time"/> dk
+                        </span>
+                    </div>
+
+                    <!-- Description -->
+                    <t t-if="item.description">
+                        <p class="text-muted" t-field="item.description"/>
+                    </t>
+
+                    <!-- AR Viewer Section -->
+                    <t t-if="item.has_ar">
+                        <div class="qr-menu-ar-section mb-4">
+                            <h6 class="fw-bold mb-2">
+                                <i class="ri-camera-3d-line me-1"></i>3D Görüntüle
+                            </h6>
+                            <div class="qr-menu-ar-container js-qr-ar-container"
+                                 t-att-data-model-url="'/qr-menu/ar-model/%s' % item.id">
+                                <div class="qr-menu-ar-placeholder js-qr-ar-placeholder">
+                                    <i class="ri-box-3-line fs-1 text-muted d-block mb-2"></i>
+                                    <button class="btn qr-menu-btn-orange btn-sm js-qr-ar-load">
+                                        <i class="ri-camera-3d-line me-1"></i>3D Modeli Yükle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Ingredients -->
+                    <t t-if="item.ingredients">
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-2">
+                                <i class="ri-file-list-3-line me-1"></i>İçindekiler
+                            </h6>
+                            <div class="qr-menu-content-box" t-field="item.ingredients"/>
+                        </div>
+                    </t>
+
+                    <!-- Allergens -->
+                    <t t-if="item.allergen_ids">
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-2">
+                                <i class="ri-error-warning-line me-1"></i>Alerjenler
+                            </h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <t t-foreach="item.allergen_ids" t-as="allergen">
+                                    <span class="qr-menu-allergen-badge">
+                                        <span class="me-1" t-out="allergen.icon"/>
+                                        <span t-field="allergen.name"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Nutrition Table -->
+                    <t t-if="item.calories or item.protein or item.carbs or item.fat">
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-2">
+                                <i class="ri-heart-pulse-line me-1"></i>Besin Değerleri
+                            </h6>
+                            <div class="qr-menu-nutrition-grid">
+                                <t t-if="item.calories">
+                                    <div class="qr-menu-nutrition-item">
+                                        <div class="qr-menu-nutrition-value"><t t-out="int(item.calories)"/></div>
+                                        <div class="qr-menu-nutrition-label">kcal</div>
+                                    </div>
+                                </t>
+                                <t t-if="item.protein">
+                                    <div class="qr-menu-nutrition-item">
+                                        <div class="qr-menu-nutrition-value"><t t-out="'%.1f' % item.protein"/>g</div>
+                                        <div class="qr-menu-nutrition-label">Protein</div>
+                                    </div>
+                                </t>
+                                <t t-if="item.carbs">
+                                    <div class="qr-menu-nutrition-item">
+                                        <div class="qr-menu-nutrition-value"><t t-out="'%.1f' % item.carbs"/>g</div>
+                                        <div class="qr-menu-nutrition-label">Karbonhidrat</div>
+                                    </div>
+                                </t>
+                                <t t-if="item.fat">
+                                    <div class="qr-menu-nutrition-item">
+                                        <div class="qr-menu-nutrition-value"><t t-out="'%.1f' % item.fat"/>g</div>
+                                        <div class="qr-menu-nutrition-label">Yağ</div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Waiter Call FAB -->
+                <t t-if="table">
+                    <button class="qr-menu-fab js-qr-waiter-call-btn"
+                            t-att-data-restaurant-id="restaurant.id"
+                            t-att-data-table-id="table.id">
+                        <i class="ri-user-voice-line"></i>
+                    </button>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

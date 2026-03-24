@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_notifications_page" name="Food Notifications">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Bildirimler</t>
+                
+                <div id="wrap" class="oe_structure oe_empty bg-light min-vh-100 pb-5 mb-5 food-app-container">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top px-3 py-3 shadow-sm z-index-1030 food-bg-orange-gradient">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="/food-home" class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" style="width:2rem; height:2rem; background-color: rgba(255,255,255,0.2); border:none;">
+                                    <i class="ri-arrow-left-line text-white" style="font-size:1.125rem;"></i>
+                                </a>
+                                <div>
+                                    <h1 class="h6 fw-bold text-white mb-0">Bildirimler</h1>
+                                    <p class="food-text-xs text-white text-opacity-75 mb-0">3 okunmamış</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm rounded-pill text-white food-text-xs border-0" style="background-color: rgba(255,255,255,0.2);">
+                                Tümünü Oku
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Notification Content -->
+                    <div class="px-3" style="padding-top: 5rem; padding-bottom: 5.5rem;">
+                        
+                        <!-- BUGÜN -->
+                        <div class="mb-4">
+                            <h2 class="text-secondary fw-bold food-text-xs text-uppercase mb-3 px-1">BUGÜN</h2>
+                            <div class="d-flex flex-column gap-2">
+                                
+                                <!-- Notification item: Delivered -->
+                                <div class="bg-white rounded-4 p-3 shadow-sm border-start border-4 food-border-orange active-scale cursor-pointer">
+                                    <div class="d-flex gap-3">
+                                        <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.5rem; height:2.5rem;">
+                                            <i class="ri-checkbox-circle-fill text-success fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+                                                <h3 class="food-text-sm fw-bold text-dark mb-0">Siparişiniz Teslim Edildi</h3>
+                                                <div class="food-bg-orange rounded-circle mt-1 flex-shrink-0" style="width:0.5rem; height:0.5rem;"></div>
+                                            </div>
+                                            <p class="food-text-xs text-secondary mb-2">Burger King siparişiniz başarıyla teslim edildi. Afiyet olsun!</p>
+                                            <span class="text-muted" style="font-size:0.65rem;">5 dk önce</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Notification item: On the Way -->
+                                <div class="bg-white rounded-4 p-3 shadow-sm border-start border-4 food-border-orange active-scale cursor-pointer">
+                                    <div class="d-flex gap-3">
+                                        <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.5rem; height:2.5rem;">
+                                            <i class="ri-e-bike-2-fill food-text-orange fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+                                                <h3 class="food-text-sm fw-bold text-dark mb-0">Siparişiniz Yola Çıktı</h3>
+                                                <div class="food-bg-orange rounded-circle mt-1 flex-shrink-0" style="width:0.5rem; height:0.5rem;"></div>
+                                            </div>
+                                            <p class="food-text-xs text-secondary mb-2">Pizza Hut siparişiniz kurye tarafından teslim edilmek üzere yola çıktı.</p>
+                                            <span class="text-muted" style="font-size:0.65rem;">15 dk önce</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Notification item: Special Discount -->
+                                <div class="bg-white rounded-4 p-3 shadow-sm border-start border-4 food-border-orange active-scale cursor-pointer">
+                                    <div class="d-flex gap-3">
+                                        <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.5rem; height:2.5rem;">
+                                            <i class="ri-percent-fill text-danger fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+                                                <h3 class="food-text-sm fw-bold text-dark mb-0">🎉 Özel İndirim!</h3>
+                                                <div class="food-bg-orange rounded-circle mt-1 flex-shrink-0" style="width:0.5rem; height:0.5rem;"></div>
+                                            </div>
+                                            <p class="food-text-xs text-secondary mb-2">Tüm burger siparişlerinde %30 indirim! Kupon kodu: BURGER30</p>
+                                            <span class="text-muted" style="font-size:0.65rem;">1 saat önce</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Read Notification -->
+                                <div class="bg-white rounded-4 p-3 shadow-sm active-scale cursor-pointer">
+                                    <div class="d-flex gap-3">
+                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.5rem; height:2.5rem;">
+                                            <i class="ri-restaurant-2-fill text-muted fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+                                                <h3 class="food-text-sm fw-bold text-secondary mb-0">Siparişiniz Hazırlanıyor</h3>
+                                            </div>
+                                            <p class="food-text-xs text-muted mb-2">Sushi World siparişiniz restoran tarafından hazırlanıyor.</p>
+                                            <span class="text-muted" style="font-size:0.65rem;">2 saat önce</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- DAHA ÖNCE -->
+                        <div>
+                            <h2 class="text-secondary fw-bold food-text-xs text-uppercase mb-3 px-1">DAHA ÖNCE</h2>
+                            <div class="d-flex flex-column gap-2">
+                                
+                                <div class="bg-white rounded-4 p-3 shadow-sm active-scale cursor-pointer">
+                                    <div class="d-flex gap-3">
+                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.5rem; height:2.5rem;">
+                                            <i class="ri-check-double-fill text-muted fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <h3 class="food-text-sm fw-bold text-secondary mb-1">Siparişiniz Onaylandı</h3>
+                                            <p class="food-text-xs text-muted mb-2">Kebap House siparişiniz restoran tarafından onaylandı.</p>
+                                            <span class="text-muted" style="font-size:0.65rem;">1 gün önce</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Nav Component Included -->
+                    <div class="fixed-bottom bg-white border-top border-gray-200 z-index-1030">
+                        <div class="row row-cols-4 g-0 text-center" style="height:4rem;">
+                            <div class="col">
+                                <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Keşfet</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-shopping-cart-line fs-4 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Sepet</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-file-list-line fs-4 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Siparişler</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-user-line fs-4 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Profil</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

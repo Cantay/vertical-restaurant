@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_qr_menu_allergen_list" model="ir.ui.view">
+        <field name="name">qr.menu.allergen.list</field>
+        <field name="model">qr.menu.allergen</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="icon"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_qr_menu_allergen" model="ir.actions.act_window">
+        <field name="name">Allergens</field>
+        <field name="res_model">qr.menu.allergen</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Settings submenu -->
+    <menuitem id="menu_qr_menu_config"
+              name="Configuration"
+              parent="menu_qr_menu_root"
+              sequence="90"/>
+
+    <menuitem id="menu_qr_menu_allergen"
+              name="Allergens"
+              parent="menu_qr_menu_config"
+              action="action_qr_menu_allergen"
+              sequence="10"/>
+</odoo>

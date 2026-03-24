@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Food Product Tree View -->
+    <record id="view_food_product_tree" model="ir.ui.view">
+        <field name="name">food.product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <list string="Food Products">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="food_restaurant_id"/>
+                <field name="public_categ_ids" widget="many2many_tags" string="Categories"/>
+                <field name="list_price" string="Price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="food_rating" widget="float"/>
+                <field name="is_published" string="Published"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Food Product Kanban View -->
+    <record id="view_food_product_kanban" model="ir.ui.view">
+        <field name="name">food.product.template.kanban</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="food_restaurant_id"/>
+                <field name="list_price"/>
+                <field name="currency_id"/>
+                <field name="food_rating"/>
+                <field name="image_128"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)" alt="Food Image"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_tags_section">
+                                    <span class="text-muted"><field name="food_restaurant_id"/></span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <div class="text-primary fw-bold">
+                                        <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </div>
+                                    <div class="text-warning">
+                                        <i class="fa fa-star"></i> <field name="food_rating"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Food Product Clean Form View -->
+    <record id="view_food_product_form" model="ir.ui.view">
+        <field name="name">food.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <form string="Food Product">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <field name="is_food" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="categ_id" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Product Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Cheeseburger"/>
+                        </h1>
+                        <div name="options" groups="base.group_user">
+                            <div>
+                                <field name="is_published" widget="boolean_toggle"/>
+                                <label for="is_published" string="Published on Website"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <group>
+                        <group string="Basic Information">
+                            <field name="food_restaurant_id" required="1"/>
+                            <field name="list_price" string="Price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="public_categ_ids" widget="many2many_tags" string="Categories" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        
+                        <group string="Ratings &amp; Favorites">
+                            <field name="food_rating" readonly="1"/>
+                            <field name="food_review_count" readonly="1"/>
+                            <field name="food_favorite_user_ids" widget="many2many_tags" groups="ronix_food_delivery.group_food_admin"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description_sale" placeholder="Ingredients, recipe details, etc..."/>
+                        </page>
+                        <page name="variants" string="Ekstra Seçenekler (Add-ons)">
+                            <field name="food_addon_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="group_name"/>
+                                    <field name="name"/>
+                                    <field name="selection_type"/>
+                                    <field name="extra_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="is_required" widget="boolean_toggle"/>
+                                    <field name="max_selections"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="reviews" string="Reviews">
+                            <field name="food_review_ids" readonly="1">
+                                <list>
+                                    <field name="user_id"/>
+                                    <field name="rating"/>
+                                    <field name="comment"/>
+                                    <field name="create_date" string="Date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Food Products -->
+    <record id="action_food_product" model="ir.actions.act_window">
+        <field name="name">Menu Items / Products</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_food', '=', True)]</field>
+        <field name="context">{'default_is_food': True, 'default_type': 'consu'}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_food_product_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_food_product_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_food_product_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new food item!
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for Categories -->
+    <record id="action_food_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">product.public.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new food category!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_food_products"
+              name="Products"
+              parent="menu_food_delivery_root"
+              action="action_food_product"
+              sequence="20"/>
+              
+    <menuitem id="menu_food_categories"
+              name="Categories"
+              parent="menu_food_delivery_root"
+              action="action_food_category"
+              groups="ronix_food_delivery.group_food_admin"
+              sequence="30"/>
+
+</odoo>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ============================================================
+             ACTION: Food Orders List
+        ============================================================ -->
+        <record id="action_food_orders" model="ir.actions.act_window">
+            <field name="name">Yemek Siparişleri</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_food_order', '=', True), ('state', 'not in', ('draft', 'sent'))]</field>
+            <field name="context">{'default_is_food_order': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Henüz onaylanmış yemek siparişi yok.
+                </p>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             LIST VIEW: Food Orders (simplified columns)
+        ============================================================ -->
+        <record id="view_food_orders_list" model="ir.ui.view">
+            <field name="name">food.orders.list</field>
+            <field name="model">sale.order</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <list string="Yemek Siparişleri"
+                      decoration-success="food_delivery_status == 'delivered'"
+                      decoration-warning="food_delivery_status == 'on_the_way'"
+                      decoration-info="food_delivery_status == 'preparing'"
+                      decoration-danger="state == 'cancel'">
+                    <field name="name" string="Sipariş No"/>
+                    <field name="date_order" string="Tarih"/>
+                    <field name="preparation_time_start" string="Süre" widget="ronix_timer"/>
+                    <field name="partner_id" string="Müşteri"/>
+                    <field name="food_restaurant_id" string="Restoran"/>
+                    <field name="courier_id" string="Kurye" optional="hide"/>
+                    <field name="amount_total" string="Toplam" widget="monetary"/>
+                    <field name="platform_commission_amount" string="Platform Komisyonu" optional="hide"/>
+                    <field name="payment_status" string="Ödeme Durumu"
+                           decoration-success="payment_status == 'paid'"
+                           decoration-danger="payment_status == 'not_paid'"
+                           widget="badge"/>
+                    <field name="food_delivery_status" string="Teslimat Durumu" widget="badge"
+                           decoration-success="food_delivery_status == 'delivered'"
+                           decoration-warning="food_delivery_status == 'on_the_way'"
+                           decoration-info="food_delivery_status == 'preparing'"
+                           decoration-danger="food_delivery_status == 'cancelled'"/>
+                    <field name="food_restaurant_rating" string="Rest. Puan" optional="show"/>
+                    <field name="food_rating" string="Yemek Puan" optional="show"/>
+                    <field name="state" string="Sipariş Durumu" widget="badge"/>
+                    <field name="food_restaurant_timezone" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             FORM VIEW: Custom Standalone View for Food Orders
+        ============================================================ -->
+        <record id="view_food_order_form_custom" model="ir.ui.view">
+            <field name="name">food.order.form.custom</field>
+            <field name="model">sale.order</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form string="Yemek Siparişi">
+                    <header>
+                        <button name="action_food_mark_on_the_way" string="Yola Çıktı" type="object" class="oe_highlight"
+                                invisible="food_delivery_status != 'preparing'" groups="ronix_food_delivery.group_food_shop_manager"/>
+                        <button name="action_food_mark_delivered" string="Teslim Edildi" type="object" class="oe_highlight"
+                                invisible="food_delivery_status != 'on_the_way'" groups="ronix_food_delivery.group_food_shop_manager"/>
+                        <button name="action_food_cancel" string="İptal Et (ve İade)" type="object" class="btn-danger"
+                                invisible="state in ('done', 'cancel')"
+                                groups="ronix_food_delivery.group_food_shop_manager"/>
+
+                        <field name="food_delivery_status" widget="statusbar" statusbar_visible="preparing,on_the_way,delivered"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="food_customer_name" readonly="1"/>
+                                <field name="partner_id" readonly="1" groups="ronix_food_delivery.group_food_admin"/>
+                                <field name="date_order"/>
+                                <field name="food_restaurant_id" groups="ronix_food_delivery.group_food_admin"/>
+                                <label for="food_delivery_address_text"/>
+                                <div class="o_row">
+                                    <field name="food_delivery_address_text" readonly="1"/>
+                                    <button name="action_open_google_maps" type="object" string="Haritada Aç" class="btn-link" icon="fa-map-marker" invisible="not food_delivery_address_text"/>
+                                </div>
+                                <field name="courier_id" groups="ronix_food_delivery.group_food_shop_manager"/>
+                                <field name="food_delivery_address_id" readonly="1" groups="base.group_erp_manager"/>
+                                <field name="food_order_notes" readonly="1"/>
+                                <field name="food_cancel_reason" readonly="1" invisible="not food_cancel_reason"/>
+                                <!-- Admin Only Manual Override Field -->
+                                <field name="food_delivery_status" string="Manuel Durum" groups="ronix_food_delivery.group_food_admin"/>
+                            </group>
+                            <group>
+                                <field name="payment_status" widget="badge"
+                                       decoration-success="payment_status == 'paid'"
+                                       decoration-danger="payment_status == 'not_paid'"/>
+                                <field name="amount_total" widget="monetary"/>
+                                <field name="courier_departed_at" readonly="1"/>
+                                <field name="delivered_at" readonly="1"/>
+                                <field name="platform_commission_amount" widget="monetary" groups="ronix_food_delivery.group_food_admin"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Sipariş İçeriği">
+                                <field name="order_line">
+                                    <list editable="bottom">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="product_id"/>
+                                        <field name="food_addons_summary" string="Ekstralar"/>
+                                        <field name="food_notes" string="Müşteri Notu"/>
+                                        <field name="product_uom_qty" string="Miktar"/>
+                                        <field name="price_unit" string="Birim Fiyat"/>
+                                        <field name="price_subtotal" string="Toplam"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Değerlendirme" invisible="not has_review">
+                                <group>
+                                    <group string="Restoran">
+                                        <field name="food_restaurant_rating" widget="priority" readonly="1"/>
+                                        <field name="food_restaurant_tag_ids" widget="many2many_tags" readonly="1"/>
+                                    </group>
+                                    <group string="Yemek">
+                                        <field name="food_rating" widget="priority" readonly="1"/>
+                                        <field name="food_tag_ids" widget="many2many_tags" readonly="1"/>
+                                    </group>
+                                </group>
+                                <field name="has_review" invisible="1"/>
+                            </page>
+                            <page string="Advanced Details" groups="ronix_food_delivery.group_food_admin">
+                                <group>
+                                    <group string="Platform">
+                                        <field name="platform_commission_rate" readonly="1"/>
+                                        <field name="platform_commission_amount" widget="monetary" readonly="1"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </group>
+                                    <group string="Teslimat">
+                                        <field name="food_delivery_distance" readonly="1"/>
+                                        <field name="food_delivery_fee" widget="monetary" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             ACTION VIEWS: Linking action to specific custom views
+        ============================================================ -->
+        <record id="action_food_orders_tree_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="view_food_orders_list"/>
+            <field name="act_window_id" ref="action_food_orders"/>
+        </record>
+
+        <record id="action_food_orders_form_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_food_order_form_custom"/>
+            <field name="act_window_id" ref="action_food_orders"/>
+        </record>
+
+
+
+        <!-- ============================================================
+             MENU
+        ============================================================ -->
+        <menuitem id="menu_food_delivery_root"
+                  name="Food Delivery"
+                  sequence="50"
+                  groups="ronix_food_delivery.group_food_shop_manager"/>
+
+        <menuitem id="menu_food_orders"
+                  name="Siparişler"
+                  parent="menu_food_delivery_root"
+                  action="action_food_orders"
+                  sequence="5"/>
+    </data>
+</odoo>

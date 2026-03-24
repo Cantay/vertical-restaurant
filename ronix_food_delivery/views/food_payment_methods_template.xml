@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_payment_methods_page" name="Food Payment Methods">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Ödeme Yöntemlerim</t>
+
+                <!-- Need food app specific custom classes -->
+                <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5 mb-5">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top px-3 pt-3 pb-3 shadow-sm z-index-1030 food-bg-orange-gradient text-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/food-profile" class="btn btn-link p-0 text-white text-decoration-none d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.25rem; height:2.25rem;">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="h6 fw-bold mb-0 flex-grow-1 text-truncate">Ödeme Yöntemlerim</h1>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-3" style="padding-top: 5rem; padding-bottom: 5rem;">
+                        <div class="d-flex flex-column gap-3">
+                            
+                            <!-- Real Cards -->
+                            <t t-foreach="tokens" t-as="token">
+                                <div class="p-4 shadow-sm position-relative overflow-hidden mb-3" style="background: linear-gradient(135deg, #374151 0%, #1f2937 100%); border-radius: 1.5rem; box-shadow: 0 8px 32px rgba(30,41,59,0.25) !important;">
+                                    <div class="position-absolute top-0 end-0 rounded-circle" style="width:8rem; height:8rem; background-color: rgba(255,255,255,0.05); margin-right:-4rem; margin-top:-4rem;"></div>
+                                    <div class="position-absolute bottom-0 start-0 rounded-circle" style="width:6rem; height:6rem; background-color: rgba(255,255,255,0.05); margin-left:-3rem; margin-bottom:-3rem;"></div>
+                                    
+                                    <div class="position-relative z-1">
+                                        <div class="d-flex align-items-start justify-content-between mb-4">
+                                            <div class="d-flex align-items-center justify-content-center rounded-3" style="width:3rem; height:3rem; background-color: rgba(255,255,255,0.1);">
+                                                <i class="ri-bank-card-fill text-white fs-3"></i>
+                                            </div>
+                                            <a t-attf-href="/food/payment/delete/#{token.id}" class="btn btn-link p-0 text-white text-decoration-none d-flex align-items-center justify-content-center rounded-circle" style="width:2rem; height:2rem; background-color: rgba(255,255,255,0.1);">
+                                                <i class="ri-delete-bin-line" style="font-size:0.875rem;"></i>
+                                            </a>
+                                        </div>
+                                        <p class="text-white fw-mono tracking-wider mb-3 fs-5"><t t-out="token.display_name"/></p>
+                                        <div class="d-flex align-items-end justify-content-between">
+                                            <div>
+                                                <p class="text-white-50 mb-1" style="font-size:0.75rem;">Kart Sahibi</p>
+                                                <p class="text-white fw-semibold mb-0 text-uppercase" style="font-size:0.75rem;"><t t-out="request.env.user.name"/></p>
+                                            </div>
+                                            <div class="text-end">
+                                                <p class="text-white-50 mb-1" style="font-size:0.75rem;">Son Kullanma</p>
+                                                <p class="text-white fw-semibold mb-0" style="font-size:0.75rem;">12/26</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top border-light-subtle" style="border-color: rgba(255,255,255,0.1) !important;">
+                                            <span class="text-white-50 text-uppercase" style="font-size:0.75rem;"><t t-out="token.display_name or 'Kart'"/></span>
+                                            <span t-if="token.default_card" class="px-3 py-1 food-bg-orange text-white rounded-pill fw-medium" style="font-size:0.75rem;">Varsayılan</span>
+                                            <a t-else="" t-attf-href="/food/payment/set-default/#{token.id}" class="btn btn-link px-3 py-1 text-white rounded-pill fw-medium text-decoration-none" style="background-color: rgba(255,255,255,0.1); font-size:0.75rem;">Varsayılan Yap</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="not tokens">
+                                <div class="text-center py-5">
+                                    <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 5rem; height: 5rem;">
+                                        <i class="ri-bank-card-line fs-1 text-secondary opacity-25"></i>
+                                    </div>
+                                    <p class="text-secondary fw-bold">Henüz bir kart eklemediniz.</p>
+                                </div>
+                            </t>
+
+                            <a href="/food/payment/manage?landing_route=/food-payment-methods" class="btn w-100 mt-2 food-bg-orange-gradient text-white py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 text-decoration-none">
+                                <i class="ri-add-line fs-5"></i> Yeni Kart Ekle
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+        
+        <template id="food_payment_manage_page" name="Food Manage Payment Method">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Yeni Kart Ekle</t>
+                
+                <div id="wrap" class="oe_structure oe_empty food-app-container bg-light min-vh-100 pb-5 mb-5">
+                    <!-- Header -->
+                    <div class="fixed-top px-3 pt-3 pb-3 shadow-sm z-index-1030 food-bg-orange-gradient text-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <!-- Back button takes user dynamically to landing_route or default payment page -->
+                            <a t-attf-href="#{landing_route or '/food-payment-methods'}" class="btn btn-link p-0 text-white text-decoration-none d-flex align-items-center justify-content-center flex-shrink-0" style="width:2.25rem; height:2.25rem;">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="h6 fw-bold mb-0 flex-grow-1 text-truncate">Yeni Kart Ekle</h1>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-3" style="padding-top: 6rem; padding-bottom: 5rem;">
+                        <div class="bg-white p-4 rounded-4 shadow-sm border border-secondary mb-3">
+                            <t t-call="payment.form"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_coupons_page" name="Food Coupons">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Kuponlarım</t>
+                
+                <div id="wrap" class="oe_structure oe_empty food-app-container food-bg-gradient-cat min-vh-100 position-relative pb-5 mb-5">
+                    
+                    <!-- Header with Gradient and Tabs -->
+                    <div class="fixed-top px-3 pt-3 pb-3 shadow-sm z-index-1030 food-bg-orange-gradient">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <button class="btn rounded-circle d-flex align-items-center justify-content-center p-0 flex-shrink-0" style="width:2.25rem; height:2.25rem; background-color: rgba(255,255,255,0.2);" onclick="window.history.back()">
+                                <i class="ri-arrow-left-line text-white" style="font-size:1.125rem;"></i>
+                            </button>
+                            <h1 class="h5 fw-bold text-white mb-0">Kuponlarım</h1>
+                        </div>
+                        
+                        <!-- Tabs -->
+                        <div class="d-flex gap-1 rounded-pill p-1 mb-0" style="background-color: rgba(255,255,255,0.2);">
+                            <button id="btn-active" class="btn flex-grow-1 py-2 food-text-sm fw-semibold rounded-pill bg-white food-text-orange shadow-sm border-0 d-flex align-items-center justify-content-center transition-all">
+                                Aktif Kuponlar
+                            </button>
+                            <button id="btn-past" class="btn flex-grow-1 py-2 food-text-sm fw-semibold rounded-pill text-white shadow-none border-0 d-flex align-items-center justify-content-center transition-all bg-transparent">
+                                Kullanılanlar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coupons Content Container -->
+                    <div class="px-3" style="padding-top: 10rem; padding-bottom: 5rem;">
+                        
+                        <!-- Active Coupons List -->
+                        <div id="active-coupons" class="d-flex flex-column gap-3">
+                            
+                            <!-- Coupon 1 -->
+                            <div class="bg-white rounded-4 overflow-hidden border shadow-sm">
+                                <div class="p-3 position-relative overflow-hidden food-bg-orange-gradient">
+                                    <div class="position-absolute rounded-circle bg-white" style="top:-2.5rem; right:-2.5rem; width:5rem; height:5rem;"></div>
+                                    <div class="position-absolute rounded-circle bg-white" style="bottom:-2rem; left:-2rem; width:4rem; height:4rem;"></div>
+                                    <div class="position-relative z-index-1">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <span class="food-text-xs text-white text-opacity-75">Tüm Restoranlar</span>
+                                            <span class="px-2 py-1 rounded-pill food-text-xs text-white me-4" style="background-color: rgba(255,255,255,0.2);">31.12.2024</span>
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold text-white mb-1" style="font-size:1.75rem;">%50</div>
+                                            <p class="food-text-sm text-white text-opacity-75 mb-0">İlk siparişinizde %50 indirim</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <p class="food-text-xs text-secondary mb-1">Kupon Kodu</p>
+                                        <p class="font-monospace fw-bold text-dark mb-0" style="font-size:1.1rem; letter-spacing:1px;">YEMEK50</p>
+                                        <p class="food-text-xs text-secondary mt-1 mb-0">Min. 100 TL</p>
+                                    </div>
+                                    <button class="btn food-bg-orange text-white food-text-sm fw-medium rounded-pill d-flex align-items-center gap-1 px-3 py-2 shadow-sm copy-btn" data-code="YEMEK50">
+                                        <i class="ri-file-copy-line"></i> Kopyala
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Coupon 2 -->
+                            <div class="bg-white rounded-4 overflow-hidden border shadow-sm">
+                                <div class="p-3 position-relative overflow-hidden food-bg-orange-gradient">
+                                    <div class="position-absolute rounded-circle bg-white" style="top:-2.5rem; right:-2.5rem; width:5rem; height:5rem;"></div>
+                                    <div class="position-absolute rounded-circle bg-white" style="bottom:-2rem; left:-2rem; width:4rem; height:4rem;"></div>
+                                    <div class="position-relative z-index-1">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <span class="food-text-xs text-white text-opacity-75">Pizza House</span>
+                                            <span class="px-2 py-1 rounded-pill food-text-xs text-white me-4" style="background-color: rgba(255,255,255,0.2);">25.12.2024</span>
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold text-white mb-1" style="font-size:1.75rem;">%30</div>
+                                            <p class="food-text-sm text-white text-opacity-75 mb-0">Pizza siparişlerinde %30 indirim</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <p class="food-text-xs text-secondary mb-1">Kupon Kodu</p>
+                                        <p class="font-monospace fw-bold text-dark mb-0" style="font-size:1.1rem; letter-spacing:1px;">PIZZA30</p>
+                                        <p class="food-text-xs text-secondary mt-1 mb-0">Min. 80 TL</p>
+                                    </div>
+                                    <button class="btn food-bg-orange text-white food-text-sm fw-medium rounded-pill d-flex align-items-center gap-1 px-3 py-2 shadow-sm copy-btn" data-code="PIZZA30">
+                                        <i class="ri-file-copy-line"></i> Kopyala
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Coupon 3 -->
+                            <div class="bg-white rounded-4 overflow-hidden border shadow-sm">
+                                <div class="p-3 position-relative overflow-hidden food-bg-orange-gradient">
+                                    <div class="position-absolute rounded-circle bg-white" style="top:-2.5rem; right:-2.5rem; width:5rem; height:5rem;"></div>
+                                    <div class="position-absolute rounded-circle bg-white" style="bottom:-2rem; left:-2rem; width:4rem; height:4rem;"></div>
+                                    <div class="position-relative z-index-1">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <span class="food-text-xs text-white text-opacity-75">Tatlı Dünyası</span>
+                                            <span class="px-2 py-1 rounded-pill food-text-xs text-white me-4" style="background-color: rgba(255,255,255,0.2);">20.12.2024</span>
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold text-white mb-1" style="font-size:1.75rem;">20 TL</div>
+                                            <p class="food-text-sm text-white text-opacity-75 mb-0">20 TL indirim kuponu</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <p class="food-text-xs text-secondary mb-1">Kupon Kodu</p>
+                                        <p class="font-monospace fw-bold text-dark mb-0" style="font-size:1.1rem; letter-spacing:1px;">TATLI20</p>
+                                        <p class="food-text-xs text-secondary mt-1 mb-0">Min. 50 TL</p>
+                                    </div>
+                                    <button class="btn food-bg-orange text-white food-text-sm fw-medium rounded-pill d-flex align-items-center gap-1 px-3 py-2 shadow-sm copy-btn" data-code="TATLI20">
+                                        <i class="ri-file-copy-line"></i> Kopyala
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Used Coupons (Past) List -->
+                        <div id="past-coupons" class="d-flex flex-column gap-3 d-none">
+                            
+                            <!-- Used Coupon 1 -->
+                            <div class="bg-light rounded-4 overflow-hidden border">
+                                <div class="p-3 position-relative overflow-hidden bg-secondary">
+                                    <div class="position-absolute rounded-circle bg-white" style="top:-2.5rem; right:-2.5rem; width:5rem; height:5rem;"></div>
+                                    <div class="position-absolute rounded-circle bg-white" style="bottom:-2rem; left:-2rem; width:4rem; height:4rem;"></div>
+                                    <div class="position-relative z-index-1 text-center py-2">
+                                        <h3 class="h4 text-white fw-bold mb-0">YEMEK10</h3>
+                                        <p class="text-white text-opacity-75 mb-0 food-text-sm mt-1">Kullanıldı: 05.08.2024</p>
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <p class="text-secondary text-center food-text-sm mb-0">Bu kupon geçmiş bir siparişte kullanılmıştır.</p>
+                                </div>
+                            </div>
+
+                            <!-- Expired Coupon 1 -->
+                            <div class="bg-light rounded-4 overflow-hidden border">
+                                <div class="p-3 position-relative overflow-hidden bg-secondary">
+                                    <div class="position-absolute rounded-circle bg-white" style="top:-2.5rem; right:-2.5rem; width:5rem; height:5rem;"></div>
+                                    <div class="position-absolute rounded-circle bg-white" style="bottom:-2rem; left:-2rem; width:4rem; height:4rem;"></div>
+                                    <div class="position-relative z-index-1 text-center py-2">
+                                        <h3 class="h4 text-white fw-bold mb-0">HOSGELDIN</h3>
+                                        <p class="text-white text-opacity-75 mb-0 food-text-sm mt-1">Süresi Doldu: 01.01.2024</p>
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <p class="text-secondary text-center food-text-sm mb-0">Bu kuponun kullanım süresi dolmuştur.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                    <!-- Bottom Nav Component Dummy Included Here -->
+                    <div class="fixed-bottom bg-white border-top border-gray-200 z-index-1030">
+                        <div class="row row-cols-4 g-0 text-center" style="height:4rem;">
+                            <div class="col px-0">
+                                <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                                    <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                    <span class="food-text-2xs fw-bold mt-1">Keşfet</span>
+                                </a>
+                            </div>
+                            <div class="col px-0">
+                                <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-shopping-cart-line fs-4 mb-0"></i>
+                                    <span class="food-text-2xs fw-bold mt-1">Sepet</span>
+                                </a>
+                            </div>
+                            <div class="col px-0">
+                                <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-file-list-line fs-4 mb-0"></i>
+                                    <span class="food-text-2xs fw-bold mt-1">Siparişler</span>
+                                </a>
+                            </div>
+                            <div class="col px-0">
+                                <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center h-100 food-text-orange">
+                                    <i class="ri-user-fill fs-4 mb-0"></i>
+                                    <span class="food-text-2xs fw-bold mt-1">Profil</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Scripts for Tabs and Coping -->
+                <script type="text/javascript">
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const btnActive = document.getElementById('btn-active');
+                        const btnPast = document.getElementById('btn-past');
+                        const activeCps = document.getElementById('active-coupons');
+                        const pastCps = document.getElementById('past-coupons');
+
+                        if(btnActive &amp;&amp; btnPast &amp;&amp; activeCps &amp;&amp; pastCps) {
+                            btnActive.addEventListener('click', function() {
+                                // Make Active pressed (white bg, shadow, orange text)
+                                btnActive.classList.remove('text-white', 'shadow-none', 'bg-transparent');
+                                btnActive.classList.add('bg-white', 'food-text-orange', 'shadow-sm');
+                                
+                                // Make Past unpressed (transparent bg, no shadow, white text)
+                                btnPast.classList.remove('bg-white', 'food-text-orange', 'shadow-sm');
+                                btnPast.classList.add('text-white', 'shadow-none', 'bg-transparent');
+
+                                // Toggle Content
+                                activeCps.classList.remove('d-none');
+                                pastCps.classList.add('d-none');
+                            });
+
+                            btnPast.addEventListener('click', function() {
+                                // Make Past pressed (white bg, shadow, orange text)
+                                btnPast.classList.remove('text-white', 'shadow-none', 'bg-transparent');
+                                btnPast.classList.add('bg-white', 'food-text-orange', 'shadow-sm');
+
+                                // Make Active unpressed (transparent bg, no shadow, white text)
+                                btnActive.classList.remove('bg-white', 'food-text-orange', 'shadow-sm');
+                                btnActive.classList.add('text-white', 'shadow-none', 'bg-transparent');
+
+                                // Toggle Content
+                                pastCps.classList.remove('d-none');
+                                activeCps.classList.add('d-none');
+                            });
+                        }
+
+                        // Copy to clipboard buttons
+                        const copyBtns = document.querySelectorAll('.copy-btn');
+                        copyBtns.forEach(btn =&gt; {
+                            btn.addEventListener('click', function() {
+                                const code = this.getAttribute('data-code');
+                                navigator.clipboard.writeText(code).then(() =&gt; {
+                                    // Visual feedback
+                                    const originalHtml = this.innerHTML;
+                                    this.innerHTML = '&lt;i class="ri-check-line"&gt;&lt;/i&gt; Kopyalandı';
+                                    this.classList.remove('food-bg-orange');
+                                    this.classList.add('bg-success');
+                                    
+                                    setTimeout(() =&gt; {
+                                        this.innerHTML = originalHtml;
+                                        this.classList.remove('bg-success');
+                                        this.classList.add('food-bg-orange');
+                                    }, 2000);
+                                }).catch(err =&gt; {
+                                    console.error('Kopyalama başarısız: ', err);
+                                });
+                            });
+                        });
+                    });
+                </script>
+
+            </t>
+        </template>
+    </data>
+</odoo>

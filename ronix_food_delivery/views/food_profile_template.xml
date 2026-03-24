@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_profile_page" name="Food Profile">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Profil</t>
+                
+                <div id="wrap" class="oe_structure oe_empty bg-light min-vh-100 pb-5 mb-5 food-app-container">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top px-3 pt-3 pb-4 shadow-sm z-index-1030 food-bg-orange-gradient text-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:4rem; height:4rem;">
+                                <i class="ri-user-fill food-text-orange" style="font-size:1.875rem;"></i>
+                            </div>
+                            <div>
+                                <h2 class="h6 fw-bolder mb-0"><t t-out="user_id.name"/></h2>
+                                <p class="food-text-sm text-white-50 mb-0"><t t-out="user_id.partner_id.email"/></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Content -->
+                    <div class="px-3" style="padding-top: 7rem; padding-bottom: 5rem;">
+                        <div class="d-flex flex-column gap-2 border-0">
+                            
+                            <a href="/food-account" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-user-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Hesap Bilgilerim</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+
+                            <a href="/food-addresses" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-map-pin-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Adreslerim</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+                            
+                            <a href="/food-payment-methods" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-bank-card-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Ödeme Yöntemlerim</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+
+                            <a href="/food-favorites" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-heart-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Favorilerim</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>                                                      
+
+                            <a href="/food-coupons" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-coupon-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Kuponlarım</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+
+                            <a href="/food-settings" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-settings-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Ayarlar</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+
+                            <a href="/food-support" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="food-bg-orange-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-customer-service-line food-text-orange" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-dark">Yardım &amp; Destek</span>
+                                </div>
+                                <i class="ri-arrow-right-s-line text-secondary fs-5"></i>
+                            </a>
+
+                            <a href="/web/session/logout?redirect=/web/login" class="btn bg-white rounded-4 p-3 d-flex align-items-center justify-content-between shadow-sm border-0 text-start mt-3 text-decoration-none">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-danger-subtle rounded-circle d-flex align-items-center justify-content-center" style="width:2.5rem; height:2.5rem;">
+                                        <i class="ri-logout-box-line text-danger" style="font-size:1.125rem;"></i>
+                                    </div>
+                                    <span class="food-text-sm fw-bold text-danger">Çıkış Yap</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav Container (Fixed) -->
+                    <div class="fixed-bottom bg-white border-top shadow-sm z-index-1030 pb-2 pb-md-0">
+                        <div class="container-fluid px-0">
+                            <div class="row text-center align-items-center m-0" style="height: 4rem;">
+                                <div class="col px-0">
+                                    <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Keşfet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-shopping-cart-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Sepet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-file-list-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Siparişler</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="ri-user-fill fs-4 food-text-orange mb-0"></i>
+                                        <span class="food-text-2xs fw-bold food-text-orange mt-1">Profil</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

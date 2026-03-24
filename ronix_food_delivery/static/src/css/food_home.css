@@ -1,0 +1,291 @@
+/* Food Delivery App Custom CSS based on Reference */
+
+.food-app-container {
+    background: linear-gradient(to bottom, #fff7ed, #ffffff);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding-bottom: 5rem;
+    min-height: 100vh;
+}
+
+
+/* Utilities */
+/* Global Rounded Corners & Shadows */
+.btn,
+.card,
+.bg-white.border,
+.bg-light.border,
+.offcanvas {
+    border-radius: 1.5rem !important;
+    /* Rounded corners */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    /* Light shadow */
+}
+
+/* Ensure inputs are also rounded */
+.form-control,
+.form-select {
+    border-radius: 1rem !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.object-cover {
+    object-fit: cover !important;
+}
+
+.object-top {
+    object-position: top !important;
+}
+
+.object-center {
+    object-position: center !important;
+}
+
+/* Aspect Ratio Utilities (Padding Hack) */
+.aspect-square {
+    padding-bottom: 100% !important;
+    /* 1:1 Aspect Ratio */
+}
+
+.aspect-video {
+    padding-bottom: 56.25% !important;
+    /* 16:9 Aspect Ratio */
+}
+
+.aspect-4x3 {
+    padding-bottom: 75% !important;
+    /* 4:3 Aspect Ratio */
+}
+
+/* Blend Modes */
+.blend-multiply {
+    mix-blend-mode: multiply;
+}
+
+/* Custom Sizes */
+.food-h-28 {
+    height: 7rem !important;
+}
+
+/* 112px */
+.food-h-32 {
+    height: 8rem !important;
+}
+
+/* 128px */
+.food-w-14 {
+    width: 3.5rem !important;
+}
+
+/* 56px */
+.food-h-14 {
+    height: 3.5rem !important;
+}
+
+/* 56px */
+.food-min-w-140 {
+    min-width: 140px !important;
+}
+
+.food-min-w-200 {
+    min-width: 200px !important;
+}
+
+/* Custom Rounding */
+.food-rounded-2xl {
+    border-radius: 1rem !important;
+}
+
+/* 16px */
+.food-rounded-xl {
+    border-radius: 0.75rem !important;
+}
+
+/* 12px */
+
+/* Font Sizes */
+.food-text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+}
+
+.food-text-2xs {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
+}
+
+.food-text-3xs {
+    font-size: 0.55rem !important;
+}
+
+.food-text-sm {
+    font-size: 0.875rem !important;
+}
+
+.food-text-base {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
+/* Colors */
+.food-text-orange {
+    color: #f97316 !important;
+}
+
+.food-bg-orange {
+    background-color: #f97316 !important;
+}
+
+.food-bg-orange-light {
+    background-color: #fff7ed !important;
+}
+
+.food-bg-orange-gradient {
+    background: linear-gradient(to right, #f97316, #ea580c) !important;
+}
+
+/* Gradients */
+.food-bg-gradient-cat {
+    background: linear-gradient(to bottom right, #fff7ed, #ffedd5);
+}
+
+.food-gradient-overlay-10 {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+}
+
+.food-gradient-overlay-20 {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+/* Form Elements */
+.food-search-input {
+    background-color: white !important;
+    color: #1f2937 !important;
+    /* text-gray-800 */
+    padding-left: 3rem;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    font-size: 0.875rem;
+}
+
+.food-search-input::placeholder {
+    color: #9ca3af !important;
+    /* text-gray-400 */
+}
+
+.food-search-input:-ms-input-placeholder {
+    color: #9ca3af !important;
+}
+
+.food-search-input::-ms-input-placeholder {
+    color: #9ca3af !important;
+}
+
+.food-search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #f97316;
+}
+
+/* Interactive */
+.active-scale {
+    transition: transform 0.1s;
+}
+
+.active-scale:active {
+    transform: scale(0.95);
+}
+
+/* Navigation Pills */
+.filter-btn-active {
+    background-color: #f97316;
+    color: white;
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: none;
+}
+
+.filter-btn-inactive {
+    background-color: white;
+    color: #374151;
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: none;
+}
+
+/* Enforce Typography against Odoo Theme Resets */
+.fw-medium {
+    font-weight: 500 !important;
+}
+
+.fw-semibold {
+    font-weight: 600 !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700 !important;
+}
+
+/* Specific Resets for Category Buttons */
+.food-category-btn {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Search Suggestions Styles */
+.food-search-item {
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.food-search-item:hover {
+    background-color: #fff7ed !important;
+    /* light orange */
+}
+
+.food-search-item:last-child {
+    border-bottom: none !important;
+}
+
+.js-search-results {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #f3f4f6;
+    display: none;
+    /* Controlled by JS fadeIn/fadeOut */
+}
+
+.food-w-10 {
+    width: 2.5rem !important;
+}
+
+.food-h-10 {
+    height: 2.5rem !important;
+}

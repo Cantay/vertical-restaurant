@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Restaurant Tags -->
+        <record id="tag_res_lezzetli" model="food.review.tag">
+            <field name="name">Lezzetliydi</field>
+            <field name="icon">ri-heart-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="tag_res_hizli" model="food.review.tag">
+            <field name="name">Hızlı Geldi</field>
+            <field name="icon">ri-rocket-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="tag_res_sicak" model="food.review.tag">
+            <field name="name">Sıcak Geldi</field>
+            <field name="icon">ri-fire-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="tag_res_paket" model="food.review.tag">
+            <field name="name">Paket Güzeldi</field>
+            <field name="icon">ri-gift-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="tag_res_temiz" model="food.review.tag">
+            <field name="name">Temiz</field>
+            <field name="icon">ri-check-double-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="tag_res_guler" model="food.review.tag">
+            <field name="name">Güler Yüzlü</field>
+            <field name="icon">ri-emotion-happy-fill</field>
+            <field name="category">restaurant</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <!-- Product Tags -->
+        <record id="tag_prod_doyurucu" model="food.review.tag">
+            <field name="name">Porsiyon Doyurucu</field>
+            <field name="icon">ri-box-3-line</field>
+            <field name="category">product</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="tag_prod_taze" model="food.review.tag">
+            <field name="name">Tazeydi</field>
+            <field name="icon">ri-leaf-line</field>
+            <field name="category">product</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="tag_prod_baharat" model="food.review.tag">
+            <field name="name">Baharatı Kararında</field>
+            <field name="icon">ri-flask-line</field>
+            <field name="category">product</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="tag_prod_sunum" model="food.review.tag">
+            <field name="name">Sunum Şıktı</field>
+            <field name="icon">ri-palette-line</field>
+            <field name="category">product</field>
+            <field name="sequence">40</field>
+        </record>
+    </data>
+</odoo>

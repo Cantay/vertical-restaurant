@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_food" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.food</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Food Delivery" data-string="Food Delivery" name="ronix_food_delivery" groups="ronix_food_delivery.group_food_admin">
+                    <block title="Demo Data" name="demo_data_settings">
+                        <setting string="Demo Veriler" help="Test amaçlı örnek restoran, ürün ve değerlendirme verilerini yükleyin veya kaldırın.">
+                            <div class="mt-3">
+                                <field name="food_demo_data_loaded" invisible="1"/>
+                                <div class="d-flex gap-2">
+                                    <button name="action_load_demo_data"
+                                            type="object"
+                                            string="Demo Verileri Yükle"
+                                            class="btn-primary"
+                                            icon="fa-download"
+                                            invisible="food_demo_data_loaded"/>
+                                    <button name="action_unload_demo_data"
+                                            type="object"
+                                            string="Demo Verileri Kaldır"
+                                            class="btn-danger"
+                                            icon="fa-trash"
+                                            invisible="not food_demo_data_loaded"/>
+                                </div>
+                                <div class="text-muted small mt-2" invisible="not food_demo_data_loaded">
+                                    <i class="fa fa-check-circle text-success me-1"></i>
+                                    Demo veriler yüklü. 5 restoran, kategoriler, ürünler, addon'lar, çalışma saatleri ve değerlendirmeler mevcut.
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for menu -->
+    <record id="action_food_delivery_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'ronix_food_delivery'}</field>
+    </record>
+
+    <menuitem id="menu_food_delivery_config_settings"
+              name="Genel Ayarlar"
+              parent="ronix_food_delivery.menu_food_delivery_settings"
+              action="action_food_delivery_config"
+              sequence="1"/>
+</odoo>

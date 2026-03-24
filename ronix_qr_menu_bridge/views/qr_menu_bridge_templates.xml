@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================== -->
+    <!-- LANDING PAGE: Rating + Work Hours               -->
+    <!-- ============================================== -->
+    <template id="qr_menu_landing_bridge" inherit_id="ronix_qr_menu.qr_menu_landing">
+        <!-- Rating badge after restaurant name -->
+        <xpath expr="//div[hasclass('qr-menu-hero-overlay')]//h1" position="after">
+            <t t-if="restaurant.food_restaurant_id">
+                <div class="qr-bridge-rating-bar d-flex align-items-center gap-3 mt-1">
+                    <t t-if="restaurant.food_rating">
+                        <span class="badge bg-warning text-dark">
+                            <i class="ri-star-fill me-1"></i>
+                            <t t-out="'%.1f' % restaurant.food_rating"/>
+                        </span>
+                    </t>
+                    <t t-if="restaurant.food_rating_avg">
+                        <span class="text-white-50 small">
+                            Yemek: <t t-out="'%.1f' % restaurant.food_rating_avg"/>
+                        </span>
+                    </t>
+                    <t t-if="restaurant.food_review_count">
+                        <span class="text-white-50 small">
+                            (<t t-out="restaurant.food_review_count"/> değerlendirme)
+                        </span>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
+        <!-- Work hours card before category grid -->
+        <xpath expr="//h5[hasclass('fw-bold')]" position="before">
+            <t t-if="restaurant.food_restaurant_id and restaurant.work_hours_html">
+                <div class="qr-bridge-work-hours-card card border-0 shadow-sm mb-3">
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold mb-2">
+                            <i class="ri-time-line me-1"></i>Çalışma Saatleri
+                            <t t-if="restaurant.is_open">
+                                <span class="badge bg-success ms-2">Açık</span>
+                            </t>
+                            <t t-else="">
+                                <span class="badge bg-danger ms-2">Kapalı</span>
+                            </t>
+                        </h6>
+                        <div t-out="restaurant.work_hours_html"/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ============================================== -->
+    <!-- CATEGORY PAGE: Item rating badges               -->
+    <!-- ============================================== -->
+    <template id="qr_menu_category_page_bridge" inherit_id="ronix_qr_menu.qr_menu_category_page">
+        <!-- Rating after diet badges -->
+        <xpath expr="//div[hasclass('qr-menu-item-info')]//div[hasclass('d-flex')][hasclass('flex-wrap')]" position="after">
+            <t t-if="item.food_item_rating">
+                <div class="mt-1">
+                    <span class="badge bg-warning-subtle text-warning">
+                        <i class="ri-star-fill me-1"></i>
+                        <t t-out="'%.1f' % item.food_item_rating"/>
+                    </span>
+                    <t t-if="item.food_item_review_count">
+                        <span class="text-muted small ms-1">
+                            (<t t-out="item.food_item_review_count"/>)
+                        </span>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ============================================== -->
+    <!-- ITEM DETAIL PAGE: Rating display                -->
+    <!-- ============================================== -->
+    <template id="qr_menu_item_detail_bridge" inherit_id="ronix_qr_menu.qr_menu_item_detail">
+        <!-- Rating after diet badges section -->
+        <xpath expr="//div[hasclass('d-flex')][hasclass('flex-wrap')][hasclass('gap-2')][hasclass('mb-3')]" position="after">
+            <t t-if="item.food_item_rating">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        <i class="ri-star-fill me-1"></i>
+                        <t t-out="'%.1f' % item.food_item_rating"/>
+                    </span>
+                    <t t-if="item.food_item_review_count">
+                        <span class="text-muted">
+                            <t t-out="item.food_item_review_count"/> değerlendirme
+                        </span>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

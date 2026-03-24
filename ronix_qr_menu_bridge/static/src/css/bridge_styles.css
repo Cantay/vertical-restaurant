@@ -1,0 +1,21 @@
+/* QR Menu Bridge - Rating & Work Hours Styles */
+
+.qr-bridge-rating-bar .badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.7em;
+}
+
+.qr-bridge-work-hours-card {
+    border-radius: 12px;
+    background: #fff;
+}
+
+.qr-bridge-work-hours-card .table {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+.qr-bridge-work-hours-card .table td {
+    padding: 0.25rem 0;
+    border: none;
+}

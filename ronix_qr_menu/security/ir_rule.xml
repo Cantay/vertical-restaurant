@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Managers can only see their own restaurants -->
+        <record id="rule_restaurant_manager" model="ir.rule">
+            <field name="name">Restaurant: Manager sees own</field>
+            <field name="model_id" ref="model_qr_menu_restaurant"/>
+            <field name="domain_force">[('manager_ids', 'in', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_manager'))]"/>
+        </record>
+
+        <!-- Admins see all -->
+        <record id="rule_restaurant_admin" model="ir.rule">
+            <field name="name">Restaurant: Admin sees all</field>
+            <field name="model_id" ref="model_qr_menu_restaurant"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_admin'))]"/>
+        </record>
+
+        <!-- Manager: tables of own restaurants -->
+        <record id="rule_table_manager" model="ir.rule">
+            <field name="name">Table: Manager sees own restaurants</field>
+            <field name="model_id" ref="model_qr_menu_table"/>
+            <field name="domain_force">[('restaurant_id.manager_ids', 'in', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_manager'))]"/>
+        </record>
+
+        <record id="rule_table_admin" model="ir.rule">
+            <field name="name">Table: Admin sees all</field>
+            <field name="model_id" ref="model_qr_menu_table"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_admin'))]"/>
+        </record>
+
+        <!-- Manager: waiter calls of own restaurants -->
+        <record id="rule_waiter_call_manager" model="ir.rule">
+            <field name="name">Waiter Call: Manager sees own restaurants</field>
+            <field name="model_id" ref="model_qr_menu_waiter_call"/>
+            <field name="domain_force">[('restaurant_id.manager_ids', 'in', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_manager'))]"/>
+        </record>
+
+        <record id="rule_waiter_call_admin" model="ir.rule">
+            <field name="name">Waiter Call: Admin sees all</field>
+            <field name="model_id" ref="model_qr_menu_waiter_call"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_qr_menu_admin'))]"/>
+        </record>
+    </data>
+</odoo>

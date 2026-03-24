@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_food_restaurant_form_bridge" model="ir.ui.view">
+        <field name="name">food.restaurant.form.bridge</field>
+        <field name="model">food.restaurant</field>
+        <field name="inherit_id" ref="ronix_food_delivery.view_food_restaurant_form"/>
+        <field name="arch" type="xml">
+            <!-- Sync button in button_box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_sync_to_qr_menu"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-qrcode">
+                    <span>QR Menüye Sync</span>
+                </button>
+            </xpath>
+            <!-- Link field in contact section -->
+            <xpath expr="//group[@name='contact_location']" position="inside">
+                <field name="qr_menu_restaurant_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_cart_page" name="Food Cart">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Sepetim</t>
+                
+                <div id="wrap" class="oe_structure oe_empty bg-light min-vh-100 pb-5 mb-5 food-app-container">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top bg-white px-3 py-3 shadow-sm z-index-1030">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h1 class="h6 fw-bold text-dark mb-0">Sepetim</h1>
+                            <span class="food-text-xs text-secondary js-food-cart-count-summary"><t t-out="int(sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) if order else 0)"/> ürün</span>
+                        </div>
+                    </div>
+
+                    <!-- Cart Content -->
+                    <div class="px-3" style="padding-top: 5rem; padding-bottom: 7rem;">
+                        <div t-if="not order or not order.order_line" class="text-center py-5">
+                            <div class="mb-4">
+                                <i class="ri-shopping-cart-2-line text-muted" style="font-size: 5rem; opacity: 0.2;"></i>
+                            </div>
+                            <h2 class="h5 fw-bold text-dark mb-2">Sepetiniz Boş</h2>
+                            <p class="text-secondary food-text-sm px-5">Görünüşe göre henüz bir şey eklememişsiniz. Keşfetmeye başlayın!</p>
+                            <a href="/food-home" class="btn food-bg-orange text-white rounded-pill px-5 py-2 mt-4 fw-bold shadow-sm">Keşfet</a>
+                        </div>
+
+                        <div t-if="order and order.order_line" class="d-flex flex-column gap-3 js-food-cart-items">
+                            <t t-foreach="order.order_line.filtered(lambda l: l.product_id.is_food)" t-as="line">
+                                <div class="bg-white food-rounded-2xl p-3 shadow-sm d-flex gap-3 js-food-cart-item" t-att-data-line-id="line.id">
+                                    <div class="food-w-14 food-h-14 food-rounded-xl overflow-hidden flex-shrink-0">
+                                        <img t-att-alt="line.product_id.name" class="w-100 h-100 object-fit-cover object-top" t-attf-src="/web/image?model=product.product&amp;id=#{line.product_id.id}&amp;field=image_128&amp;format=webp"/>
+                                    </div>
+                                    <div class="flex-grow-1" style="min-width: 0;">
+                                        <h3 class="food-text-sm fw-bolder text-dark text-truncate mb-0"><t t-out="line.product_id.name"/></h3>
+                                        <p class="food-text-xs text-secondary text-truncate mb-1 fw-medium"><t t-out="line.product_id.product_tmpl_id.food_restaurant_id.name"/></p>
+                                        
+                                        <!-- Addons -->
+                                        <div t-if="line.food_line_addon_ids" class="d-flex flex-wrap align-items-center gap-1 mb-1">
+                                            <t t-foreach="line.food_line_addon_ids" t-as="line_addon">
+                                                <div class="d-flex align-items-center gap-1 bg-light px-2 py-0-5 rounded-pill border">
+                                                    <i class="ri-add-line food-text-orange" style="font-size:0.6rem;"></i>
+                                                    <span class="text-secondary fw-medium" style="font-size:0.6rem;">
+                                                        <t t-if="line_addon.quantity &gt; 1"><t t-out="line_addon.quantity"/>x </t>
+                                                        <t t-out="line_addon.addon_id.name"/> (+₺<t t-out="'%.2f' % line_addon.price_total"/>)
+                                                    </span>
+                                                </div>
+                                            </t>
+                                        </div>
+
+                                        <div class="d-flex align-items-center justify-content-between mt-1 pt-1">
+                                            <span class="food-text-sm fw-bold food-text-orange">$<t t-out="'%.2f' % line.price_total"/></span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center js-food-cart-qty-minus" style="width:1.75rem; height:1.75rem;">
+                                                    <i class="ri-subtract-line text-secondary food-text-sm"></i>
+                                                </button>
+                                                <span class="food-text-sm fw-bold text-dark text-center js-food-cart-qty-value" style="width:1rem;"><t t-out="int(line.product_uom_qty)"/></span>
+                                                <button class="btn food-bg-orange text-white rounded-circle p-0 d-flex align-items-center justify-content-center js-food-cart-qty-plus" style="width:1.75rem; height:1.75rem;">
+                                                    <i class="ri-add-line food-text-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-link text-decoration-none p-0 border-0 flex-shrink-0 align-self-start text-secondary js-food-cart-remove">
+                                        <i class="ri-delete-bin-line fs-6"></i>
+                                    </button>
+                                </div>
+                            </t>
+
+                            <div class="bg-white food-rounded-2xl p-4 shadow-sm mt-3 border">
+                                <h3 class="food-text-sm fw-bold text-dark mb-3">Kupon Kodu</h3>
+                                <div class="d-flex flex-column gap-2">
+                                    <form action="/food/cart/apply_coupon" method="post" class="d-flex gap-2 mb-0">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input name="promo_code" placeholder="Kupon kodunu girin" class="form-control flex-grow-1 bg-light border-0 py-3 rounded-3 food-text-sm text-dark shadow-none" type="text" t-att-value="request.params.get('promo_code', '')"/>
+                                        <button type="submit" class="btn px-4 py-3 food-bg-orange text-white food-text-sm fw-semibold rounded-3 shadow-sm transition-transform active-scale">Uygula</button>
+                                    </form>
+                                    <t t-if="request.params.get('coupon_error')">
+                                        <div class="alert alert-danger mb-0 py-2 px-3 rounded-3 food-text-sm"><t t-out="request.params.get('coupon_error')"/></div>
+                                    </t>
+                                    <t t-if="request.params.get('coupon_success')">
+                                        <div class="alert alert-success mb-0 py-2 px-3 rounded-3 food-text-sm">Kupon başarıyla uygulandı!</div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="bg-white food-rounded-2xl p-4 shadow-sm mt-3 border">
+                                <h3 class="food-text-sm fw-bold text-dark mb-3">Sipariş Notu</h3>
+                                <textarea class="form-control bg-light border-0 py-3 rounded-3 food-text-sm text-dark shadow-none js-food-order-notes" rows="3" placeholder="Siparişinizle ilgili notunuzu buraya yazabilirsiniz..." t-att-value="order.food_order_notes"><t t-out="order.food_order_notes"/></textarea>
+                            </div>
+
+                            <div class="bg-white food-rounded-2xl p-3 shadow-sm d-flex flex-column gap-2 mt-2">
+                                <h3 class="food-text-sm fw-bolder text-dark mb-1">Sipariş Özeti</h3>
+                                <div class="d-flex justify-content-between food-text-sm text-secondary">
+                                    <span>Ürünler Toplamı</span>
+                                    <span class="js-food-untaxed-amount">$<t t-out="'%.2f' % (order.amount_untaxed - order.food_delivery_fee)"/></span>
+                                </div>
+                                <div class="d-flex justify-content-between food-text-sm text-secondary">
+                                    <span>Vergiler</span>
+                                    <span class="js-food-tax-amount">$<t t-out="'%.2f' % order.amount_tax"/></span>
+                                </div>
+                                <div class="d-flex justify-content-between food-text-sm text-secondary">
+                                    <span>Teslimat Ücreti</span>
+                                    <span class="js-food-delivery-fee fw-medium"><t t-if="order.food_delivery_fee &gt; 0">$<t t-out="'%.2f' % order.food_delivery_fee"/></t><t t-else="">Ücretsiz</t></span>
+                                </div>
+                                <div class="border-top pt-2 mt-1 d-flex justify-content-between">
+                                    <span class="food-text-sm fw-bold text-dark">Toplam</span>
+                                    <span class="js-food-total-amount fw-bold text-dark">$<t t-out="'%.2f' % order.amount_total"/></span>
+                                </div>
+                                <div class="js-food-min-order-warning alert alert-warning food-text-xs mt-2 d-none">
+                                    Sipariş vermek için en az $<span class="js-food-min-amount-val">0.00</span> tutarında ürün eklemelisiniz.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div t-if="order and order.order_line" class="fixed-bottom px-3 pb-3 pt-2 shadow" style="bottom: 4rem; background-color: rgba(248, 249, 250, 0.95); backdrop-filter: blur(4px);">
+                        <a href="javascript:void(0)" class="btn food-bg-orange text-white w-100 py-3 food-rounded-2xl food-text-sm fw-bold shadow active-scale d-flex align-items-center justify-content-center gap-2 border-0 js-food-checkout-btn">
+                            <i class="ri-secure-payment-line" style="font-size:1.125rem;"></i>
+                            Sipariş Ver · $<span class="js-food-checkout-total"><t t-out="'%.2f' % order.amount_total"/></span>
+                        </a>
+                    </div>
+
+                    <!-- Bottom Nav Container (Fixed) -->
+                    <div class="fixed-bottom bg-white border-top shadow-sm z-index-1030 pb-2 pb-md-0">
+                        <div class="container-fluid px-0">
+                            <div class="row text-center align-items-center m-0" style="height: 4rem;">
+                                <div class="col px-0">
+                                    <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-compass-3-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Keşfet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center h-100">
+                                        <i class="ri-shopping-cart-fill fs-4 food-text-orange mb-0"></i>
+                                        <span class="food-text-2xs fw-bold food-text-orange mt-1">Sepet</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-file-list-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Siparişler</span>
+                                    </a>
+                                </div>
+                                <div class="col px-0">
+                                    <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                        <i class="ri-user-line fs-4 mb-0"></i>
+                                        <span class="food-text-2xs mt-1">Profil</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offcanvas: Address Selection -->
+                    <div class="offcanvas offcanvas-bottom rounded-top-4 border-0" tabindex="-1" id="addressOffcanvas" aria-labelledby="addressOffcanvasLabel" style="height: auto; max-height: 85vh;">
+                        <div class="offcanvas-header pb-0 bg-white rounded-top-4 p-4">
+                            <h5 class="offcanvas-title fw-semibold text-dark fs-5" id="addressOffcanvasLabel">Adres Seç</h5>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body p-4 pt-3 pb-5 bg-white">
+                            <div class="d-flex flex-column gap-2 mb-4">
+                                <button class="btn w-100 text-start p-3 rounded-3 food-bg-orange-light border border-warning-subtle">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ri-map-pin-fill fs-5 food-text-orange"></i>
+                                        <span class="food-text-sm fw-medium food-text-orange">Ev - Kadıköy, İstanbul</span>
+                                    </div>
+                                </button>
+                                <button class="btn w-100 text-start p-3 rounded-3 bg-light border border-transparent">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ri-map-pin-fill fs-5 text-secondary"></i>
+                                        <span class="food-text-sm fw-medium text-dark">İş - Beşiktaş, İstanbul</span>
+                                    </div>
+                                </button>
+                                <button class="btn w-100 text-start p-3 rounded-3 bg-light border border-transparent">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ri-map-pin-fill fs-5 text-secondary"></i>
+                                        <span class="food-text-sm fw-medium text-dark">Anne - Üsküdar, İstanbul</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <button class="btn w-100 food-bg-orange text-white py-3 rounded-3 fw-medium">
+                                + Yeni Adres Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal: Minimum Order Warning -->
+                    <div class="modal fade" id="minOrderModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered px-4">
+                            <div class="modal-content border-0 food-rounded-2xl shadow-lg animate__animated animate__zoomIn">
+                                <div class="modal-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <div class="food-bg-orange-light rounded-circle d-inline-flex align-items-center justify-content-center animate__animated animate__pulse animate__infinite" style="width: 4rem; height: 4rem;">
+                                            <i class="ri-error-warning-fill food-text-orange fs-1"></i>
+                                        </div>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-2">Minimum Sipariş Tutarı</h5>
+                                    <p class="text-secondary food-text-sm px-2">Bu restorandan sipariş vermek için ürün toplamınız en az <span class="fw-bold js-popup-min-amount">$0.00</span> olmalıdır.</p>
+                                    <div class="bg-light p-3 rounded-3 mb-3 border border-warning-subtle">
+                                        <span class="text-secondary food-text-xs d-block mb-1">Eksik Tutar:</span>
+                                        <span class="food-text-xl fw-bold food-text-orange"><span class="js-popup-needed-amount">$0.00</span></span>
+                                    </div>
+                                    <a href="#" class="btn food-bg-orange text-white w-100 py-3 food-rounded-xl fw-bold border-0 shadow-sm active-scale transition-all text-decoration-none js-goto-restaurant">Ürün Ekle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <t t-call="ronix_food_delivery.food_common_modals"/>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

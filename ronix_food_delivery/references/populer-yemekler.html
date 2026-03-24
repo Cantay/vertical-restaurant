@@ -1,0 +1,359 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemek Sipariş - Hızlı Teslimat</title>
+    <meta name="description" content="En sevdiğiniz restoranlardan hızlı yemek siparişi verin">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.min.css">
+    <meta name="readdy-project-version"
+        content="a5fcdffe4cf85c9bdb9c64843a860cf2:b5afb86e5e641926c166fbd60a36dda2:dc3d4cfe5f2c81dc4f77e9c90fe7d62172b5738ceb101d0cf0b8611ab573deea049fb1b039d561ed75b4b0603b30431de3ff356fcc1d61ce96c407cbc0e3b082">
+    <script>
+        window.EventReportingConfig = {
+            projectId: 'afa39df1-1b54-41cc-bb28-2605bf344b0a',
+            domain: 'https://readdy.ai',
+            debug: false
+        };
+    </script>
+    <script defer="" src="https://public.readdy.ai/analysis/event-reporting.min.js"></script>
+    <script type="module" crossorigin="" src="/assets/index-CyNaqV1b.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/assets/index-BxtljnNw.css">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/page-DpVSvwNB.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/BottomNav-DqGEkX7c.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/RestaurantCard-DOaKLXEe.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/FoodDetailModal-BMzxFeH3.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/restaurants-fGA1f1w0.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/allFoods-BhA08UuE.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/notifications-BV4aGSt1.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/useCart-BUFG8q1R.js">
+    <script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script>
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/page-BJzPGaSG.js">
+    <link rel="modulepreload" as="script" crossorigin="" href="/assets/page-MSsQE4Iz.js">
+</head>
+
+<body cz-shortcut-listen="true">
+    <div id="root">
+        <div class="min-h-screen bg-gradient-to-b from-orange-50 to-white pb-24">
+            <div class="fixed top-0 left-0 right-0 bg-gradient-to-r from-orange-500 to-orange-600 z-40 shadow-md">
+                <div class="flex items-center px-4 py-3 gap-3"><button
+                        class="w-8 h-8 flex items-center justify-center bg-white/20 rounded-full shrink-0"><i
+                            class="ri-arrow-left-line text-white text-lg"></i></button>
+                    <h1 class="text-base font-bold text-white flex-1">Tüm Yemekler</h1><span
+                        class="text-xs text-white/80 font-medium">12 ürün</span>
+                </div>
+                <div class="px-4 pb-3">
+                    <div class="flex items-center bg-white/20 rounded-2xl px-3 py-2 gap-2"><i
+                            class="ri-search-line text-white/80 text-base"></i><input
+                            placeholder="Yemek veya restoran ara..."
+                            class="flex-1 bg-transparent text-white placeholder-white/60 text-sm outline-none"
+                            type="text" value=""></div>
+                </div>
+            </div>
+            <div class="pt-28 px-4 space-y-4">
+                <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-orange-500 text-white shadow-md">Tümü</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Burger</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Pizza</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Sushi</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Kebap</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Tatlı</button><button
+                        class="px-4 py-1.5 rounded-full whitespace-nowrap text-xs font-semibold transition-all shrink-0 bg-white text-gray-600 shadow-sm">Çin</button>
+                </div>
+                <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"><button
+                        class="flex items-center gap-1 px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-all shrink-0 border bg-orange-50 border-orange-400 text-orange-500"><i
+                            class="ri-check-line text-xs"></i>Önerilen</button><button
+                        class="flex items-center gap-1 px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-all shrink-0 border bg-white border-gray-200 text-gray-500">En
+                        Yüksek Puan</button><button
+                        class="flex items-center gap-1 px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-all shrink-0 border bg-white border-gray-200 text-gray-500">En
+                        Ucuz</button><button
+                        class="flex items-center gap-1 px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-all shrink-0 border bg-white border-gray-200 text-gray-500">En
+                        Pahalı</button></div>
+                <div class="grid grid-cols-2 gap-3 pb-4" data-product-shop="true">
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Cheeseburger"
+                                class="w-full h-full object-cover object-top"
+                                src="https://public.readdy.ai/ai/img_res/92696d269c9b1a442e62fd50b039706a.jpg">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Burger</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Cheeseburger</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Burger King</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺85</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.6</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Double Whopper"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20double%20whopper%20burger%20with%20bacon%20cheese%20and%20fresh%20vegetables%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af2&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Burger</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Double Whopper</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Burger King</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺110</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.7</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Margherita Pizza"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20classic%20margherita%20pizza%20with%20fresh%20mozzarella%20basil%20tomato%20sauce%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af3&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Pizza</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Margherita Pizza</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Pizza House</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺95</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.8</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Pepperoni Pizza"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20pepperoni%20pizza%20with%20melted%20cheese%20spicy%20salami%20slices%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af4&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Pizza</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Pepperoni Pizza</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Pizza House</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺105</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.7</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Sushi Set (12 Parça)"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20assorted%20sushi%20set%20with%20salmon%20tuna%20avocado%20rolls%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af5&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Sushi</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Sushi Set (12 Parça)</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Sushi Master</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺150</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.9</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Adana Kebap"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20traditional%20adana%20kebab%20with%20grilled%20spicy%20minced%20meat%20on%20skewers%20with%20vegetables%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af6&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Kebap</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Adana Kebap</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Kebap Evi</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺75</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.7</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Lahmacun"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20turkish%20lahmacun%20thin%20crispy%20flatbread%20with%20minced%20meat%20and%20vegetables%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af7&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Kebap</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Lahmacun</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Kebap Evi</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺25</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.6</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Baklava"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20turkish%20baklava%20with%20layers%20of%20phyllo%20dough%20honey%20and%20pistachios%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af8&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Tatlı</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Baklava</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Tatlı Dünyası</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺45</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.9</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Kung Pao Tavuk"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20kung%20pao%20chicken%20with%20peanuts%20vegetables%20and%20spicy%20sauce%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af9&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Çin</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Kung Pao Tavuk</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Çin Mutfağı</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺70</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.5</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Tavuk Kanat"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20crispy%20chicken%20wings%20with%20buffalo%20sauce%20and%20dipping%20sauce%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af10&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Burger</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Tavuk Kanat</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Burger King</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺65</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.4</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Sütlaç"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20turkish%20rice%20pudding%20sutlac%20with%20cinnamon%20on%20top%20in%20ceramic%20bowl%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af11&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Tatlı</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Sütlaç</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Tatlı Dünyası</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺35</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.8</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer active:scale-95 transition-transform">
+                        <div class="relative h-28 overflow-hidden"><img alt="Noodle Çorbası"
+                                class="w-full h-full object-cover object-top"
+                                src="https://readdy.ai/api/search-image?query=professional%20food%20photography%20of%20chinese%20ramen%20noodle%20soup%20with%20vegetables%20and%20egg%20on%20clean%20white%20background%20studio%20lighting%20high%20quality%20commercial%20product%20shot%20appetizing%20presentation&amp;width=300&amp;height=300&amp;seq=af12&amp;orientation=squarish">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 bg-orange-500/90 px-2 py-0.5 rounded-full"><span
+                                    class="text-[0.55rem] text-white font-semibold">Çin</span></div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-semibold text-gray-800 text-xs mb-0.5 truncate">Noodle Çorbası</h4>
+                            <p class="text-[0.6rem] text-gray-400 mb-2 truncate">Çin Mutfağı</p>
+                            <div class="flex items-center justify-between"><span
+                                    class="text-sm font-bold text-orange-500">₺55</span>
+                                <div class="flex items-center gap-1"><i
+                                        class="ri-star-fill text-yellow-400 text-xs"></i><span
+                                        class="text-[0.6rem] text-gray-500 font-medium">4.3</span></div>
+                            </div><button
+                                class="mt-2 w-full py-1.5 bg-orange-50 text-orange-500 text-xs font-semibold rounded-xl flex items-center justify-center gap-1 active:bg-orange-100 transition-colors"><i
+                                    class="ri-add-line text-sm"></i>Sepete Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
+                <div class="grid grid-cols-4 h-16"><button class="flex flex-col items-center justify-center gap-1"><i
+                            class="ri-compass-3-line text-xl text-gray-500"></i><span
+                            class="text-[0.625rem] text-gray-500">Keşfet</span></button><button
+                        class="flex flex-col items-center justify-center gap-1"><i
+                            class="ri-shopping-cart-line text-xl text-gray-500"></i><span
+                            class="text-[0.625rem] text-gray-500">Sepet</span></button><button
+                        class="flex flex-col items-center justify-center gap-1"><i
+                            class="ri-file-list-line text-xl text-gray-500"></i><span
+                            class="text-[0.625rem] text-gray-500">Siparişler</span></button><button
+                        class="flex flex-col items-center justify-center gap-1"><i
+                            class="ri-user-line text-xl text-gray-500"></i><span
+                            class="text-[0.625rem] text-gray-500">Profil</span></button></div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- LANDING PAGE - Restaurant menu after QR scan                  -->
+    <!-- ============================================================ -->
+    <template id="qr_menu_landing" name="QR Menu Landing">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div class="qr-menu-container">
+                <!-- Restaurant Header -->
+                <div class="qr-menu-hero position-relative">
+                    <t t-if="restaurant.image_1920">
+                        <img t-att-src="'/web/image/qr.menu.restaurant/%s/image_1920' % restaurant.id"
+                             class="qr-menu-hero-img" alt="Restaurant"/>
+                    </t>
+                    <t t-else="">
+                        <div class="qr-menu-hero-placeholder">
+                            <i class="ri-restaurant-2-line"></i>
+                        </div>
+                    </t>
+                    <div class="qr-menu-hero-overlay">
+                        <h1 class="qr-menu-hero-title" t-field="restaurant.name"/>
+                        <t t-if="restaurant.address">
+                            <p class="qr-menu-hero-subtitle">
+                                <i class="ri-map-pin-line me-1"></i>
+                                <span t-field="restaurant.address"/>
+                            </p>
+                        </t>
+                        <t t-if="restaurant.phone">
+                            <p class="qr-menu-hero-subtitle">
+                                <i class="ri-phone-line me-1"></i>
+                                <a t-att-href="'tel:%s' % restaurant.phone" class="text-white">
+                                    <t t-out="restaurant.phone"/>
+                                </a>
+                            </p>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Table Badge -->
+                <t t-if="table">
+                    <div class="text-center py-2">
+                        <span class="badge qr-menu-badge-orange fs-6">
+                            <i class="ri-layout-grid-line me-1"></i>
+                            <t t-out="table.name"/>
+                        </span>
+                    </div>
+                </t>
+
+                <!-- Category Grid -->
+                <div class="px-3 py-3">
+                    <h5 class="fw-bold mb-3">Menü</h5>
+                    <div class="row g-3">
+                        <t t-foreach="categories" t-as="cat">
+                            <div class="col-6">
+                                <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, cat.id, ('?table_id=%s' % table.id) if table else '')"
+                                   class="text-decoration-none">
+                                    <div class="qr-menu-category-card">
+                                        <t t-if="cat.image">
+                                            <img t-att-src="'/web/image/qr.menu.category/%s/image' % cat.id"
+                                                 class="qr-menu-category-img" t-att-alt="cat.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="qr-menu-category-icon-placeholder">
+                                                <i t-att-class="cat.icon or 'ri-restaurant-line'"></i>
+                                            </div>
+                                        </t>
+                                        <div class="qr-menu-category-label">
+                                            <span t-field="cat.name"/>
+                                            <small class="text-muted d-block">
+                                                <t t-out="cat.item_count"/> ürün
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Waiter Call FAB (only if table-based) -->
+                <t t-if="table">
+                    <button class="qr-menu-fab js-qr-waiter-call-btn"
+                            t-att-data-restaurant-id="restaurant.id"
+                            t-att-data-table-id="table.id">
+                        <i class="ri-user-voice-line"></i>
+                    </button>
+                </t>
+            </div>
+
+            <!-- Waiter Call Modal -->
+            <t t-if="table">
+                <div class="modal fade" id="waiterCallModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content border-0 rounded-4 shadow">
+                            <div class="modal-header border-0 pb-0">
+                                <h6 class="modal-title fw-bold">Garson Çağır</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="waiter">
+                                        <i class="ri-user-voice-line me-2"></i>Garson Çağır
+                                    </button>
+                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="bill">
+                                        <i class="ri-bill-line me-2"></i>Hesap İste
+                                    </button>
+                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="water">
+                                        <i class="ri-drop-line me-2"></i>Su İste
+                                    </button>
+                                </div>
+                                <div class="mt-3">
+                                    <textarea class="form-control js-qr-custom-message" rows="2"
+                                              placeholder="Özel istek yazın (opsiyonel)..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Modal -->
+                <div class="modal fade" id="waiterCallSuccessModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content border-0 rounded-4 shadow text-center p-4">
+                            <div class="mb-3">
+                                <div class="qr-menu-success-icon mx-auto">
+                                    <i class="ri-checkbox-circle-fill"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold">İsteğiniz İletildi!</h6>
+                            <p class="text-muted small mb-0">Garsonunuz en kısa sürede gelecektir.</p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- CATEGORY PAGE - Items in a category                           -->
+    <!-- ============================================================ -->
+    <template id="qr_menu_category_page" name="QR Menu Category">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div class="qr-menu-container">
+                <!-- Back Header -->
+                <div class="qr-menu-top-bar">
+                    <a t-att-href="'/qr-menu/%s%s' % (restaurant.id, ('?table_id=%s' % table.id) if table else '')"
+                       class="text-dark text-decoration-none">
+                        <i class="ri-arrow-left-line fs-5 me-2"></i>
+                    </a>
+                    <h6 class="fw-bold mb-0" t-field="category.name"/>
+                </div>
+
+                <!-- Item List -->
+                <div class="px-3 py-2">
+                    <t t-foreach="items" t-as="item">
+                        <a t-att-href="'/qr-menu/%s/item/%s%s' % (restaurant.id, item.id, ('?table_id=%s' % table.id) if table else '')"
+                           class="text-decoration-none">
+                            <div class="qr-menu-item-card">
+                                <div class="qr-menu-item-img-wrap">
+                                    <t t-if="item.image_1920">
+                                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920/200x200' % item.id"
+                                             class="qr-menu-item-img" t-att-alt="item.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="qr-menu-item-img-placeholder">
+                                            <i class="ri-restaurant-line"></i>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="qr-menu-item-info">
+                                    <div class="fw-bold text-dark" t-field="item.name"/>
+                                    <div class="text-muted small text-truncate" t-if="item.description"
+                                         t-field="item.description"/>
+                                    <div class="mt-1">
+                                        <span class="qr-menu-price" t-field="item.price"
+                                              t-options="{'widget': 'monetary', 'display_currency': item.currency_id}"/>
+                                    </div>
+                                    <!-- Badges -->
+                                    <div class="mt-1 d-flex flex-wrap gap-1">
+                                        <span t-if="item.is_vegetarian" class="badge bg-success-subtle text-success">Vejetaryen</span>
+                                        <span t-if="item.is_vegan" class="badge bg-success-subtle text-success">Vegan</span>
+                                        <span t-if="item.is_gluten_free" class="badge bg-info-subtle text-info">Glütensiz</span>
+                                        <span t-if="item.is_spicy" class="badge bg-danger-subtle text-danger">Acı</span>
+                                        <span t-if="item.has_ar" class="badge bg-primary-subtle text-primary">
+                                            <i class="ri-camera-3d-line me-1"></i>AR
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="qr-menu-item-arrow">
+                                    <i class="ri-arrow-right-s-line text-muted"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </t>
+
+                    <t t-if="not items">
+                        <div class="text-center py-5 text-muted">
+                            <i class="ri-restaurant-line fs-1 d-block mb-2"></i>
+                            <p>Bu kategoride henüz ürün yok.</p>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Waiter Call FAB -->
+                <t t-if="table">
+                    <button class="qr-menu-fab js-qr-waiter-call-btn"
+                            t-att-data-restaurant-id="restaurant.id"
+                            t-att-data-table-id="table.id">
+                        <i class="ri-user-voice-line"></i>
+                    </button>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="food_detail_offcanvas_content">
+        <div class="position-relative w-100" style="height: 14rem;">
+            <img t-att-alt="food.name" class="w-100 h-100" style="object-fit: cover; object-position: center;" t-attf-src="/web/image?model=product.template&amp;id=#{food.id}&amp;field=image_1024&amp;format=webp"/>
+            <button type="button" class="btn btn-light position-absolute top-0 end-0 m-3 rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" data-bs-dismiss="offcanvas" style="width:2.25rem; height:2.25rem;">
+                <i class="ri-close-line text-dark fs-5"></i>
+            </button>
+            <div t-if="food.public_categ_ids" class="position-absolute bottom-0 start-0 m-3 food-bg-orange px-3 py-1 rounded-pill">
+                <span class="text-white fw-semibold" style="font-size:0.75rem;"><t t-out="food.public_categ_ids[0].name"/></span>
+            </div>
+            <button t-attf-class="btn btn-light position-absolute bottom-0 end-0 m-3 rounded-circle shadow p-0 d-flex align-items-center justify-content-center js-food-toggle-favorite-food" t-att-data-food-id="food.id" style="width:2.25rem; height:2.25rem;">
+                <i t-attf-class="ri-heart-#{'fill text-danger' if request.env.user in food.food_favorite_user_ids else 'line text-secondary'} fs-5"></i>
+            </button>
+        </div>
+
+        <div class="offcanvas-body p-4 pt-3 pb-5">
+            <div class="d-flex align-items-start justify-content-between mb-1 mt-2">
+                <h2 class="fs-5 fw-bolder text-dark mb-0 pe-2 text-wrap"><t t-out="food.name"/></h2>
+                <div class="d-flex align-items-center gap-1 flex-shrink-0">
+                    <i class="ri-star-fill text-warning" style="font-size:0.875rem;"></i>
+                    <span class="fw-semibold text-dark" style="font-size:0.875rem;"><t t-out="food.food_rating"/></span>
+                </div>
+            </div>
+            
+            <p class="food-text-orange fw-medium mb-3" style="font-size:0.75rem;"><t t-out="food.food_restaurant_id.name"/></p>
+            
+            <p t-if="food.description_sale" class="text-secondary mb-4 lh-base" style="font-size:0.875rem;">
+                <t t-out="food.description_sale"/>
+            </p>
+
+            <t t-if="food.food_addon_ids">
+                <t t-set="addon_groups" t-value="list(set(food.food_addon_ids.mapped('group_name')))"/>
+                <t t-foreach="addon_groups" t-as="group">
+                    <div class="mb-4 js-food-addon-group" t-att-data-group-name="group">
+                        <t t-set="group_addons" t-value="food.food_addon_ids.filtered(lambda a: a.group_name == group)"/>
+                        <h3 class="food-text-sm fw-bolder text-dark mb-3"><t t-out="group"/></h3>
+                        <div class="d-flex flex-column gap-2">
+                            <t t-foreach="group_addons" t-as="addon">
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 border bg-white addon-item js-food-addon" 
+                         t-att-data-addon-id="addon.id" 
+                         t-att-data-extra-price="addon.extra_price"
+                         t-att-data-selection-type="addon.selection_type">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center justify-content-center bg-light rounded-circle status-icon-container" style="width:1.75rem; height:1.75rem;">
+                                <i t-attf-class="ri-#{'add' if addon.selection_type == 'select' else 'numbers'}-line text-secondary" style="font-size:0.875rem;"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-semibold text-dark lh-1" style="font-size:0.75rem;"><t t-out="addon.name" /></p>
+                                <p t-if="addon.extra_price > 0" class="mb-0 text-secondary mt-1 lh-1" style="font-size:0.625rem;">+$<span class="addon-price-val"><t t-out="int(addon.extra_price)"/></span></p>
+                            </div>
+                        </div>
+                        <div class="selection-controls d-flex align-items-center gap-2">
+                            <t t-if="addon.selection_type == 'select'">
+                                <div class="selection-indicator">
+                                    <i class="ri-checkbox-blank-circle-line text-secondary" style="font-size:1.25rem;"></i>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="d-flex align-items-center border rounded-pill p-0-5 bg-light js-addon-qty-container d-none">
+                                    <button class="btn btn-sm p-0 d-flex align-items-center justify-content-center js-addon-qty-minus" style="width: 1.25rem; height: 1.25rem;">
+                                        <i class="ri-subtract-line text-dark" style="font-size: 0.75rem;"></i>
+                                    </button>
+                                    <span class="px-2 fw-bold text-dark js-addon-qty-value" style="font-size: 0.75rem;">1</span>
+                                    <button class="btn btn-sm p-0 d-flex align-items-center justify-content-center js-addon-qty-plus" style="width: 1.25rem; height: 1.25rem;">
+                                        <i class="ri-add-line text-dark" style="font-size: 0.75rem;"></i>
+                                    </button>
+                                </div>
+                                <div class="selection-indicator js-addon-qty-trigger">
+                                    <i class="ri-checkbox-blank-circle-line text-secondary" style="font-size:1.25rem;"></i>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </div>
+
+        <div class="bg-white border-top p-3 d-flex align-items-center justify-content-between mt-auto position-sticky bottom-0">
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center border rounded-pill p-1">
+                    <button class="btn btn-sm btn-light rounded-circle p-0 d-flex align-items-center justify-content-center js-food-qty-minus" style="width: 1.5rem; height: 1.5rem;">
+                        <i class="ri-subtract-line text-dark"></i>
+                    </button>
+                    <span class="px-3 fw-bold text-dark js-food-qty-value">1</span>
+                    <button class="btn btn-sm food-bg-orange rounded-circle p-0 d-flex align-items-center justify-content-center js-food-qty-plus" style="width: 1.5rem; height: 1.5rem;">
+                        <i class="ri-add-line text-white"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="btn food-bg-orange text-white fw-bold px-4 py-2 rounded-pill shadow-sm d-flex align-items-center gap-2 js-food-add-to-cart" t-att-data-food-id="food.id" t-att-data-base-price="food.list_price">
+                <span>Sepete Ekle</span>
+                <span class="opacity-75">|</span>
+                <span class="js-food-total-price">$<t t-out="int(food.list_price)"/></span>
+            </button>
+        </div>
+    </template>
+</odoo>

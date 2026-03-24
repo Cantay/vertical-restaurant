@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-level Menu Item -->
+    <menuitem id="menu_food_delivery_root" name="Food Delivery" sequence="10" web_icon="ronix_food_delivery,static/description/icon.png" groups="ronix_food_delivery.group_food_shop_manager"/>
+
+    <!-- Tree View -->
+    <record id="view_food_restaurant_tree" model="ir.ui.view">
+        <field name="name">food.restaurant.tree</field>
+        <field name="model">food.restaurant</field>
+        <field name="arch" type="xml">
+            <list string="Restaurants">
+                <field name="name"/>
+                <field name="rating" widget="float"/>
+                <field name="min_order_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="platform_commission_rate"/>
+                <field name="delivery_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="delivery_time_min" string="Min Time"/>
+                <field name="delivery_time_max" string="Max Time"/>
+                <field name="is_open" widget="boolean_toggle"/>
+                <field name="is_popular" widget="boolean_toggle"/>
+                <field name="is_fast_delivery" widget="boolean_toggle"/>
+                <field name="has_campaign" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_food_restaurant_kanban" model="ir.ui.view">
+        <field name="name">food.restaurant.kanban</field>
+        <field name="model">food.restaurant</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="rating"/>
+                <field name="image_1920"/>
+                <field name="is_open"/>
+                <field name="delivery_fee"/>
+                <field name="currency_id"/>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-4 position-relative">
+                                    <img t-att-src="kanban_image('food.restaurant', 'image_1920', record.id.raw_value)" class="o_kanban_image" alt="Restaurant"/>
+                                    <t t-if="record.is_open.raw_value">
+                                        <span class="badge rounded-pill bg-success position-absolute" style="top: 2px; right: 2px; font-size: 0.6rem;">Açık</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge rounded-pill bg-danger position-absolute" style="top: 2px; right: 2px; font-size: 0.6rem;">Kapalı</span>
+                                    </t>
+                                </div>
+                                <div class="col-8">
+                                    <strong><field name="name"/></strong>
+                                    <div class="d-flex justify-content-between text-muted" style="font-size: 0.85em;">
+                                        <span><i class="fa fa-star text-warning" role="img" aria-label="Rating" title="Rating"></i> <field name="rating"/></span>
+                                        <span>
+                                            <t t-if="record.delivery_fee.raw_value == 0">Ücretsiz Teslimat</t>
+                                            <t t-else=""><field name="delivery_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/></t>
+                                        </span>
+                                    </div>
+                                    <div class="mt-1"><field name="category_ids" widget="many2many_tags"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_food_restaurant_form" model="ir.ui.view">
+        <field name="name">food.restaurant.form</field>
+        <field name="model">food.restaurant</field>
+        <field name="arch" type="xml">
+            <form string="Restaurant">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Restaurant Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Burger King" readonly="id" groups="ronix_food_delivery.group_food_admin"/>
+                            <field name="name" readonly="1" groups="ronix_food_delivery.group_food_shop_manager"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="general_info" string="General Information">
+                            <field name="category_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="rating"/>
+                            <field name="active" invisible="1"/>
+                            <field name="always_open"/>
+                            <field name="is_grocery"/>
+                            <field name="timezone" invisible="always_open"/>
+                            <label for="delivery_time_min" string="Delivery Time (mins)"/>
+                            <div class="o_row">
+                                <field name="delivery_time_min" class="oe_inline"/> - 
+                                <field name="delivery_time_max" class="oe_inline"/>
+                            </div>
+                            <field name="min_order_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="platform_commission_rate"/>
+                            <field name="delivery_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="delivery_base_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="delivery_km_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        
+                        <group name="contact_location" string="Contact &amp; Location">
+                            <field name="phone" widget="phone"/>
+                            <field name="address"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
+                    </group>
+                    
+                    <group name="flags_details" string="Flags &amp; Flags">
+                        <group>
+                            <field name="is_open"/>
+                            <field name="is_popular"/>
+                            <field name="is_fast_delivery"/>
+                            <field name="has_campaign"/>
+                        </group>
+                        <group>
+                            <field name="favorite_user_ids" widget="many2many_tags" string="Favorited Users"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" placeholder="Restaurant Description..."/>
+                        </page>
+                        <page name="working_hours_page" string="Working Hours" invisible="always_open">
+                            <field name="work_hour_ids">
+                                <list editable="bottom">
+                                    <field name="day_of_week"/>
+                                    <field name="start_time" widget="float_time"/>
+                                    <field name="end_time" widget="float_time"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="reviews_page" string="Reviews">
+                            <field name="review_ids" readonly="1">
+                                <list>
+                                    <field name="user_id"/>
+                                    <field name="rating"/>
+                                    <field name="comment"/>
+                                    <field name="create_date" string="Date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="management" string="Management" groups="ronix_food_delivery.group_food_admin">
+                            <group>
+                                <field name="manager_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Category Custom Form View -->
+    <record id="view_food_category_form" model="ir.ui.view">
+        <field name="name">food.product.public.category.form</field>
+        <field name="model">product.public.category</field>
+        <field name="arch" type="xml">
+            <form string="Food Category">
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Category Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Burger"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id" placeholder="Parent Category..."/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <!-- Space for future fields -->
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window Action for Restaurants -->
+    <record id="action_food_restaurant" model="ir.actions.act_window">
+        <field name="name">Restaurants</field>
+        <field name="res_model">food.restaurant</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new restaurant
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_food_restaurants"
+              name="Restaurants"
+              parent="menu_food_delivery_root"
+              action="action_food_restaurant"
+              sequence="10"/>
+
+    <menuitem id="menu_food_delivery_settings"
+              name="Ayarlar"
+              parent="menu_food_delivery_root"
+              groups="ronix_food_delivery.group_food_admin"
+              sequence="100"/>
+
+</odoo>

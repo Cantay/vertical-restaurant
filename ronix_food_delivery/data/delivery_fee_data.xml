@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_delivery_fee" model="product.product">
+            <field name="name">Teslimat Ücreti</field>
+            <field name="type">service</field>
+            <field name="list_price">0.0</field>
+            <field name="is_food">False</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="default_code">DELIVERY_FEE</field>
+        </record>
+    </data>
+</odoo>

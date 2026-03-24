@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_qr_menu_table_list" model="ir.ui.view">
+        <field name="name">qr.menu.table.list</field>
+        <field name="model">qr.menu.table</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="restaurant_id"/>
+                <field name="name"/>
+                <field name="capacity"/>
+                <field name="qr_url" widget="CopyClipboardChar"/>
+                <button name="action_download_qr" type="object" string="Download QR" icon="fa-download"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_qr_menu_table_form" model="ir.ui.view">
+        <field name="name">qr.menu.table.form</field>
+        <field name="model">qr.menu.table</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="restaurant_id"/>
+                            <field name="name"/>
+                            <field name="capacity"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="qr_url" widget="CopyClipboardChar"/>
+                            <field name="qr_code" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_qr_menu_table" model="ir.actions.act_window">
+        <field name="name">Tables</field>
+        <field name="res_model">qr.menu.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_qr_menu_table"
+              name="Tables"
+              parent="menu_qr_menu_root"
+              action="action_qr_menu_table"
+              sequence="20"/>
+</odoo>

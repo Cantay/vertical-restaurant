@@ -1,0 +1,326 @@
+/* ============================================================
+   QR Menu - Core Styles
+   ============================================================ */
+
+:root {
+    --qr-orange: #FF6B35;
+    --qr-orange-light: #FFF3ED;
+    --qr-orange-dark: #E55A2B;
+}
+
+/* Container */
+.qr-menu-container {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #fff;
+    position: relative;
+    padding-bottom: 80px;
+}
+
+/* Hero Section */
+.qr-menu-hero {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--qr-orange), var(--qr-orange-dark));
+}
+
+.qr-menu-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.qr-menu-hero-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.qr-menu-hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: #fff;
+}
+
+.qr-menu-hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.qr-menu-hero-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin-bottom: 2px;
+}
+
+/* Top Bar */
+.qr-menu-top-bar {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+}
+
+/* Badge */
+.qr-menu-badge-orange {
+    background: var(--qr-orange-light);
+    color: var(--qr-orange);
+    border: 1px solid var(--qr-orange);
+}
+
+/* Category Cards */
+.qr-menu-category-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+}
+
+.qr-menu-category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.qr-menu-category-img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.qr-menu-category-icon-placeholder {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--qr-orange-light);
+    font-size: 2rem;
+    color: var(--qr-orange);
+}
+
+.qr-menu-category-label {
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Item Cards */
+.qr-menu-item-card {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+    gap: 12px;
+}
+
+.qr-menu-item-img-wrap {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.qr-menu-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.qr-menu-item-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    color: #ccc;
+    font-size: 1.5rem;
+}
+
+.qr-menu-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.qr-menu-item-arrow {
+    flex-shrink: 0;
+}
+
+/* Price */
+.qr-menu-price {
+    font-weight: 700;
+    color: var(--qr-orange);
+}
+
+/* Detail Hero */
+.qr-menu-detail-hero {
+    background: #f8f8f8;
+}
+
+/* AR Section */
+.qr-menu-ar-section {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.qr-menu-ar-container {
+    width: 100%;
+    min-height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+}
+
+.qr-menu-ar-container model-viewer {
+    width: 100%;
+    height: 300px;
+}
+
+.qr-menu-ar-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+}
+
+/* Content Box */
+.qr-menu-content-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Allergen Badge */
+.qr-menu-allergen-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: #FFF3CD;
+    border: 1px solid #FFECB5;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Nutrition Grid */
+.qr-menu-nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.qr-menu-nutrition-item {
+    text-align: center;
+    padding: 12px 8px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.qr-menu-nutrition-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--qr-orange);
+}
+
+.qr-menu-nutrition-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* FAB Button */
+.qr-menu-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--qr-orange);
+    color: #fff;
+    border: none;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+    z-index: 100;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.qr-menu-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+}
+
+/* Buttons */
+.qr-menu-btn-orange {
+    background: var(--qr-orange);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.qr-menu-btn-orange:hover {
+    background: var(--qr-orange-dark);
+    color: #fff;
+}
+
+.qr-menu-btn-outline-orange {
+    background: transparent;
+    color: var(--qr-orange);
+    border: 1.5px solid var(--qr-orange);
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 10px 16px;
+    text-align: left;
+}
+
+.qr-menu-btn-outline-orange:hover,
+.qr-menu-btn-outline-orange.active {
+    background: var(--qr-orange);
+    color: #fff;
+}
+
+/* Success Icon */
+.qr-menu-success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--qr-orange-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--qr-orange);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .qr-menu-nutrition-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

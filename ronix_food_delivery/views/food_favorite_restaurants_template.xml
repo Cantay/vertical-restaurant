@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="food_favorite_restaurants_page" name="Food Favorite Restaurants">
+            <t t-call="website.layout">
+                <t t-set="no_header" t-value="True"/>
+                <t t-set="no_footer" t-value="True"/>
+                <t t-set="title">Favori Restoranlar</t>
+                
+                <style>
+                    .food-search-placeholder-white::placeholder {
+                        color: rgba(255, 255, 255, 0.8) !important;
+                    }
+                    .food-search-placeholder-white {
+                        color: white !important;
+                    }
+                    .food-rounded-3xl {
+                        border-radius: 1.5rem !important;
+                    }
+                    .food-rounded-top-3xl {
+                        border-top-left-radius: 1.5rem !important;
+                        border-top-right-radius: 1.5rem !important;
+                    }
+                </style>
+
+                <div id="wrap" class="oe_structure oe_empty bg-light min-vh-100 pb-5 mb-5 food-app-container">
+                    
+                    <!-- Header -->
+                    <div class="fixed-top z-index-1030 food-bg-orange-gradient shadow-md">
+                        <div class="flex items-center px-4 py-3 gap-3 d-flex align-items-center">
+                            <a href="/food-home" class="btn p-0 border-0 bg-white/20 rounded-circle text-white d-flex align-items-center justify-content-center shrink-0" style="width:2.5rem; height:2.5rem; background-color: rgba(255,255,255,0.2);">
+                                <i class="ri-arrow-left-line fs-5"></i>
+                            </a>
+                            <h1 class="text-base font-bold text-white flex-grow-1 h6 mb-0">Favori Restoranlar</h1>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-1 px-3 py-1 rounded-pill text-xs font-semibold transition-all bg-white text-orange-500" style="font-size: 0.75rem;">
+                                    <i class="ri-heart-fill text-sm"></i>Favoriler
+                                </div>
+                                <span class="text-xs text-white-50 font-medium" style="font-size: 0.75rem;"><t t-out="len(favorite_restaurants)"/></span>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-3">
+                            <form action="/food-favorites" method="get" class="position-relative">
+                                <div class="d-flex align-items-center bg-white/20 rounded-pill px-3 py-2 gap-2" style="background-color: rgba(255,255,255,0.2);">
+                                    <i class="ri-search-line text-white-50"></i>
+                                    <input name="q" t-att-value="q" placeholder="Restoran veya mutfak ara..." class="flex-grow-1 bg-transparent border-0 text-white food-search-placeholder-white text-sm outline-none food-text-sm js-food-search" type="text" style="box-shadow: none;" autocomplete="off"/>
+                                </div>
+                                <input t-if="active_order_by" type="hidden" name="order_by" t-att-value="active_order_by"/>
+                                <!-- Search Suggestions Dropdown -->
+                                <div class="js-search-results position-absolute w-100 bg-white shadow-lg rounded-4 overflow-hidden d-none" style="top: 100%; left: 0; z-index: 1050; margin-top: 0.5rem;">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="px-3" style="padding-top: 9.5rem; padding-bottom: 5.5rem;">
+                        
+                        <!-- Categories Scroll -->
+                        <div class="d-flex gap-2 overflow-auto pb-1 mb-3 no-scrollbar" style="scrollbar-width: none;">
+                            <a href="/food-favorites" class="btn btn-sm rounded-pill whitespace-nowrap food-text-xs fw-bold px-4 py-2 shadow-sm food-bg-orange text-white border-0">Tümü</a>
+                        </div>
+
+                        <!-- Filters Scroll -->
+                        <div class="d-flex gap-2 overflow-auto pb-1 mb-4 no-scrollbar" style="scrollbar-width: none;">
+                            <a t-attf-href="/food-favorites?order_by=rating#{'&amp;q=' + q if q else ''}" 
+                               t-attf-class="btn btn-sm rounded-pill whitespace-nowrap food-text-2xs fw-bold px-3 py-1-5 d-flex align-items-center gap-1 border #{'food-border-orange food-bg-orange-light food-text-orange' if active_order_by == 'rating' or not active_order_by else 'bg-white text-secondary'}">
+                                <i t-if="active_order_by == 'rating' or not active_order_by" class="ri-check-line"></i>Önerilen
+                            </a>
+                            <a t-attf-href="/food-favorites?order_by=delivery#{'&amp;q=' + q if q else ''}" 
+                               t-attf-class="btn btn-sm rounded-pill whitespace-nowrap food-text-2xs fw-bold px-3 py-1-5 d-flex align-items-center gap-1 border #{'food-border-orange food-bg-orange-light food-text-orange' if active_order_by == 'delivery' else 'bg-white text-secondary'}">
+                                <i t-if="active_order_by == 'delivery'" class="ri-check-line"></i>En Hızlı
+                            </a>
+                        </div>
+
+                        <!-- Restaurant Grid -->
+                        <div class="row g-3">
+                            <t t-foreach="favorite_restaurants" t-as="restaurant">
+                                <div class="col-6">
+                                    <div class="bg-white food-rounded-3xl overflow-hidden shadow active-scale cursor-pointer h-100" t-attf-onclick="window.location.href='/food-restaurant/#{restaurant.id}'">
+                                        <div class="position-relative" style="height: 9.5rem;">
+                                            <img t-att-alt="restaurant.name" class="w-100 h-100 border-0 food-rounded-top-3xl" t-attf-src="/web/image?model=food.restaurant&amp;id=#{restaurant.id}&amp;field=image_512&amp;format=webp" style="object-fit: cover; object-position: top;" loading="lazy"/>
+                                            <button class="btn border-0 position-absolute top-0 end-0 m-2 rounded-circle bg-white d-flex align-items-center justify-content-center p-0 shadow-sm js-food-toggle-favorite" t-att-data-restaurant-id="restaurant.id" style="width:2.25rem; height:2.25rem; z-index: 10;" onclick="event.stopPropagation();">
+                                                <i class="ri-heart-fill text-danger fs-5"></i>
+                                            </button>
+                                            <t t-if="restaurant.category_ids">
+                                                <div class="position-absolute bottom-0 start-0 m-2 bg-white px-3 py-1 rounded-pill shadow-sm">
+                                                    <span class="food-text-2xs fw-bold text-dark" t-out="restaurant.category_ids[0].name"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                        <div class="p-3">
+                                            <h3 class="food-text-sm fw-bold text-dark mb-2 text-truncate" t-out="restaurant.name"/>
+                                            <div class="d-flex flex-column gap-1">
+                                                <div class="d-flex align-items-center justify-content-between food-text-2xs text-muted">
+                                                    <div class="d-flex align-items-center gap-1">
+                                                        <i class="ri-star-fill text-warning"></i>
+                                                        <span class="fw-bold text-dark" t-out="restaurant.rating"/>
+                                                        <span class="text-secondary opacity-75">(<t t-out="restaurant.review_count"/>)</span>
+                                                        <i class="ri-time-line ms-1"></i>
+                                                        <span><t t-out="restaurant.delivery_time_min"/>-<t t-out="restaurant.delivery_time_max"/> dk</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-1 text-muted food-text-2xs mt-1">
+                                                    <i class="ri-shopping-bag-line"></i>
+                                                    <span>Min $<t t-out="int(restaurant.min_order_amount)"/></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="not favorite_restaurants">
+                                <div class="col-12 text-center py-5">
+                                    <i class="ri-heart-line fs-1 text-muted opacity-50"></i>
+                                    <p class="text-muted mt-2">Henüz favori restoranınız bulunmuyor.</p>
+                                </div>
+                            </t>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Nav -->
+                    <div class="fixed-bottom bg-white border-top border-gray-200 z-index-1030 h-auto">
+                        <div class="row row-cols-4 g-0 text-center" style="height:4.5rem;">
+                            <div class="col">
+                                <a href="/food-home" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-compass-3-line fs-3 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Keşfet</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-cart" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-shopping-cart-line fs-3 mb-0"></i>
+                                    <span t-attf-class="js-cart-badge position-absolute d-flex align-items-center justify-content-center fw-bold text-white rounded-circle food-text-3xs food-bg-orange shadow-sm #{'d-none' if not order or not sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) else ''}" style="top:-0.2rem; right:-0.2rem; width:1.125rem; height:1.125rem;">
+                                        <t t-out="int(sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) if order else 0)"/>
+                                    </span>
+                                    <span class="food-text-3xs mt-1">Sepet</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-orders" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-file-list-line fs-3 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Siparişler</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/food-profile" class="text-decoration-none d-flex flex-column align-items-center justify-content-center text-muted h-100">
+                                    <i class="ri-user-line fs-3 mb-0"></i>
+                                    <span class="food-text-3xs mt-1">Profil</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Standard Category -->
+        <record id="module_category_ronix_food" model="ir.module.category">
+            <field name="name">Ronix Food Delivery</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Group Hierarchy -->
+        <record id="group_food_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="ronix_food_delivery.module_category_ronix_food"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_food_shop_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="ronix_food_delivery.module_category_ronix_food"/>
+            <field name="implied_ids" eval="[(4, ref('ronix_food_delivery.group_food_user'))]"/>
+        </record>
+
+        <record id="group_food_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="ronix_food_delivery.module_category_ronix_food"/>
+            <field name="implied_ids" eval="[(4, ref('ronix_food_delivery.group_food_shop_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- System Admin Visibility -->
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('ronix_food_delivery.group_food_admin'))]"/>
+        </record>
+    </data>
+</odoo>
