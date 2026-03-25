@@ -70,6 +70,7 @@
                         <group>
                             <field name="manager_ids" widget="many2many_tags"/>
                             <field name="qr_url" widget="CopyClipboardChar"/>
+                            <field name="debug_mode"/>
                             <field name="active" invisible="1"/>
                         </group>
                     </group>

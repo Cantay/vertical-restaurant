@@ -1,7 +1,10 @@
 import base64
+import logging
 
 from odoo import http
 from odoo.http import request
+
+_logger = logging.getLogger(__name__)
 
 
 class QrMenuController(http.Controller):
@@ -112,22 +115,43 @@ class QrMenuController(http.Controller):
     # --------------------------------------------------
 
     @http.route('/qr_menu/call_waiter', type='json', auth='public', methods=['POST'])
-    def call_waiter(self, restaurant_id, table_id, call_type='waiter', custom_message='', **kwargs):
-        restaurant = request.env['qr.menu.restaurant'].sudo().browse(int(restaurant_id))
-        table = request.env['qr.menu.table'].sudo().browse(int(table_id))
+    def call_waiter(self, restaurant_id=None, table_id=None, call_type='waiter', custom_message='', **kwargs):
+        _logger.info('[QR-WaiterCall] call_waiter called — restaurant_id=%s, table_id=%s, call_type=%s, custom_message=%r',
+                     restaurant_id, table_id, call_type, custom_message)
+
+        if not restaurant_id or not table_id:
+            _logger.warning('[QR-WaiterCall] Missing restaurant_id or table_id')
+            return {'error': 'Restoran veya masa bilgisi eksik.'}
+
+        try:
+            restaurant = request.env['qr.menu.restaurant'].sudo().browse(int(restaurant_id))
+            table = request.env['qr.menu.table'].sudo().browse(int(table_id))
+        except (ValueError, TypeError) as e:
+            _logger.error('[QR-WaiterCall] Invalid ID format: %s', e)
+            return {'error': 'Geçersiz restoran veya masa ID formatı.'}
 
         if not restaurant.exists() or not table.exists():
+            _logger.warning('[QR-WaiterCall] Restaurant or table not found — restaurant.exists=%s, table.exists=%s',
+                           restaurant.exists(), table.exists())
             return {'error': 'Geçersiz restoran veya masa.'}
 
         if table.restaurant_id.id != restaurant.id:
+            _logger.warning('[QR-WaiterCall] Table %s does not belong to restaurant %s (belongs to %s)',
+                           table.id, restaurant.id, table.restaurant_id.id)
             return {'error': 'Masa bu restorana ait değil.'}
 
-        call = request.env['qr.menu.waiter.call'].sudo().create({
-            'restaurant_id': restaurant.id,
-            'table_id': table.id,
-            'call_type': call_type,
-            'custom_message': custom_message or False,
-        })
+        try:
+            call = request.env['qr.menu.waiter.call'].sudo().create({
+                'restaurant_id': restaurant.id,
+                'table_id': table.id,
+                'call_type': call_type,
+                'custom_message': custom_message or False,
+            })
+            _logger.info('[QR-WaiterCall] Call created successfully — call_id=%s, table=%s, type=%s',
+                        call.id, table.name, call_type)
+        except Exception as e:
+            _logger.exception('[QR-WaiterCall] Failed to create waiter call: %s', e)
+            return {'error': 'Çağrı oluşturulamadı. Lütfen tekrar deneyin.'}
 
         return {'success': True, 'call_id': call.id}
 

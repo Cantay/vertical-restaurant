@@ -8,7 +8,7 @@
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
 
-            <div class="qr-menu-container">
+            <div class="qr-menu-container" t-att-data-debug="'1' if restaurant.debug_mode else '0'">
                 <!-- Restaurant Header -->
                 <div class="qr-menu-hero position-relative">
                     <t t-if="restaurant.image_1920">
@@ -80,61 +80,17 @@
                     </div>
                 </div>
 
-                <!-- Waiter Call FAB (only if table-based) -->
+                <!-- Waiter Call FAB + Modals (only if table-based) -->
                 <t t-if="table">
                     <button class="qr-menu-fab js-qr-waiter-call-btn"
                             t-att-data-restaurant-id="restaurant.id"
                             t-att-data-table-id="table.id">
                         <i class="ri-user-voice-line"></i>
                     </button>
+
+                    <t t-call="ronix_qr_menu.qr_waiter_call_modals"/>
                 </t>
             </div>
-
-            <!-- Waiter Call Modal -->
-            <t t-if="table">
-                <div class="modal fade" id="waiterCallModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content border-0 rounded-4 shadow">
-                            <div class="modal-header border-0 pb-0">
-                                <h6 class="modal-title fw-bold">Garson Çağır</h6>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="d-grid gap-2">
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="waiter">
-                                        <i class="ri-user-voice-line me-2"></i>Garson Çağır
-                                    </button>
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="bill">
-                                        <i class="ri-bill-line me-2"></i>Hesap İste
-                                    </button>
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="water">
-                                        <i class="ri-drop-line me-2"></i>Su İste
-                                    </button>
-                                </div>
-                                <div class="mt-3">
-                                    <textarea class="form-control js-qr-custom-message" rows="2"
-                                              placeholder="Özel istek yazın (opsiyonel)..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Success Modal -->
-                <div class="modal fade" id="waiterCallSuccessModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content border-0 rounded-4 shadow text-center p-4">
-                            <div class="mb-3">
-                                <div class="qr-menu-success-icon mx-auto">
-                                    <i class="ri-checkbox-circle-fill"></i>
-                                </div>
-                            </div>
-                            <h6 class="fw-bold">İsteğiniz İletildi!</h6>
-                            <p class="text-muted small mb-0">Garsonunuz en kısa sürede gelecektir.</p>
-                        </div>
-                    </div>
-                </div>
-            </t>
         </t>
     </template>
 
@@ -146,7 +102,7 @@
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
 
-            <div class="qr-menu-container">
+            <div class="qr-menu-container" t-att-data-debug="'1' if restaurant.debug_mode else '0'">
                 <!-- Back Header -->
                 <div class="qr-menu-top-bar">
                     <a t-att-href="'/qr-menu/%s%s' % (restaurant.id, ('?table_id=%s' % table.id) if table else '')"
@@ -207,15 +163,65 @@
                     </t>
                 </div>
 
-                <!-- Waiter Call FAB -->
+                <!-- Waiter Call FAB + Modals -->
                 <t t-if="table">
                     <button class="qr-menu-fab js-qr-waiter-call-btn"
                             t-att-data-restaurant-id="restaurant.id"
                             t-att-data-table-id="table.id">
                         <i class="ri-user-voice-line"></i>
                     </button>
+
+                    <t t-call="ronix_qr_menu.qr_waiter_call_modals"/>
                 </t>
             </div>
         </t>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- SHARED: Waiter Call Modals (reused across all pages)          -->
+    <!-- ============================================================ -->
+    <template id="qr_waiter_call_modals" name="QR Waiter Call Modals">
+        <div class="modal fade" id="waiterCallModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 rounded-4 shadow">
+                    <div class="modal-header border-0 pb-0">
+                        <h6 class="modal-title fw-bold">Garson Çağır</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="waiter">
+                                <i class="ri-user-voice-line me-2"></i>Garson Çağır
+                            </button>
+                            <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="bill">
+                                <i class="ri-bill-line me-2"></i>Hesap İste
+                            </button>
+                            <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="water">
+                                <i class="ri-drop-line me-2"></i>Su İste
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <textarea class="form-control js-qr-custom-message" rows="2"
+                                      placeholder="Özel istek yazın (opsiyonel)..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="waiterCallSuccessModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 rounded-4 shadow text-center p-4">
+                    <div class="mb-3">
+                        <div class="qr-menu-success-icon mx-auto">
+                            <i class="ri-checkbox-circle-fill"></i>
+                        </div>
+                    </div>
+                    <h6 class="fw-bold">İsteğiniz İletildi!</h6>
+                    <p class="text-muted small mb-0">Garsonunuz en kısa sürede gelecektir.</p>
+                </div>
+            </div>
+        </div>
     </template>
 </odoo>

@@ -22,6 +22,8 @@ class QrMenuRestaurant(models.Model):
 
     active = fields.Boolean(default=True)
     is_open = fields.Boolean(string='Currently Open', default=True)
+    debug_mode = fields.Boolean(string='Debug Mode', default=False,
+                                help='Enable debug logging in the QR menu frontend (browser console).')
 
     table_count = fields.Integer(compute='_compute_table_count', string='Table Count')
     category_count = fields.Integer(compute='_compute_category_count', string='Category Count')

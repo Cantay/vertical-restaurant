@@ -8,7 +8,7 @@
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
 
-            <div class="qr-menu-container">
+            <div class="qr-menu-container" t-att-data-debug="'1' if restaurant.debug_mode else '0'">
                 <!-- Back Header -->
                 <div class="qr-menu-top-bar">
                     <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, item.category_id.id, ('?table_id=%s' % table.id) if table else '')"
@@ -139,13 +139,15 @@
                     </t>
                 </div>
 
-                <!-- Waiter Call FAB -->
+                <!-- Waiter Call FAB + Modals -->
                 <t t-if="table">
                     <button class="qr-menu-fab js-qr-waiter-call-btn"
                             t-att-data-restaurant-id="restaurant.id"
                             t-att-data-table-id="table.id">
                         <i class="ri-user-voice-line"></i>
                     </button>
+
+                    <t t-call="ronix_qr_menu.qr_waiter_call_modals"/>
                 </t>
             </div>
         </t>
