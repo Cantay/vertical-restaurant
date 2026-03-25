@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_food_restaurant_form_pos_bridge" model="ir.ui.view">
+        <field name="name">food.restaurant.form.pos_bridge</field>
+        <field name="model">food.restaurant</field>
+        <field name="inherit_id" ref="ronix_food_delivery.view_food_restaurant_form"/>
+        <field name="arch" type="xml">
+            <!-- Sync-to-POS button in button_box - always visible -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_sync_to_pos"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-desktop">
+                    <span>POS'a Sync</span>
+                </button>
+            </xpath>
+            <!-- POS link field in contact section -->
+            <xpath expr="//group[@name='contact_location']" position="inside">
+                <field name="pos_config_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

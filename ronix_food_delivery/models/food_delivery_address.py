@@ -15,20 +15,22 @@ class FoodDeliveryAddress(models.Model):
     partner_id = fields.Many2one('res.partner', string='Partner', ondelete='cascade', required=True)
     is_default = fields.Boolean(string='Is Default', default=False)
 
-    @api.model
-    def create(self, vals):
-        if vals.get('is_default'):
-            self.search([('partner_id', '=', vals.get('partner_id')), ('is_default', '=', True)]).write({'is_default': False})
-        return super(FoodDeliveryAddress, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('is_default'):
+                self.search([('partner_id', '=', vals.get('partner_id')), ('is_default', '=', True)]).write({'is_default': False})
+        return super().create(vals_list)
 
     def write(self, vals):
         if vals.get('is_default'):
-            self.search([('partner_id', '=', self.partner_id.id), ('is_default', '=', True)]).write({'is_default': False})
-        return super(FoodDeliveryAddress, self).write(vals)
+            for record in self:
+                self.search([('partner_id', '=', record.partner_id.id), ('is_default', '=', True), ('id', '!=', record.id)]).write({'is_default': False})
+        return super().write(vals)
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     food_address_ids = fields.One2many('food.delivery.address', 'partner_id', string='Food Delivery Addresses')
-    current_food_address_id = fields.Many2one('food.delivery.address', string='Current Food Delivery Address', 
+    current_food_address_id = fields.Many2one('food.delivery.address', string='Current Food Delivery Address',
                                              domain="[('partner_id', '=', id)]")

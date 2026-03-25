@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_menu_restaurant_form_pos_bridge" model="ir.ui.view">
+        <field name="name">qr.menu.restaurant.form.pos_bridge</field>
+        <field name="model">qr.menu.restaurant</field>
+        <field name="inherit_id" ref="ronix_qr_menu.view_qr_menu_restaurant_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="pos_config_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

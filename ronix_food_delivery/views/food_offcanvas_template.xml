@@ -22,14 +22,46 @@
                     <span class="fw-semibold text-dark" style="font-size:0.875rem;"><t t-out="food.food_rating"/></span>
                 </div>
             </div>
-            
+
             <p class="food-text-orange fw-medium mb-3" style="font-size:0.75rem;"><t t-out="food.food_restaurant_id.name"/></p>
-            
+
             <p t-if="food.description_sale" class="text-secondary mb-4 lh-base" style="font-size:0.875rem;">
                 <t t-out="food.description_sale"/>
             </p>
 
-            <t t-if="food.food_addon_ids">
+            <!-- Combo Selection UI -->
+            <t t-if="is_combo and combo_choices">
+                <t t-foreach="combo_choices" t-as="combo">
+                    <div class="mb-4 js-food-combo-group" t-att-data-combo-id="combo.id">
+                        <h3 class="food-text-sm fw-bolder text-dark mb-1"><t t-out="combo.name"/></h3>
+                        <p class="text-secondary mb-3" style="font-size:0.625rem;">Birini seçin</p>
+                        <div class="d-flex flex-column gap-2">
+                            <t t-foreach="combo.combo_item_ids" t-as="item">
+                                <div class="d-flex align-items-center justify-content-between p-2 rounded-3 border bg-white combo-item js-food-combo-item"
+                                     t-att-data-combo-id="combo.id"
+                                     t-att-data-combo-item-id="item.id"
+                                     t-att-data-product-id="item.product_id.id"
+                                     t-att-data-extra-price="item.extra_price">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img t-att-alt="item.product_id.name" class="rounded-circle flex-shrink-0" style="width:2rem; height:2rem; object-fit:cover;"
+                                             t-attf-src="/web/image?model=product.product&amp;id=#{item.product_id.id}&amp;field=image_128&amp;format=webp"/>
+                                        <div>
+                                            <p class="mb-0 fw-semibold text-dark lh-1" style="font-size:0.75rem;"><t t-out="item.product_id.name"/></p>
+                                            <p t-if="item.extra_price > 0" class="mb-0 text-secondary mt-1 lh-1" style="font-size:0.625rem;">+$<t t-out="int(item.extra_price)"/></p>
+                                        </div>
+                                    </div>
+                                    <div class="selection-indicator">
+                                        <i class="ri-radio-button-line text-secondary" style="font-size:1.25rem;"></i>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+            <!-- Regular Addon UI (non-combo) -->
+            <t t-if="not is_combo and food.food_addon_ids">
                 <t t-set="addon_groups" t-value="list(set(food.food_addon_ids.mapped('group_name')))"/>
                 <t t-foreach="addon_groups" t-as="group">
                     <div class="mb-4 js-food-addon-group" t-att-data-group-name="group">
@@ -37,8 +69,8 @@
                         <h3 class="food-text-sm fw-bolder text-dark mb-3"><t t-out="group"/></h3>
                         <div class="d-flex flex-column gap-2">
                             <t t-foreach="group_addons" t-as="addon">
-                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 border bg-white addon-item js-food-addon" 
-                         t-att-data-addon-id="addon.id" 
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 border bg-white addon-item js-food-addon"
+                         t-att-data-addon-id="addon.id"
                          t-att-data-extra-price="addon.extra_price"
                          t-att-data-selection-type="addon.selection_type">
                         <div class="d-flex align-items-center gap-2">
@@ -91,7 +123,11 @@
                     </button>
                 </div>
             </div>
-            <button class="btn food-bg-orange text-white fw-bold px-4 py-2 rounded-pill shadow-sm d-flex align-items-center gap-2 js-food-add-to-cart" t-att-data-food-id="food.id" t-att-data-base-price="food.list_price">
+            <button class="btn food-bg-orange text-white fw-bold px-4 py-2 rounded-pill shadow-sm d-flex align-items-center gap-2 js-food-add-to-cart"
+                    t-att-data-food-id="food.id"
+                    t-att-data-base-price="food.list_price"
+                    t-att-data-is-combo="'1' if is_combo else '0'"
+                    t-att-data-combo-count="len(combo_choices) if is_combo else 0">
                 <span>Sepete Ekle</span>
                 <span class="opacity-75">|</span>
                 <span class="js-food-total-price">$<t t-out="int(food.list_price)"/></span>

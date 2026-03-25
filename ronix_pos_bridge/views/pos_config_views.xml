@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_form_pos_bridge" model="ir.ui.view">
+        <field name="name">pos.config.form.pos_bridge</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='title']" position="after">
+                <div class="row mt-3 mb-3 p-3" style="background-color: #f8f9fa; border-radius: 8px;">
+                    <div class="col-12">
+                        <h3 class="mb-2">
+                            <i class="fa fa-exchange me-2"></i>Entegrasyon Sync
+                        </h3>
+                        <div class="d-flex gap-2 flex-wrap align-items-center">
+                            <button name="action_sync_to_food_delivery"
+                                    type="object"
+                                    class="btn btn-outline-primary"
+                                    icon="fa-cutlery"
+                                    string="Food Delivery'ye Sync"/>
+                            <button name="action_sync_from_food_delivery"
+                                    type="object"
+                                    class="btn btn-outline-info"
+                                    icon="fa-download"
+                                    string="Food Delivery'den Çek"
+                                    invisible="not food_restaurant_id"/>
+                            <button name="action_sync_tables_to_qr_menu"
+                                    type="object"
+                                    class="btn btn-outline-success"
+                                    icon="fa-qrcode"
+                                    string="Masaları QR Menüye Sync"/>
+                            <button name="action_sync_all"
+                                    type="object"
+                                    class="btn btn-primary"
+                                    icon="fa-refresh"
+                                    string="Tam Sync (POS → Food → QR)"/>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <group>
+                            <field name="food_restaurant_id" readonly="1"/>
+                            <field name="qr_menu_restaurant_id" readonly="1"/>
+                        </group>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

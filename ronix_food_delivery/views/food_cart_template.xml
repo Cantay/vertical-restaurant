@@ -13,7 +13,7 @@
                     <div class="fixed-top bg-white px-3 py-3 shadow-sm z-index-1030">
                         <div class="d-flex align-items-center justify-content-between">
                             <h1 class="h6 fw-bold text-dark mb-0">Sepetim</h1>
-                            <span class="food-text-xs text-secondary js-food-cart-count-summary"><t t-out="int(sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')) if order else 0)"/> ürün</span>
+                            <span class="food-text-xs text-secondary js-food-cart-count-summary"><t t-out="int(sum(order.order_line.filtered(lambda l: l.product_id.is_food and not l.combo_item_id).mapped('product_uom_qty')) if order else 0)"/> ürün</span>
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@
                         </div>
 
                         <div t-if="order and order.order_line" class="d-flex flex-column gap-3 js-food-cart-items">
-                            <t t-foreach="order.order_line.filtered(lambda l: l.product_id.is_food)" t-as="line">
+                            <t t-foreach="order.order_line.filtered(lambda l: l.product_id.is_food and not l.combo_item_id)" t-as="line">
                                 <div class="bg-white food-rounded-2xl p-3 shadow-sm d-flex gap-3 js-food-cart-item" t-att-data-line-id="line.id">
                                     <div class="food-w-14 food-h-14 food-rounded-xl overflow-hidden flex-shrink-0">
                                         <img t-att-alt="line.product_id.name" class="w-100 h-100 object-fit-cover object-top" t-attf-src="/web/image?model=product.product&amp;id=#{line.product_id.id}&amp;field=image_128&amp;format=webp"/>
@@ -37,7 +37,20 @@
                                     <div class="flex-grow-1" style="min-width: 0;">
                                         <h3 class="food-text-sm fw-bolder text-dark text-truncate mb-0"><t t-out="line.product_id.name"/></h3>
                                         <p class="food-text-xs text-secondary text-truncate mb-1 fw-medium"><t t-out="line.product_id.product_tmpl_id.food_restaurant_id.name"/></p>
-                                        
+
+                                        <!-- Combo child items -->
+                                        <div t-if="line.linked_line_ids" class="d-flex flex-wrap align-items-center gap-1 mb-1">
+                                            <t t-foreach="line.linked_line_ids.filtered(lambda cl: cl.combo_item_id)" t-as="child_line">
+                                                <div class="d-flex align-items-center gap-1 bg-light px-2 py-0-5 rounded-pill border">
+                                                    <i class="ri-restaurant-line food-text-orange" style="font-size:0.6rem;"></i>
+                                                    <span class="text-secondary fw-medium" style="font-size:0.6rem;">
+                                                        <t t-out="child_line.product_id.name"/>
+                                                        <t t-if="child_line.combo_item_id.extra_price > 0"> (+$<t t-out="'%.2f' % child_line.combo_item_id.extra_price"/>)</t>
+                                                    </span>
+                                                </div>
+                                            </t>
+                                        </div>
+
                                         <!-- Addons -->
                                         <div t-if="line.food_line_addon_ids" class="d-flex flex-wrap align-items-center gap-1 mb-1">
                                             <t t-foreach="line.food_line_addon_ids" t-as="line_addon">
@@ -52,7 +65,13 @@
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-between mt-1 pt-1">
-                                            <span class="food-text-sm fw-bold food-text-orange">$<t t-out="'%.2f' % line.price_total"/></span>
+                                            <!-- For combo: price = sum of child lines; for regular: line.price_total -->
+                                            <t t-if="line.product_id.type == 'combo'">
+                                                <span class="food-text-sm fw-bold food-text-orange js-food-cart-line-price">$<t t-out="'%.2f' % sum(line.linked_line_ids.mapped('price_total'))"/></span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="food-text-sm fw-bold food-text-orange js-food-cart-line-price">$<t t-out="'%.2f' % line.price_total"/></span>
+                                            </t>
                                             <div class="d-flex align-items-center gap-2">
                                                 <button class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center js-food-cart-qty-minus" style="width:1.75rem; height:1.75rem;">
                                                     <i class="ri-subtract-line text-secondary food-text-sm"></i>

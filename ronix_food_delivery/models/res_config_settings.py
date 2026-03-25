@@ -28,7 +28,7 @@ class ResConfigSettings(models.TransientModel):
     def action_unload_demo_data(self):
         self.env['food.demo.data.loader'].unload_demo_data()
         self.env['ir.config_parameter'].sudo().set_param(
-            'ronix_food_delivery.demo_data_loaded', 'False'
+            'ronix_food_delivery.demo_data_loaded', ''
         )
         return {
             'type': 'ir.actions.client',
