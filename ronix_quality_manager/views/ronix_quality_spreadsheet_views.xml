@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_spreadsheet_document_list" model="ir.ui.view">
+        <field name="name">ronix.quality.spreadsheet.document.list</field>
+        <field name="model">ronix.quality.spreadsheet.document</field>
+        <field name="arch" type="xml">
+            <list string="Excel Editor" default_order="write_date desc, id desc">
+                <field name="name"/>
+                <field name="upload_filename"/>
+                <field name="sheet_count"/>
+                <field name="row_count"/>
+                <field name="last_saved_on"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_spreadsheet_document_form" model="ir.ui.view">
+        <field name="name">ronix.quality.spreadsheet.document.form</field>
+        <field name="model">ronix.quality.spreadsheet.document</field>
+        <field name="arch" type="xml">
+            <form string="Excel Editor">
+                <header>
+                    <button name="action_open_editor"
+                            string="Frontend Editor"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <button name="action_open_google_sheets"
+                            string="Linki Ac"
+                            type="object"
+                            class="btn btn-secondary"
+                            invisible="not google_sheets_url"/>
+                    <button name="action_download_workbook"
+                            string="Excel Indir"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <button name="action_reparse_workbook"
+                            string="Dosyayi Tekrar Oku"
+                            type="object"
+                            class="btn btn-secondary"
+                            groups="ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="upload_file" filename="upload_filename" widget="binary"/>
+                            <field name="upload_filename"/>
+                            <field name="google_sheets_url" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="sheet_count" readonly="1"/>
+                            <field name="row_count" readonly="1"/>
+                            <field name="last_saved_on" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="editor_url" widget="url" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="download_url" widget="url" readonly="1"/>
+                            <field name="google_sheets_url" widget="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Workbook JSON">
+                            <field name="sheet_data_json" widget="text" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_spreadsheet_document_search" model="ir.ui.view">
+        <field name="name">ronix.quality.spreadsheet.document.search</field>
+        <field name="model">ronix.quality.spreadsheet.document</field>
+        <field name="arch" type="xml">
+            <search string="Excel Editor">
+                <field name="name"/>
+                <field name="upload_filename"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_spreadsheet_document" model="ir.actions.act_window">
+        <field name="name">Excel Editor</field>
+        <field name="res_model">ronix.quality.spreadsheet.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_spreadsheet_document_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

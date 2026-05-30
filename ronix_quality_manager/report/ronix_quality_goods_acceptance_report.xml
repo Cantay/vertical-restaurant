@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_goods_acceptance_report" model="report.paperformat">
+        <field name="name">Mal Kabul Formu - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_goods_acceptance_form" model="ir.actions.report">
+        <field name="name">Mal Kabul Formu PDF</field>
+        <field name="model">ronix.quality.goods.acceptance.form</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ronix_quality_manager.report_goods_acceptance_form_template</field>
+        <field name="report_file">ronix_quality_manager.report_goods_acceptance_form_template</field>
+        <field name="print_report_name">'Mal Kabul Formu - %s' % (object.first_line_date or object.id)</field>
+        <field name="paperformat_id" ref="paperformat_goods_acceptance_report"/>
+        <field name="binding_model_id" ref="model_ronix_quality_goods_acceptance_form"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_goods_acceptance_form_template">
+        <t t-call="web.basic_layout">
+            <style>
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    font-family: 'DejaVu Sans', Arial, sans-serif !important;
+                    color: #1f2937;
+                    background: #ffffff !important;
+                }
+                @page {
+                    size: A4 landscape;
+                    margin: 8mm;
+                }
+                .page {
+                    padding: 0;
+                    page-break-after: always;
+                }
+                .page:last-child {
+                    page-break-after: auto;
+                }
+                .sheet {
+                    border: 1px solid #111827;
+                    background: #ffffff;
+                }
+                .sheet table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    table-layout: fixed;
+                }
+                .sheet td, .sheet th {
+                    border: 1px solid #111827;
+                    padding: 4px 5px;
+                    font-size: 8px;
+                    vertical-align: middle;
+                    word-wrap: break-word;
+                }
+                .title {
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-align: center;
+                    padding: 8px 0;
+                    background: #f3f4f6;
+                }
+                .meta-label {
+                    background: #e5e7eb;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    text-align: center;
+                }
+                .line-header {
+                    background: #dbeafe;
+                    font-weight: 700;
+                    text-align: center;
+                }
+                .center {
+                    text-align: center;
+                }
+                .note-table td {
+                    font-size: 7px;
+                    padding: 3px 5px;
+                }
+                .note-label {
+                    font-weight: 700;
+                }
+                .doc-meta td {
+                    font-size: 7px;
+                    padding: 3px 5px;
+                    font-weight: 700;
+                }
+            </style>
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div class="sheet">
+                        <table>
+                            <tr>
+                                <td rowspan="2" class="center"><strong>JUJU</strong></td>
+                                <td colspan="11" class="title">MAL KABUL FORMU</td>
+                            </tr>
+                            <tr>
+                                <td class="meta-label">Islemi Yapan</td>
+                                <td colspan="6"><t t-esc="doc.operator_name or ''"/></td>
+                                <td class="meta-label">Tarih</td>
+                                <td colspan="4" class="center">
+                                    <t t-esc="doc.first_line_date and doc.first_line_date.strftime('%d/%m/%Y') or ''"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <colgroup>
+                                <col style="width: 7%;"/>
+                                <col style="width: 14%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 6%;"/>
+                                <col style="width: 6%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 12%;"/>
+                            </colgroup>
+                            <tr>
+                                <td class="line-header">Tarih</td>
+                                <td class="line-header">Urun (Isim - Marka)</td>
+                                <td class="line-header">Parti No</td>
+                                <td class="line-header">Uretim Tarihi</td>
+                                <td class="line-header">Son Kullanma Tarihi</td>
+                                <td class="line-header">Arac Hijyen</td>
+                                <td class="line-header">Ambalaj Hijyen</td>
+                                <td class="line-header">Tedarikci Firma</td>
+                                <td class="line-header">Arac Sicaklik</td>
+                                <td class="line-header">Urun Sicaklik</td>
+                                <td class="line-header">Kabul Kriteri</td>
+                                <td class="line-header">Aciklama</td>
+                            </tr>
+                            <t t-foreach="doc.line_ids" t-as="line">
+                                <tr>
+                                    <td class="center"><t t-esc="line.line_date and line.line_date.strftime('%d/%m/%Y') or ''"/></td>
+                                    <td><t t-esc="line.product_name_brand or ''"/></td>
+                                    <td class="center"><t t-esc="line.batch_no or ''"/></td>
+                                    <td class="center"><t t-esc="line.production_date and line.production_date.strftime('%d/%m/%Y') or ''"/></td>
+                                    <td class="center"><t t-esc="line.expiry_date and line.expiry_date.strftime('%d/%m/%Y') or ''"/></td>
+                                    <td class="center">
+                                        <t t-esc="dict(line.HYGIENE_SELECTION).get(line.vehicle_hygiene, '')"/>
+                                    </td>
+                                    <td class="center">
+                                        <t t-esc="dict(line.HYGIENE_SELECTION).get(line.packaging_hygiene, '')"/>
+                                    </td>
+                                    <td><t t-esc="line.supplier_name or ''"/></td>
+                                    <td class="center"><t t-esc="line.vehicle_temperature if line.vehicle_temperature not in (False, None) else ''"/></td>
+                                    <td class="center"><t t-esc="line.product_temperature if line.product_temperature not in (False, None) else ''"/></td>
+                                    <td class="center">
+                                        <t t-esc="dict(line.ACCEPTANCE_SELECTION).get(line.acceptance_status, '')"/>
+                                    </td>
+                                    <td><t t-esc="line.description or ''"/></td>
+                                </tr>
+                            </t>
+                            <t t-if="not doc.line_ids">
+                                <tr>
+                                    <td colspan="12" class="center">Satir bulunamadi.</td>
+                                </tr>
+                            </t>
+                        </table>
+                        <table class="note-table">
+                            <tr>
+                                <td colspan="12">Soguk zincirle gelen gidalarin sicakligi Max 8 C, Donmus olarak gelen gidalarin sicakligi ise Min -15 C'dir.</td>
+                            </tr>
+                            <tr>
+                                <td colspan="8"><span class="note-label">RED:</span> Max 8 C ve Min -15 C'nin disinda, paketleme ve diger konularla ilgili Kabul-Ret kosullarina bakiniz.</td>
+                                <td colspan="4"><span class="note-label">SARTLI KABUL:</span> Girdi Kontrol Talimatinda anlatilan sartli kabul kriterlerine uygun hareket edilir.</td>
+                            </tr>
+                            <tr>
+                                <td colspan="12">Parti no.sunun okunamadigi veya olmadigi durumlarda, urun uzerindeki kod Parti No. hanesine yazilacaktir.</td>
+                            </tr>
+                        </table>
+                        <table class="doc-meta">
+                            <tr>
+                                <td>Dokuman No: SA.FR.03</td>
+                                <td class="center">Yayin Tarihi: 01.01.2023</td>
+                                <td class="center">REV: 00/-</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

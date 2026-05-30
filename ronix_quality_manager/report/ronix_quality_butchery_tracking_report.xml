@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_butchery_tracking_report" model="report.paperformat">
+        <field name="name">Kasaphane Ürün İzleme Formu - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_butchery_tracking_form" model="ir.actions.report">
+        <field name="name">Kasaphane Ürün İzleme Formu PDF</field>
+        <field name="model">ronix.quality.butchery.tracking.form</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ronix_quality_manager.report_butchery_tracking_form_template</field>
+        <field name="report_file">ronix_quality_manager.report_butchery_tracking_form_template</field>
+        <field name="print_report_name">'Kasaphane Ürün İzleme Formu - %s' % (object.tracking_date or '')</field>
+        <field name="paperformat_id" ref="paperformat_butchery_tracking_report"/>
+        <field name="binding_model_id" ref="model_ronix_quality_butchery_tracking_form"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_butchery_tracking_form_template">
+        <t t-call="web.basic_layout">
+            <style>
+                html, body { margin: 0 !important; padding: 0 !important; font-family: 'DejaVu Sans', Arial, sans-serif !important; color: #000; background: #fff !important; }
+                @page { size: A4 landscape; margin: 8mm; }
+                .page { padding: 0; page-break-after: always; }
+                .page:last-child { page-break-after: auto; }
+                .sheet { border: 1px solid #000; background: #fff; }
+                .sheet table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+                .sheet td, .sheet th { border: 1px solid #000; padding: 3px 4px; font-size: 8px; vertical-align: middle; word-wrap: break-word; line-height: 1.18; }
+                .title { font-size: 17px; font-weight: 700; text-align: center; padding: 7px 0; }
+                .date { font-size: 16px; font-weight: 700; text-align: left; padding: 5px 4px; }
+                .head { background: #e6e6e6; font-weight: 700; text-align: center; }
+                .sub { font-size: 7px; font-weight: 700; line-height: 1.15; }
+                .center { text-align: center; }
+                .line-row td { height: 33px; }
+                .note-table td { font-size: 7px; font-weight: 700; line-height: 1.2; padding: 3px 4px; }
+                .sign-table td { height: 22px; font-size: 13px; font-weight: 700; }
+            </style>
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div class="sheet">
+                        <table>
+                            <tr>
+                                <td class="center" style="width:10%;"><strong>JUJU</strong><br/><span class="sub">PREMIER PALACE</span></td>
+                                <td class="title">KASAPHANE ÇÖZDÜRME - ÜRÜN İZLEME FORMU</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="date">Tarih: <t t-esc="doc.tracking_date or ''"/></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <colgroup>
+                                <col style="width: 10%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 6.5%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 7.5%;"/>
+                                <col style="width: 6%;"/>
+                                <col style="width: 7.5%;"/>
+                                <col style="width: 7%;"/>
+                                <col style="width: 6%;"/>
+                                <col style="width: 7.5%;"/>
+                                <col style="width: 11%;"/>
+                                <col style="width: 8%;"/>
+                            </colgroup>
+                            <tr>
+                                <td colspan="4" class="head">Ürün</td>
+                                <td colspan="2" class="head">Çözdürme Ortamı</td>
+                                <td colspan="3" class="head">KKN 1 - Çözdürme Başlangıç</td>
+                                <td colspan="3" class="head">KKN 1 - Çözdürme Bitiş</td>
+                                <td class="head">Verildiği Bölüm</td>
+                                <td rowspan="2" class="head">İşlemi Yapan Adı Soyadı</td>
+                            </tr>
+                            <tr>
+                                <td class="head">Ürünün Adı</td>
+                                <td class="head">Marka</td>
+                                <td class="head sub">Ürün Parti Numarası</td>
+                                <td class="head sub">Son Kullanma Tarihi</td>
+                                <td class="head sub">Soğuk Oda</td>
+                                <td class="head sub">Akar Su</td>
+                                <td class="head">Tarih</td>
+                                <td class="head">Saat</td>
+                                <td class="head sub">Çözdürme Ürün Başlangıç Sıcaklığı (C)</td>
+                                <td class="head">Tarih</td>
+                                <td class="head">Saat</td>
+                                <td class="head sub">Çözdürme Ürün Bitiş Sıcaklığı (C)</td>
+                                <td class="head sub">Hangi Bölüm</td>
+                            </tr>
+                            <t t-set="lines" t-value="doc.line_ids"/>
+                            <t t-foreach="range(max(len(lines), 8))" t-as="line_index">
+                                <t t-set="line" t-value="lines[line_index] if line_index &lt; len(lines) else False"/>
+                                <tr class="line-row">
+                                    <td><t t-esc="line.product_name if line else ''"/></td>
+                                    <td><t t-esc="line.brand_name if line else ''"/></td>
+                                    <td><t t-esc="line.batch_no if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.expiry_date if line else ''"/></td>
+                                    <td class="center"><t t-esc="'X' if line and line.cold_room else ''"/></td>
+                                    <td class="center"><t t-esc="'X' if line and line.running_water else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_start_date if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_start_time if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_start_temperature if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_end_date if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_end_time if line else ''"/></td>
+                                    <td class="center"><t t-esc="line.thaw_end_temperature if line else ''"/></td>
+                                    <td><t t-esc="', '.join(line.delivered_section.mapped('name')) if line and line.delivered_section else ''"/></td>
+                                    <td><t t-esc="doc.operator_name if line_index == 0 else ''"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                        <table class="note-table">
+                            <tr>
+                                <td>Kasaphane sorumlusu tarafından sayılarına ve menüde hazırlanacak yemeklere göre etler büyüklük ve çeşidine göre max 48 saat önceden çözdürme dolabına alınmalıdır. Diri çözdürme işlemi maksimum +2 C'de soğuk oda/soğutucu dolapta, gıdanın çözdürme suyu ile temasını engelleyecek şekilde süzülüp kaplarda/arabalarda yapılmalıdır. Ancak acil durumlarda su ile çözdürme yapılacaksa etler ambalajlı, su ile çözdürme yapılan durumlarda sıcaklığı maksimum +21 C olmalı, su sürekli akmalı, gıda su ile temas etmemelidir. Donmuş gıdanın tamamen çözülmesi için iç merkez sıcaklığının 0 C'nin üzerinde olması gerekmektedir. Çözdürme Ortamı; Soğuk Oda ya da Akar Soğuk Su şeklinde belirtilebilir. Çözdürme sonrası ilgili gıdanın depoda bekleme süresi maksimum 24 saattir. Çözdürülen gıdalar kesinlikle tekrar dondurulmazlar.</td>
+                            </tr>
+                        </table>
+                        <table class="sign-table">
+                            <tr>
+                                <td>Kontrol Eden:</td>
+                                <td>Onaylayan:</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

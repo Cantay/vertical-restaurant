@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ronix_pwa_apps"
+              name="PWA Apps"
+              parent="website.menu_website_global_configuration"
+              action="action_ronix_pwa_app"
+              sequence="55"
+              groups="base.group_system"/>
+</odoo>

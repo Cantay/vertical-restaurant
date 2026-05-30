@@ -8,10 +8,10 @@
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
 
-            <div class="qr-menu-container" t-att-data-debug="'1' if restaurant.debug_mode else '0'">
+            <div class="qr-menu-container">
                 <!-- Back Header -->
                 <div class="qr-menu-top-bar">
-                    <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, item.category_id.id, ('?table_id=%s' % table.id) if table else '')"
+                    <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, (item.category_id.parent_id.id or item.category_id.id), ('?table_id=%s' % table.id) if table else '')"
                        class="text-dark text-decoration-none">
                         <i class="ri-arrow-left-line fs-5 me-2"></i>
                     </a>
@@ -21,7 +21,7 @@
                 <!-- Item Image -->
                 <div class="qr-menu-detail-hero">
                     <t t-if="item.image_1920">
-                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920' % item.id"
+                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920/800x600' % item.id"
                              class="w-100" style="max-height: 300px; object-fit: cover;" t-att-alt="item.name"/>
                     </t>
                 </div>
@@ -139,16 +139,15 @@
                     </t>
                 </div>
 
-                <!-- Waiter Call FAB + Modals -->
+                <!-- Waiter Call FAB -->
                 <t t-if="table">
                     <button class="qr-menu-fab js-qr-waiter-call-btn"
                             t-att-data-restaurant-id="restaurant.id"
                             t-att-data-table-id="table.id">
                         <i class="ri-user-voice-line"></i>
                     </button>
-
-                    <t t-call="ronix_qr_menu.qr_waiter_call_modals"/>
                 </t>
+                <t t-call="ronix_qr_menu.qr_menu_waiter_call_modal_template"/>
             </div>
         </t>
     </template>

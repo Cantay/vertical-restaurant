@@ -356,7 +356,7 @@ class SaleOrder(models.Model):
                     full_log.append("Payment successful and order confirmed.")
                 except Exception as e_tx:
                     full_log.append(f"Odoo transaction creation failed: {str(e_tx)}")
-                    _logger.exception("Odoo transaction creation failed")
+                    self._cr.rollback()
             else:
                 error_msg = intent.get("last_payment_error", {}).get("message", "Payment failed")
                 full_log.append(f"Stripe status: {status}. Error: {error_msg}")

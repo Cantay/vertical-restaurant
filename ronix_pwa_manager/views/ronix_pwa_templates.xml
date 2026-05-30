@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ronix_pwa_injection" inherit_id="website.layout" name="Ronix PWA Injection">
+        <xpath expr="//head" position="inside">
+            <t t-set="ronix_pwa_model_available" t-value="bool(request and request.env and request.env.registry.models.get('ronix.pwa.app'))"/>
+            <t t-set="ronix_pwa_app" t-value="ronix_pwa_model_available and request.env['ronix.pwa.app'].sudo().get_pwa_for_request_path(request.httprequest.path, request.website) or False"/>
+            <t t-if="ronix_pwa_app">
+                <link rel="manifest" t-att-href="ronix_pwa_app.manifest_url"/>
+                <meta name="theme-color" t-att-content="ronix_pwa_app.theme_color or '#9f1d35'"/>
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+                <meta name="apple-mobile-web-app-title" t-att-content="ronix_pwa_app.short_name or ronix_pwa_app.name"/>
+                <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+                <link rel="apple-touch-icon" t-att-href="'/ronix/pwa/%s/icon/180.png' % ronix_pwa_app.id"/>
+                <link rel="icon" type="image/png" sizes="192x192" t-att-href="'/ronix/pwa/%s/icon/192.png' % ronix_pwa_app.id"/>
+            </t>
+        </xpath>
+        <xpath expr="//body" position="inside">
+            <t t-set="ronix_pwa_model_available" t-value="bool(request and request.env and request.env.registry.models.get('ronix.pwa.app'))"/>
+            <t t-set="ronix_pwa_app" t-value="ronix_pwa_model_available and request.env['ronix.pwa.app'].sudo().get_pwa_for_request_path(request.httprequest.path, request.website) or False"/>
+            <t t-set="ronix_show_install_button" t-value="bool(ronix_pwa_app and ronix_pwa_app.should_show_install_button_for_request_path(request.httprequest.path))"/>
+            <t t-if="ronix_show_install_button">
+                <div class="o_ronix_pwa_install_root"
+                     data-ronix-pwa-install-root="1"
+                     t-att-data-service-worker-url="ronix_pwa_app.service_worker_url"
+                     t-att-data-scope="ronix_pwa_app.scope_path"
+                     t-att-data-app-name="ronix_pwa_app.name">
+                    <button type="button" class="o_ronix_pwa_install_button" data-ronix-pwa-install-button="1">
+                        <span t-out="ronix_pwa_app.button_label or 'Uygulamayı Ekle'"/>
+                    </button>
+                    <div class="o_ronix_pwa_install_status" data-ronix-pwa-install-status="1" hidden="hidden"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

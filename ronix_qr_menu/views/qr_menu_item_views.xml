@@ -136,5 +136,6 @@
               name="Menu Items"
               parent="menu_qr_menu_root"
               action="action_qr_menu_item"
-              sequence="40"/>
+              sequence="40"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 </odoo>

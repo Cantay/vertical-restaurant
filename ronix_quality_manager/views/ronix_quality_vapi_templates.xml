@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="vapi_injection" inherit_id="website.layout" name="Ronix Quality Vapi Injection">
+        <xpath expr="//body" position="inside">
+            <t t-set="button_model" t-value="request.env['ronix.quality.button']"/>
+            <t t-set="request_path" t-value="request.httprequest.path"/>
+            <t t-set="route_candidates" t-value="button_model._get_request_path_candidates(request_path)"/>
+            <t t-set="app_button" t-value="button_model.get_button_for_request_path(request_path)"/>
+            <script>
+                console.groupCollapsed("[ronix_quality_manager.vapi] direct widget");
+                console.log("page", window.location.href);
+                console.log("requestPath", '<t t-esc="request_path or &quot;&quot;"/>');
+                console.log("routeCandidates", [<t t-foreach="route_candidates" t-as="candidate" t-key="candidate">'<t t-esc="candidate"/>',</t>]);
+                console.log("matchedButtonId", <t t-out="app_button.id if app_button else 'null'"/>);
+                console.log("matchedButtonRoute", '<t t-esc="app_button.mobile_route if app_button else &quot;&quot;"/>');
+                console.log("mode", '<t t-esc="app_button.location_id.vapi_widget_mode if app_button else &quot;hybrid&quot;"/>');
+                console.log("topOffsetPx", <t t-out="app_button.location_id.vapi_offset_top_px if app_button else 88"/>);
+                console.log("rightOffsetPx", <t t-out="app_button.location_id.vapi_offset_right_px if app_button else 24"/>);
+                console.log("iconColor", '<t t-esc="app_button.location_id.vapi_color_icon if app_button else &quot;#F8FAFC&quot;"/>');
+                console.log("vapiEnabled", <t t-out="'true' if app_button and app_button.location_id.vapi_enabled else 'false'"/>);
+                console.groupEnd();
+            </script>
+            <t t-set="is_vapi_allowed" t-value="not app_button.location_id.vapi_page_ids or request_path in app_button.location_id.vapi_page_ids.mapped('url')"/>
+            <t t-if="app_button and app_button.location_id.vapi_enabled and is_vapi_allowed and app_button.location_id.vapi_public_key and app_button.location_id.vapi_assistant_id">
+                <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async="async" type="text/javascript"/>
+                <vapi-widget
+                    id="ronix-quality-vapi-widget"
+                    t-att-public-key="app_button.location_id.vapi_public_key"
+                    t-att-assistant-id="app_button.location_id.vapi_assistant_id"
+                    t-att-mode="app_button.location_id.vapi_widget_mode or 'hybrid'"
+                    position="top-right"
+                    theme="light"
+                    size="compact"
+                    radius="large"
+                    t-att-data-top-offset-px="app_button.location_id.vapi_offset_top_px"
+                    t-att-data-right-offset-px="app_button.location_id.vapi_offset_right_px"
+                    t-att-data-icon-color="app_button.location_id.vapi_color_icon or '#F8FAFC'"
+                    t-att-base-color="app_button.location_id.vapi_color_base or '#F8FAFC'"
+                    t-att-accent-color="app_button.location_id.vapi_color_accent or '#0F766E'"
+                    t-att-button-base-color="app_button.location_id.vapi_color_button_base or '#0F172A'"
+                    t-att-button-accent-color="app_button.location_id.vapi_color_button_accent or '#F8FAFC'"
+                    t-att-main-label="app_button.location_id.vapi_cta_title or 'Call AI'"
+                    start-button-text="Start Voice"
+                    end-button-text="End"
+                    t-att-empty-chat-message="app_button.location_id.vapi_cta_subtitle or 'Send a message to start'"
+                    empty-voice-message="Start a voice conversation"
+                    voice-show-transcript="true"
+                />
+                <script>
+                    (function () {
+                        const widgetId = "ronix-quality-vapi-widget";
+                        let mutationLogCount = 0;
+
+                        function forcePosition(element, topPx, rightPx) {
+                            if (!element || element.nodeType !== 1) {
+                                return false;
+                            }
+                            element.style.setProperty("position", "fixed", "important");
+                            element.style.setProperty("top", topPx + "px", "important");
+                            element.style.setProperty("right", rightPx + "px", "important");
+                            element.style.setProperty("bottom", "auto", "important");
+                            element.style.setProperty("left", "auto", "important");
+                            element.style.setProperty("z-index", "1101", "important");
+                            return true;
+                        }
+
+                        function decorateLauncherIcon(element, iconColor) {
+                            if (!element || element.nodeType !== 1) {
+                                return false;
+                            }
+                            const existingIcon = element.querySelector("i.fa.fa-comments");
+                            if (existingIcon) {
+                                existingIcon.style.color = iconColor;
+                                const existingWrapper = existingIcon.parentElement;
+                                if (existingWrapper) {
+                                    existingWrapper.style.color = iconColor;
+                                }
+                                element.dataset.ronixQualityVapiIconReady = "1";
+                                return true;
+                            }
+                            const svg = element.querySelector("svg");
+                            if (!svg) {
+                                return false;
+                            }
+                            const iconWrapper = svg.parentElement;
+                            if (!iconWrapper) {
+                                return false;
+                            }
+                            iconWrapper.innerHTML = '<i class="fa fa-comments" aria-hidden="true" style="font-size: 20px; line-height: 1; color: ' + iconColor + ';"></i>';
+                            iconWrapper.style.display = "flex";
+                            iconWrapper.style.alignItems = "center";
+                            iconWrapper.style.justifyContent = "center";
+                            iconWrapper.style.width = "28px";
+                            iconWrapper.style.height = "28px";
+                            iconWrapper.style.color = iconColor;
+                            element.dataset.ronixQualityVapiIconReady = "1";
+                            return true;
+                        }
+
+                        function isLauncherCandidate(element) {
+                            if (!element || element.nodeType !== 1) {
+                                return false;
+                            }
+                            const computed = window.getComputedStyle(element);
+                            const rect = element.getBoundingClientRect();
+                            const inlineStyle = (element.getAttribute("style") || "").toLowerCase();
+                            const text = (element.textContent || "").trim();
+                            return computed.position === "fixed" &amp;&amp;
+                                rect.width &gt; 0 &amp;&amp;
+                                rect.height &gt; 0 &amp;&amp;
+                                rect.width &lt;= 420 &amp;&amp;
+                                rect.height &lt;= 120 &amp;&amp;
+                                (
+                                    inlineStyle.includes("top:") ||
+                                    inlineStyle.includes("right:") ||
+                                    inlineStyle.includes("cursor: pointer") ||
+                                    text.includes("Rama Ai") ||
+                                    text.includes("Call AI")
+                                );
+                        }
+
+                        function summarizeElement(element, label) {
+                            if (!element || element.nodeType !== 1) {
+                                return {label: label, exists: false};
+                            }
+                            const computed = window.getComputedStyle(element);
+                            const rect = element.getBoundingClientRect();
+                            return {
+                                label: label,
+                                exists: true,
+                                tagName: element.tagName,
+                                id: element.id || "",
+                                className: String(element.className || ""),
+                                ariaLabel: element.getAttribute("aria-label") || "",
+                                style: element.getAttribute("style") || "",
+                                dataset: Object.assign({}, element.dataset || {}),
+                                rect: {
+                                    top: Math.round(rect.top),
+                                    right: Math.round(rect.right),
+                                    bottom: Math.round(rect.bottom),
+                                    left: Math.round(rect.left),
+                                    width: Math.round(rect.width),
+                                    height: Math.round(rect.height),
+                                },
+                                computed: {
+                                    position: computed.position,
+                                    top: computed.top,
+                                    right: computed.right,
+                                    bottom: computed.bottom,
+                                    left: computed.left,
+                                    zIndex: computed.zIndex,
+                                    display: computed.display,
+                                    visibility: computed.visibility,
+                                    opacity: computed.opacity,
+                                },
+                            };
+                        }
+
+                        function getCandidateElements(widget) {
+                            const candidates = new Set();
+                            if (widget.shadowRoot) {
+                                widget.shadowRoot.querySelectorAll(".vapi-btn, [class*='vapi'], button, [role='button']").forEach((element) => candidates.add(element));
+                            }
+                            widget.querySelectorAll("*").forEach((element) => {
+                                if (isLauncherCandidate(element)) {
+                                    candidates.add(element);
+                                }
+                            });
+                            document.querySelectorAll("body > .vapi-btn, body > [class*='vapi'], body > button, body > div, body > aside").forEach((element) => {
+                                if (isLauncherCandidate(element)) {
+                                    candidates.add(element);
+                                }
+                            });
+                            return Array.from(candidates);
+                        }
+
+                        function logWidgetDiagnostics(reason) {
+                            const widget = document.getElementById(widgetId);
+                            if (!widget) {
+                                console.warn("[ronix_quality_manager.vapi] widget element not found", {reason: reason});
+                                return;
+                            }
+                            const topPx = parseInt(widget.dataset.topOffsetPx || "88", 10);
+                            const rightPx = parseInt(widget.dataset.rightOffsetPx || "24", 10);
+                            const iconColor = widget.dataset.iconColor || "#F8FAFC";
+
+                            const candidates = getCandidateElements(widget);
+                            const candidateSummaries = candidates.map((element, index) => summarizeElement(element, "candidate-" + index));
+                            const shadowChildren = widget.shadowRoot
+                                ? Array.from(widget.shadowRoot.children).map((element, index) => summarizeElement(element, "shadow-child-" + index))
+                                : [];
+
+                            let appliedCount = 0;
+                            candidates.forEach((element) => {
+                                if (forcePosition(element, topPx, rightPx)) {
+                                    appliedCount += 1;
+                                }
+                                decorateLauncherIcon(element, iconColor);
+                            });
+
+                            console.groupCollapsed("[ronix_quality_manager.vapi] offset sync");
+                            console.log("reason", reason);
+                            console.log("targetOffsets", {
+                                topPx: topPx,
+                                rightPx: rightPx,
+                                appliedCount: appliedCount,
+                                hasShadowRoot: Boolean(widget.shadowRoot),
+                                customElementDefined: Boolean(window.customElements &amp;&amp; window.customElements.get &amp;&amp; window.customElements.get("vapi-widget")),
+                            });
+                            console.log("widgetHostBeforeAfter", summarizeElement(widget, "widget-host"));
+                            console.log("widgetOuterHTML", widget.outerHTML);
+                            console.log("shadowChildren", shadowChildren);
+                            console.log("candidates", candidateSummaries);
+                            console.log("bodyVapiNodes", Array.from(document.querySelectorAll("body [class*='vapi'], body vapi-widget")).map((element, index) => summarizeElement(element, "body-node-" + index)));
+                            console.groupEnd();
+                        }
+
+                        const scheduleApply = function (reason) {
+                            logWidgetDiagnostics(reason + ":immediate");
+                            window.setTimeout(function () {
+                                logWidgetDiagnostics(reason + ":250ms");
+                            }, 250);
+                            window.setTimeout(function () {
+                                logWidgetDiagnostics(reason + ":1000ms");
+                            }, 1000);
+                        };
+
+                        if (document.readyState === "loading") {
+                            document.addEventListener("DOMContentLoaded", function () {
+                                scheduleApply("dom-content-loaded");
+                            }, {once: true});
+                        } else {
+                            scheduleApply("ready-state-complete");
+                        }
+
+                        if (window.customElements &amp;&amp; window.customElements.whenDefined) {
+                            window.customElements.whenDefined("vapi-widget").then(function () {
+                                scheduleApply("custom-element-defined");
+                            });
+                        }
+
+                        const observer = new MutationObserver(function () {
+                            if (mutationLogCount &lt; 5) {
+                                mutationLogCount += 1;
+                                logWidgetDiagnostics("mutation-" + mutationLogCount);
+                            }
+                        });
+
+                        const startObserver = function () {
+                            if (document.body) {
+                                observer.observe(document.body, {childList: true, subtree: true});
+                            }
+                        };
+
+                        if (document.body) {
+                            startObserver();
+                        } else {
+                            document.addEventListener("DOMContentLoaded", startObserver, {once: true});
+                        }
+                    })();
+                </script>
+            </t>
+        </xpath>
+    </template>
+</odoo>

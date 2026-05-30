@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_online_form_submission_report" model="report.paperformat">
+        <field name="name">Cevrimici Form Tablo Raporu - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_online_form_submission" model="ir.actions.report">
+        <field name="name">Form Tablosu PDF</field>
+        <field name="model">ronix.online.form.submission</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ronix_online_form_manager.rfm_pdf</field>
+        <field name="report_file">ronix_online_form_manager.rfm_pdf</field>
+        <field name="print_report_name">'Form Tablosu - %s' % (object.template_id.name or '')</field>
+        <field name="paperformat_id" ref="paperformat_online_form_submission_report"/>
+        <field name="binding_model_id" ref="model_ronix_online_form_submission"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="rfm_pdf">
+        <t t-call="web.basic_layout">
+            <style>
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    font-family: 'DejaVu Sans', Arial, sans-serif !important;
+                    color: #111827;
+                    background: #ffffff !important;
+                }
+                @page {
+                    size: A4 landscape;
+                    margin: 6mm;
+                }
+                .page {
+                    page-break-after: always;
+                }
+                .page:last-child {
+                    page-break-after: auto;
+                }
+                .report-shell {
+                    width: 100%;
+                }
+                .report-head {
+                    margin-bottom: 10px;
+                }
+                .report-head h2 {
+                    margin: 0 0 4px;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+                .report-head p {
+                    margin: 0;
+                    font-size: 10px;
+                    color: #374151;
+                }
+                .report-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    table-layout: fixed;
+                    background: #ffffff;
+                }
+                .report-table th,
+                .report-table td {
+                    border: 1px solid #1f2937;
+                    padding: 6px 5px;
+                    font-size: 8.5px;
+                    line-height: 1.3;
+                    vertical-align: middle;
+                    word-break: break-word;
+                }
+                .report-table thead th {
+                    background: #d9d9d9;
+                    text-align: center;
+                    font-weight: 700;
+                }
+                .report-table tbody td {
+                    text-align: center;
+                }
+                .report-table tbody tr:nth-child(even) td {
+                    background: #f8fafc;
+                }
+                .report-empty {
+                    padding: 16px;
+                    border: 1px solid #1f2937;
+                    font-size: 10px;
+                }
+            </style>
+
+            <t t-foreach="report_groups" t-as="group">
+                <div class="page">
+                    <div class="report-shell">
+                        <div class="report-head">
+                            <h2 t-esc="group['template'].name"/>
+                            <p>
+                                <strong>Lokasyon:</strong>
+                                <span t-esc="group['template'].location_id.name or ''"/>
+                                <span t-if="group['template'].calendar_field_id">
+                                    |
+                                    <strong>Takvim Tarih Alani:</strong>
+                                    <span t-esc="group['template'].calendar_field_id.name"/>
+                                </span>
+                            </p>
+                        </div>
+
+                        <t t-if="group['rows']">
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Kayit</th>
+                                        <t t-foreach="group['fields']" t-as="field">
+                                            <th t-esc="field.name"/>
+                                        </t>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="group['rows']" t-as="row">
+                                        <tr>
+                                            <td t-esc="row['submission'].name"/>
+                                            <t t-foreach="row['values']" t-as="value">
+                                                <td t-esc="value"/>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <div class="report-empty">Yazdirilacak kayit bulunamadi.</div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

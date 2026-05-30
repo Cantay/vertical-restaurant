@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_information_category_list" model="ir.ui.view">
+        <field name="name">ronix.quality.information.category.list</field>
+        <field name="model">ronix.quality.information.category</field>
+        <field name="arch" type="xml">
+            <list string="Bilgilendirme Kategorileri" default_order="sequence asc, name asc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_information_category_form" model="ir.ui.view">
+        <field name="name">ronix.quality.information.category.form</field>
+        <field name="model">ronix.quality.information.category</field>
+        <field name="arch" type="xml">
+            <form string="Bilgilendirme Kategorisi">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="location_id"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Alt Kategoriler">
+                            <field name="child_ids" context="{'default_parent_id': id}" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="location_id"/>
+                                    <field name="name"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_information_category" model="ir.actions.act_window">
+        <field name="name">Bilgilendirme Kategorileri</field>
+        <field name="res_model">ronix.quality.information.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+
+    <record id="view_ronix_quality_information_list" model="ir.ui.view">
+        <field name="name">ronix.quality.information.list</field>
+        <field name="model">ronix.quality.information</field>
+        <field name="arch" type="xml">
+            <list string="Bilgilendirmeler" default_order="publish_date desc, sequence asc, id desc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id" optional="show"/>
+                <field name="category_id"/>
+                <field name="publish_date"/>
+                <field name="name"/>
+                <field name="attachment_count"/>
+                <field name="website_published"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_information_form" model="ir.ui.view">
+        <field name="name">ronix.quality.information.form</field>
+        <field name="model">ronix.quality.information</field>
+        <field name="arch" type="xml">
+            <form string="Bilgilendirme">
+                <header>
+                    <button name="action_open_website_page"
+                            string="Web Sitesinde Ac"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="website_published" widget="boolean_toggle"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="category_id"/>
+                            <field name="name"/>
+                            <field name="publish_date"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="attachment_count" readonly="1"/>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Icerik">
+                            <field name="body" widget="html"/>
+                        </page>
+                        <page string="Ekler">
+                            <field name="attachment_ids" context="{'default_information_id': id}" mode="list,form">
+                                <list editable="bottom" default_order="sequence asc, id asc">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="datas" filename="datas_fname" widget="binary"/>
+                                    <field name="datas_fname"/>
+                                </list>
+                                <form string="Ek">
+                                    <group>
+                                        <group>
+                                            <field name="sequence"/>
+                                            <field name="name"/>
+                                        </group>
+                                        <group>
+                                            <field name="datas" filename="datas_fname" widget="binary"/>
+                                            <field name="datas_fname"/>
+                                            <field name="download_url" widget="url" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_information_search" model="ir.ui.view">
+        <field name="name">ronix.quality.information.search</field>
+        <field name="model">ronix.quality.information</field>
+        <field name="arch" type="xml">
+            <search string="Bilgilendirmeler">
+                <field name="location_id"/>
+                <field name="category_id"/>
+                <field name="name"/>
+                <field name="publish_date"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Kategori" name="group_category_id" context="{'group_by': 'category_id'}"/>
+                <filter string="Website'de Acik" name="website_published" domain="[('website_published', '=', True)]"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_information" model="ir.actions.act_window">
+        <field name="name">Bilgilendirmeler</field>
+        <field name="res_model">ronix.quality.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_information_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

@@ -13,60 +13,35 @@ export const backendNewOrderAlertService = {
         let globalStopTimeout = null;
         let audioUnlocked = false;
 
-        const isDebug = () => {
-            return window.location.search.includes('ronix_debug=1') || window.location.search.includes('debug=assets');
-        };
-
-        const debugLog = (...args) => {
-            if (isDebug()) {
-                console.log("%c[Ronix Debug]", "color: #dc3545; font-weight: bold;", ...args);
-            }
-        };
-
         const checkNewOrders = async () => {
-            debugLog("Checking for new orders... Last check:", lastCheckTime);
-            
+            const currentController = action.currentController;
+            if (!currentController || !currentController.action) return;
+
+            const actionName = currentController.action.name;
+            const actionId = currentController.action.xml_id || "";
+            if (actionId !== "ronix_food_delivery.action_food_orders" &&
+                actionName !== "Yemek Siparişleri" &&
+                actionName !== "Siparişler" &&
+                actionName !== "Food Orders") return;
+
             try {
                 const result = await rpc("/ronix_food_delivery/check_new_orders", { last_check_time: lastCheckTime });
-                debugLog("RPC result:", result);
-                
-                if (result && result.orders && result.orders.length > 0) {
-                    debugLog(`Found ${result.orders.length} new orders.`);
+                if (result.orders && result.orders.length > 0) {
                     lastCheckTime = result.orders[result.orders.length - 1].date_order;
 
-                    // Refresh list if on order pages
-                    const currentController = action.currentController;
-                    if (currentController && currentController.action) {
-                        const actionName = currentController.action.name;
-                        const actionId = currentController.action.xml_id || "";
-                        
-                        const isOrderPage = actionId === "ronix_food_delivery.action_food_orders" || 
-                                           ["Yemek Siparişleri", "Siparişler", "Food Orders"].includes(actionName);
-                        
-                        if (isOrderPage) {
-                            debugLog("Refreshing list...");
-                            try {
-                                if (currentController.model?.load) await currentController.model.load();
-                                else if (currentController.component?.model?.load) await currentController.component.model.load();
-                                else if (currentController.reload) await currentController.reload();
-                            } catch (e) { 
-                                debugLog("Refresh failed:", e);
-                            }
-                        }
+                    // Refresh list
+                    const controller = action.currentController;
+                    if (controller) {
+                        try {
+                            if (controller.model?.load) await controller.model.load();
+                            else if (controller.component?.model?.load) await controller.component.model.load();
+                            else if (controller.reload) await controller.reload();
+                        } catch (e) { }
                     }
 
-                    result.orders.forEach(order => {
-                        debugLog("Displaying popup for order:", order.name);
-                        showOrderPopup(order, action);
-                    });
-                } else if (result && result.orders) {
-                    debugLog("No new orders found.");
-                } else {
-                    debugLog("Unexpected RPC result format.");
+                    result.orders.forEach(order => showOrderPopup(order, action));
                 }
-            } catch (error) {
-                debugLog("RPC Error:", error);
-            }
+            } catch (error) { }
         };
 
         const playGlobalAudio = () => {
@@ -75,79 +50,49 @@ export const backendNewOrderAlertService = {
                 globalAudio.loop = true;
             }
 
-            debugLog("Attempting to play audio. Unlocked:", audioUnlocked);
+            console.log("[Ronix Audio] Attempting to play...");
             globalAudio.currentTime = 0;
-            globalAudio.volume = 1;
             globalAudio.play().then(() => {
-                debugLog("Audio playback STARTED successfully.");
+                console.log("[Ronix Audio] Playback SUCCESS");
                 audioUnlocked = true;
                 const unlockBanner = document.getElementById('ronix_audio_unlock_banner');
-                if (unlockBanner) unlockBanner.remove();
+                if (unlockBanner) unlockBanner.classList.add('d-none');
             }).catch((error) => {
-                debugLog("Audio playback BLOCKED:", error.name);
+                console.warn("[Ronix Audio] Playback BLOCKED", error.name);
                 showUnlockBanner();
             });
 
             if (globalStopTimeout) clearTimeout(globalStopTimeout);
             globalStopTimeout = setTimeout(() => {
-                if (globalAudio) {
-                    debugLog("Auto-stopping audio after 40s.");
-                    globalAudio.pause();
-                }
+                if (globalAudio) globalAudio.pause();
             }, 40000);
         };
 
         const showUnlockBanner = () => {
             if (document.getElementById('ronix_audio_unlock_banner')) return;
-            debugLog("Showing unlock banner.");
             const banner = document.createElement('div');
             banner.id = 'ronix_audio_unlock_banner';
-            banner.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:2147483647; background:#dc3545; color:white; padding:15px 20px; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:10px; animation: bounceIn 0.5s ease; border: 2px solid rgba(255,255,255,0.5); pointer-events: auto !important; transition: opacity 0.3s ease, transform 0.3s ease;";
+            banner.style.cssText = "display:none;";
             banner.innerHTML = '<i class="fa fa-volume-up fa-2x"></i> <div>SİPARİŞ SESİNİ AKTİF ETMEK İÇİN TIKLAYIN<br><small style="font-size:0.7rem;opacity:0.8;">Tarayıcı güvenliği için ilk tıklama gereklidir.</small></div>';
-            
-            const handleInteraction = (e) => {
-                if (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                debugLog("Banner clicked, priming audio...");
+            banner.onclick = () => {
                 primeAudioInternal();
-                banner.style.opacity = '0';
-                banner.style.transform = 'translateY(10px)';
-                setTimeout(() => banner.remove(), 300);
+                banner.remove();
             };
-
-            banner.addEventListener('click', handleInteraction, true);
-            banner.addEventListener('touchstart', handleInteraction, true);
-            banner.addEventListener('mousedown', handleInteraction, true);
-            
             document.body.appendChild(banner);
         };
 
         const primeAudioInternal = () => {
-            if (audioUnlocked) {
-                debugLog("Audio already unlocked, skipping prime.");
-                return;
-            }
             if (!globalAudio) {
                 globalAudio = new Audio("/ronix_food_delivery/static/src/sound/ring_sound.mp3");
                 globalAudio.loop = true;
             }
-            debugLog("Priming audio system...");
             globalAudio.volume = 0;
             globalAudio.play().then(() => {
-                debugLog("Audio system PRIMED successfully.");
+                console.log("[Ronix Audio] System Unlocked via manual click");
                 globalAudio.pause();
                 globalAudio.volume = 1;
                 audioUnlocked = true;
-                const banner = document.getElementById('ronix_audio_unlock_banner');
-                if (banner) {
-                    banner.style.opacity = '0';
-                    setTimeout(() => banner.remove(), 300);
-                }
-            }).catch((e) => {
-                debugLog("Audio priming FAILED:", e);
-            });
+            }).catch(e => console.error("[Ronix Audio] Failed to unlock even with click:", e));
         };
 
         const showOrderPopup = (order, actionService) => {
@@ -177,12 +122,12 @@ export const backendNewOrderAlertService = {
                 document.head.appendChild(style);
             }
 
-            const formattedTotal = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(order.amount_total);
+            const formattedTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(order.amount_total);
             let linesHtml = order.lines.map(l => `
                 <div class="food-alert-line-item border-bottom">
                     <div class="d-flex justify-content-between align-items-center">
                         <span><span class="fw-bold text-primary">${l.qty}x</span> ${l.name}</span>
-                        <span class="fw-bold">${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(l.price_total)}</span>
+                        <span class="fw-bold">$${l.price_total.toFixed(2)}</span>
                     </div>
                     ${l.addons.length > 0 ? `<div class="mt-1">${l.addons.map(a => `<div class="food-addon-item"><i class="fa fa-plus me-1 opacity-50"></i>${a.qty}x ${a.name}</div>`).join('')}</div>` : ''}
                 </div>
@@ -226,10 +171,7 @@ export const backendNewOrderAlertService = {
             container.appendChild(popup);
 
             const dismissPopup = async () => {
-                debugLog("Dismissing popup for order:", order.name);
-                rpc("/ronix_food_delivery/acknowledge_order_alert", { order_id: order.id }).catch((e) => {
-                    debugLog("Acknowledge failed:", e);
-                });
+                rpc("/ronix_food_delivery/acknowledge_order_alert", { order_id: order.id }).catch(() => { });
                 if (container.childNodes.length <= 1 && globalAudio) {
                     globalAudio.pause();
                 }
@@ -248,36 +190,29 @@ export const backendNewOrderAlertService = {
         };
 
         const init = () => {
-            debugLog("Initializing Backend New Order Alert service...");
-            // Start null to catch all unacknowledged orders at start
-            lastCheckTime = null; 
+            lastCheckTime = new Date().toISOString().replace('T', ' ').substring(0, 19);
             pollInterval = setInterval(checkNewOrders, 15000);
 
-            // Silent test
+            // Check if blocked on load (silent test)
             const test = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFRm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAP8A/wD/");
             test.play().then(() => {
-                debugLog("Initial autoplay test: PASSED");
                 audioUnlocked = true;
+                console.log("[Ronix Audio] Autoplay is already allowed.");
             }).catch(() => {
-                debugLog("Initial autoplay test: BLOCKED. Showing banner.");
-                showUnlockBanner();
+                console.warn("[Ronix Audio] Autoplay blocked. Waiting for interaction.");
+                // Banner gizlendi - Chrome ayarlarından ses izni verildi
             });
 
             const primeOnAny = (event) => {
-                if (audioUnlocked) {
-                    ['mousedown', 'keydown', 'touchstart'].forEach(e => document.removeEventListener(e, primeOnAny));
-                    return;
-                }
-                if (event.target && event.target.closest && event.target.closest('#ronix_audio_unlock_banner')) {
-                    return;
-                }
-                debugLog("Global interaction detected, priming audio...");
+                if (audioUnlocked) return;
                 primeAudioInternal();
+                if (audioUnlocked) {
+                    const banner = document.getElementById('ronix_audio_unlock_banner');
+                    if (banner) banner.remove();
+                    ['mousedown', 'keydown', 'touchstart'].forEach(e => document.removeEventListener(e, primeOnAny));
+                }
             };
             ['mousedown', 'keydown', 'touchstart'].forEach(e => document.addEventListener(e, primeOnAny));
-            
-            // Initial check
-            checkNewOrders();
         };
 
         init();

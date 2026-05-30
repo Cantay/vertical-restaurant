@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="online_form_index_template" name="Cevrimici Form Listesi">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_product_tracking_form s_ronix_online_form_catalog">
+                    <div class="ham-tracking-shell">
+                        <div class="ham-tracking-stage">
+                            <header class="ham-tracking-head">
+                                <span class="ham-info-kicker">Juju Quality</span>
+                                <h1 t-esc="location.name"/>
+                                <p>Bu lokasyon icin yayinda olan tum online formlara buradan erisebilirsiniz.</p>
+                            </header>
+
+                            <div class="ronix-online-form-catalog-grid">
+                                <t t-foreach="templates" t-as="template_record">
+                                    <a t-att-href="template_record.frontend_path" class="ronix-online-form-catalog-card">
+                                        <span class="ham-info-kicker">Cevrimici Form</span>
+                                        <h2 t-esc="template_record.name"/>
+                                        <p t-esc="template_record.description or 'Bu form icin aciklama eklenmemis.'"/>
+                                    </a>
+                                </t>
+                                <t t-if="not templates">
+                                    <div class="ham-tracking-success">
+                                        Bu lokasyon icin henuz yayinda bir form bulunmuyor.
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="online_form_page_template" name="Cevrimici Form Sayfasi">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure s_ronix_online_form_page"
+                 t-att-data-can-edit="can_edit_frontend and '1' or '0'"
+                 t-att-data-save-layout-url="'%s/save-layout' % template_record.frontend_path">
+                <section class="s_ham_product_tracking_form">
+                    <div class="ham-tracking-shell">
+                        <div class="ham-tracking-stage">
+                            <header class="ham-tracking-head">
+                                <a t-att-href="'/online-forms/%s' % template_record.location_id.token" class="ronix-online-form-backlink">&lt;- Tum formlar</a>
+                                <span class="ham-info-kicker" t-esc="template_record.location_id.name"/>
+                                <h1 t-esc="template_record.name"/>
+                                <p t-esc="template_record.description or ''"/>
+                            </header>
+
+                            <div t-if="can_edit_frontend" class="ronix-form-designer-toolbar">
+                                <div class="ronix-form-designer-toolbar-copy">
+                                    <strong>Form Tasarim Modu</strong>
+                                    <div>Alanlari surukleyip birakin, genisliklerini degistirin ve kaydedin.</div>
+                                </div>
+                                <div class="ronix-form-designer-toolbar-actions">
+                                    <button type="button" class="ham-ann-button ronix-form-edit-toggle">Duzenle</button>
+                                    <button type="button" class="ham-ann-button d-none ronix-form-layout-save">Duzeni Kaydet</button>
+                                    <button type="button" class="ham-ann-button ham-ann-button-secondary d-none ronix-form-layout-cancel">Iptal</button>
+                                </div>
+                            </div>
+
+                            <div t-if="success" class="ham-tracking-success" t-esc="template_record.thank_you_message"/>
+
+                            <form t-att-action="'%s/submit' % template_record.frontend_path" method="post" class="ham-tracking-form ronix-online-form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Form Alanlari</h2>
+                                    </div>
+                                    <div class="ham-tracking-subcard ham-tracking-subcard-intro">
+                                        <div class="row g-4 ronix-form-field-grid">
+                                        <t t-foreach="fields" t-as="field">
+                                            <t t-if="field.field_type == 'section'">
+                                                <div class="col-12 ronix-form-field-slot ronix-form-field-slot-section"
+                                                     t-att-data-field-id="field.id"
+                                                     t-att-data-field-type="field.field_type"
+                                                     t-att-data-column-span="'12'">
+                                                    <div class="ronix-online-form-section">
+                                                        <div class="ronix-form-field-editor">
+                                                            <span class="badge text-bg-dark">Bolum Basligi</span>
+                                                            <button type="button" class="ham-ann-button ham-ann-button-secondary ronix-field-drag-handle" draggable="false">Tasi</button>
+                                                        </div>
+                                                        <h3 t-esc="field.name"/>
+                                                        <p t-if="field.help_text" t-esc="field.help_text"/>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <t t-else="">
+                                                <div t-attf-class="col-12 col-lg-#{field.column_span} ronix-form-field-slot"
+                                                     t-att-data-field-id="field.id"
+                                                     t-att-data-field-type="field.field_type"
+                                                     t-att-data-column-span="field.column_span">
+                                                    <div class="ronix-form-field-editor">
+                                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                                            <button type="button" class="ham-ann-button ham-ann-button-secondary ronix-field-drag-handle" draggable="false">Tasi</button>
+                                                            <div class="btn-group btn-group-sm" role="group" aria-label="Alan genisligi">
+                                                                <button type="button" class="ham-ann-button ham-ann-button-secondary ronix-field-width-button" data-span="6">1/2</button>
+                                                                <button type="button" class="ham-ann-button ham-ann-button-secondary ronix-field-width-button" data-span="12">Tam</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <label t-att-for="field.code" class="ham-tracking-field">
+                                                        <span><t t-esc="field.name"/><t t-if="field.required"> *</t></span>
+                                                    <input t-if="field.field_type in ('char', 'email', 'phone', 'integer', 'float', 'date', 'datetime')"
+                                                           t-att-type="'text' if field.field_type in ('char', 'phone', 'integer', 'float') else ('email' if field.field_type == 'email' else ('date' if field.field_type == 'date' else 'datetime-local'))"
+                                                           t-att-id="field.code"
+                                                           t-att-name="field.code"
+                                                           t-att-placeholder="field.placeholder or ''"
+                                                           t-att-value="values.get(field.code, '')"/>
+                                                    <textarea t-if="field.field_type == 'text'"
+                                                              rows="5"
+                                                              t-att-id="field.code"
+                                                              t-att-name="field.code"
+                                                              t-att-placeholder="field.placeholder or ''"><t t-esc="values.get(field.code, '')"/></textarea>
+                                                    <select t-if="field.field_type == 'selection'"
+                                                            t-att-id="field.code"
+                                                            t-att-name="field.code">
+                                                        <option value="">Seciniz</option>
+                                                        <t t-foreach="field.get_selection_options()" t-as="option">
+                                                            <option t-att-value="option[0]" t-att-selected="values.get(field.code) == option[0] and 'selected' or None">
+                                                                <t t-esc="option[1]"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                    <div t-if="field.field_type == 'boolean'" class="ham-tracking-field-check">
+                                                        <input
+                                                               type="checkbox"
+                                                               t-att-id="field.code"
+                                                               t-att-name="field.code"
+                                                               t-att-checked="values.get(field.code) and 'checked' or None"/>
+                                                        <strong>
+                                                            <t t-esc="field.placeholder or field.help_text or field.name"/>
+                                                        </strong>
+                                                    </div>
+                                                    <small t-if="field.help_text and field.field_type != 'boolean'" class="ronix-online-form-help" t-esc="field.help_text"/>
+                                                    <small t-if="errors.get(field.code)" class="ronix-online-form-error" t-esc="errors[field.code]"/>
+                                                    </label>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        </div>
+
+                                        <div class="ham-tracking-submit-wrap ronix-form-submit-wrap">
+                                            <button type="submit" class="ham-tracking-submit ronix-form-submit-button">
+                                            <t t-esc="template_record.submit_button_label or 'Gonder'"/>
+                                        </button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_app_mobile_hero" name="App Mobile Hero">
+        <section class="s_ham_mobile s_ham_mobile_hero" data-snippet="s_app_mobile_hero" data-name="App Mobile Hero">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-statusbar">
+                        <span>Arrival Lounge</span>
+                        <span>Signature Collection</span>
+                    </div>
+                    <div class="ham-card ham-card-hero">
+                        <div class="ham-pill">Ocean Floor</div>
+                        <h2>Suite 804 is ready.</h2>
+                        <p>Invite guests into a high-end welcome screen with weather, stay details and one-tap actions.</p>
+                        <div class="ham-hero-metrics">
+                            <div>
+                                <strong>24 C</strong>
+                                <span>Sunny terrace</span>
+                            </div>
+                            <div>
+                                <strong>4.9</strong>
+                                <span>Guest score</span>
+                            </div>
+                            <div>
+                                <strong>14:00</strong>
+                                <span>Late checkout</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-mini-card">
+                            <i class="fa fa-key"/>
+                            <h3>Digital Key</h3>
+                            <p>Unlock room and elevator access.</p>
+                        </div>
+                        <div class="ham-card ham-mini-card">
+                            <i class="fa fa-bell"/>
+                            <h3>Concierge</h3>
+                            <p>Priority requests with one touch.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_quick_actions" name="App Quick Actions">
+        <section class="s_ham_mobile s_ham_quick_actions" data-snippet="s_app_quick_actions" data-name="App Quick Actions">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Main Menu</span>
+                        <h2>Quick Actions Grid</h2>
+                    </div>
+                    <div class="ham-grid ham-grid-4 ham-actions-grid">
+                        <div class="ham-action-tile"><i class="fa fa-cutlery"/><span>Dining</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-taxi"/><span>Transfer</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-spa"/><span>Spa</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-map-marker"/><span>Map</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-ticket"/><span>Events</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-bed"/><span>Room Care</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-shopping-bag"/><span>Boutique</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-phone"/><span>Call Desk</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_stay_wallet" name="App Stay Wallet">
+        <section class="s_ham_mobile s_ham_stay_wallet" data-snippet="s_app_stay_wallet" data-name="App Stay Wallet">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-wallet-card">
+                        <span class="ham-label">Stay Wallet</span>
+                        <h2>Control booking, key and spending in one place.</h2>
+                        <div class="ham-wallet-balance">
+                            <strong>$ 248.40</strong>
+                            <span>Open folio balance</span>
+                        </div>
+                    </div>
+                    <div class="ham-list">
+                        <div class="ham-list-row">
+                            <div><strong>Upgrade Offer</strong><span>Panorama suite for tonight</span></div>
+                            <b>+ $90</b>
+                        </div>
+                        <div class="ham-list-row">
+                            <div><strong>Breakfast</strong><span>Included for 2 guests</span></div>
+                            <b>Ready</b>
+                        </div>
+                        <div class="ham-list-row">
+                            <div><strong>Airport Ride</strong><span>Mercedes V-Class at 08:00</span></div>
+                            <b>Booked</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_room_service" name="App Room Service">
+        <section class="s_ham_mobile s_ham_room_service" data-snippet="s_app_room_service" data-name="App Room Service">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Service</span>
+                        <h2>Room service carousel-style cards</h2>
+                    </div>
+                    <div class="ham-stack">
+                        <div class="ham-card ham-menu-card">
+                            <div class="ham-badge">Chef Pick</div>
+                            <h3>Sunrise Breakfast Tray</h3>
+                            <p>Croissant, seasonal fruit, omelette and espresso for two.</p>
+                            <div class="ham-row-meta"><strong>18 min</strong><span>$22</span></div>
+                        </div>
+                        <div class="ham-card ham-menu-card">
+                            <div class="ham-badge">Popular</div>
+                            <h3>Poolside Burger Box</h3>
+                            <p>Angus burger, fries, cold brew and chocolate cookie.</p>
+                            <div class="ham-row-meta"><strong>22 min</strong><span>$19</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_daily_timeline" name="App Daily Timeline">
+        <section class="s_ham_mobile s_ham_daily_timeline" data-snippet="s_app_daily_timeline" data-name="App Daily Timeline">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Today</span>
+                        <h2>Guest itinerary timeline</h2>
+                    </div>
+                    <div class="ham-timeline">
+                        <div class="ham-timeline-item"><span>08:30</span><div><strong>Breakfast Terrace</strong><p>Reserved window table for two guests.</p></div></div>
+                        <div class="ham-timeline-item"><span>11:00</span><div><strong>Spa Treatment</strong><p>Deep tissue session in Lotus Room.</p></div></div>
+                        <div class="ham-timeline-item"><span>16:00</span><div><strong>Sunset Cruise</strong><p>Transfer departs from the lobby entrance.</p></div></div>
+                        <div class="ham-timeline-item"><span>20:15</span><div><strong>Chef's Table</strong><p>Signature tasting menu with wine pairing.</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_wellness_pass" name="App Wellness Pass">
+        <section class="s_ham_mobile s_ham_wellness_pass" data-snippet="s_app_wellness_pass" data-name="App Wellness Pass">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-pass-card">
+                        <span class="ham-label">Wellness Club</span>
+                        <h2>Turn spa and pool access into a premium pass view.</h2>
+                        <div class="ham-pass-meter">
+                            <span style="width: 72%;"/>
+                        </div>
+                        <div class="ham-row-meta"><strong>72% unlocked</strong><span>3 active benefits</span></div>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-leaf"/><h3>Sauna Ritual</h3><p>18:30 booking slot</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-tint"/><h3>Vitality Pool</h3><p>Adults only access</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-moon-o"/><h3>Sleep Menu</h3><p>Herbal tea &amp; pillow bar</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-heart"/><h3>Yoga Deck</h3><p>Sunrise stretch at 07:00</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_local_guide" name="App Local Guide">
+        <section class="s_ham_mobile s_ham_local_guide" data-snippet="s_app_local_guide" data-name="App Local Guide">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Explore</span>
+                        <h2>Nearby guide with editorial cards</h2>
+                    </div>
+                    <div class="ham-stack">
+                        <div class="ham-card ham-guide-card">
+                            <h3>Old Town Night Walk</h3>
+                            <p>Lantern-lit alleys, rooftop jazz and artisan pastry stops.</p>
+                            <div class="ham-row-meta"><strong>12 min away</strong><span>Editor pick</span></div>
+                        </div>
+                        <div class="ham-card ham-guide-card">
+                            <h3>Coastal Market Morning</h3>
+                            <p>Fresh flowers, local ceramics and breakfast by the marina.</p>
+                            <div class="ham-row-meta"><strong>08:00 to 12:00</strong><span>Family friendly</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_loyalty_profile" name="App Loyalty Profile">
+        <section class="s_ham_mobile s_ham_loyalty_profile" data-snippet="s_app_loyalty_profile" data-name="App Loyalty Profile">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-profile-card">
+                        <div class="ham-avatar">A</div>
+                        <div>
+                            <span class="ham-label">Aurora Circle</span>
+                            <h2>Alex Morgan</h2>
+                            <p>Gold tier guest with late checkout and executive lounge access.</p>
+                        </div>
+                    </div>
+                    <div class="ham-grid ham-grid-3 ham-score-grid">
+                        <div class="ham-score-box"><strong>12</strong><span>Stays</span></div>
+                        <div class="ham-score-box"><strong>8.4k</strong><span>Points</span></div>
+                        <div class="ham-score-box"><strong>3</strong><span>Rewards</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_support_hub" name="App Support Hub">
+        <section class="s_ham_mobile s_ham_support_hub" data-snippet="s_app_support_hub" data-name="App Support Hub">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Support</span>
+                        <h2>Concierge and service hub</h2>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-support-card"><i class="fa fa-comments"/><h3>Live Chat</h3><p>Average reply in under 40 sec.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-headphones"/><h3>Call Desk</h3><p>Press once to reach guest relations.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-wrench"/><h3>Maintenance</h3><p>Report AC, TV or lighting issues.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-car"/><h3>Valet</h3><p>Request vehicle retrieval before checkout.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_arrival_countdown" name="App Arrival Countdown">
+        <section class="s_ham_mobile s_ham_arrival_countdown" data-snippet="s_app_arrival_countdown" data-name="App Arrival Countdown">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-card-hero">
+                        <span class="ham-label">Arrival Flow</span>
+                        <h2>Shape the first five minutes of a premium stay.</h2>
+                        <p>Highlight luggage, welcome drink and suite readiness in one polished section.</p>
+                        <div class="ham-hero-metrics">
+                            <div><strong>12 min</strong><span>To check-in</span></div>
+                            <div><strong>2</strong><span>Bags tagged</span></div>
+                            <div><strong>18:45</strong><span>Sunset welcome</span></div>
+                        </div>
+                    </div>
+                    <div class="ham-list">
+                        <div class="ham-list-row"><div><strong>Bell Team Ready</strong><span>Luggage delivered directly to the villa.</span></div><b>Live</b></div>
+                        <div class="ham-list-row"><div><strong>Welcome Tray</strong><span>Rose sherbet, cold towels and chef bites.</span></div><b>Prepared</b></div>
+                        <div class="ham-list-row"><div><strong>Express Check-in</strong><span>Passport and e-signature flow prefilled.</span></div><b>Open</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_butler_services" name="App Butler Services">
+        <section class="s_ham_mobile s_ham_butler_services" data-snippet="s_app_butler_services" data-name="App Butler Services">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Private Butler</span>
+                        <h2>Curated service requests with a discreet luxury tone</h2>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-support-card"><i class="fa fa-glass"/><h3>Champagne Setup</h3><p>Ice bucket, crystal flutes and fruit plate before arrival.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-sun-o"/><h3>Terrace Styling</h3><p>Lanterns, candles and evening turndown staging.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-shopping-bag"/><h3>Wardrobe Press</h3><p>Evening outfits prepared within the hour.</p></div>
+                        <div class="ham-card ham-support-card"><i class="fa fa-car"/><h3>Private Driver</h3><p>Luxury transfer booking managed end-to-end.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_beach_cabana" name="App Beach Cabana">
+        <section class="s_ham_mobile s_ham_beach_cabana" data-snippet="s_app_beach_cabana" data-name="App Beach Cabana">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Cabana Club</span>
+                        <h2>Promote seaside cabanas as signature bookable experiences</h2>
+                    </div>
+                    <div class="ham-stack">
+                        <div class="ham-card ham-menu-card">
+                            <div class="ham-badge">Best View</div>
+                            <h3>Lagoon Front Cabana</h3>
+                            <p>Reserved lounger set, fruit basket, mini fridge and butler buzzer.</p>
+                            <div class="ham-row-meta"><strong>09:00 to 18:00</strong><span>$180</span></div>
+                        </div>
+                        <div class="ham-card ham-menu-card">
+                            <div class="ham-badge">VIP</div>
+                            <h3>Sunset Pavilion</h3>
+                            <p>Privacy drapes, champagne service and golden hour platter included.</p>
+                            <div class="ham-row-meta"><strong>12:00 to 20:00</strong><span>$260</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_family_club" name="App Family Club">
+        <section class="s_ham_mobile s_ham_family_club" data-snippet="s_app_family_club" data-name="App Family Club">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-pass-card">
+                        <span class="ham-label">Family Club</span>
+                        <h2>Design a playful but refined planner for younger guests.</h2>
+                        <div class="ham-pass-meter">
+                            <span style="width: 84%;"/>
+                        </div>
+                        <div class="ham-row-meta"><strong>4 activities today</strong><span>2 supervised sessions</span></div>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-paint-brush"/><h3>Art Atelier</h3><p>Ceramic painting at 10:30.</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-tree"/><h3>Garden Quest</h3><p>Nature game across the pine trail.</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-film"/><h3>Mini Cinema</h3><p>Family screening after dinner.</p></div>
+                        <div class="ham-card ham-benefit-card"><i class="fa fa-rocket"/><h3>Teen Lab</h3><p>VR and music booth from 16:00.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_evening_program" name="App Evening Program">
+        <section class="s_ham_mobile s_ham_evening_program" data-snippet="s_app_evening_program" data-name="App Evening Program">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Tonight</span>
+                        <h2>Elevate the evening agenda with a curated timeline</h2>
+                    </div>
+                    <div class="ham-timeline">
+                        <div class="ham-timeline-item"><span>18:30</span><div><strong>Piano Aperitif</strong><p>Lobby lounge set with champagne trolley service.</p></div></div>
+                        <div class="ham-timeline-item"><span>20:00</span><div><strong>Seafood Terrace</strong><p>Chef-led dinner ritual at the waterline.</p></div></div>
+                        <div class="ham-timeline-item"><span>21:45</span><div><strong>Moonlight Violin</strong><p>Garden performance beneath the olive court.</p></div></div>
+                        <div class="ham-timeline-item"><span>23:30</span><div><strong>Night Bar</strong><p>Signature cocktails and quiet DJ session.</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_transfer_board" name="App Transfer Board">
+        <section class="s_ham_mobile s_ham_transfer_board" data-snippet="s_app_transfer_board" data-name="App Transfer Board">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-wallet-card">
+                        <span class="ham-label">Mobility Desk</span>
+                        <h2>Keep airport, yacht and city transfers in one premium board.</h2>
+                        <div class="ham-wallet-balance">
+                            <strong>3 rides</strong>
+                            <span>Scheduled today</span>
+                        </div>
+                    </div>
+                    <div class="ham-list">
+                        <div class="ham-list-row"><div><strong>Airport Arrival</strong><span>S-Class pickup with fast-track greeting.</span></div><b>08:10</b></div>
+                        <div class="ham-list-row"><div><strong>Marina Tender</strong><span>Private launch to the beach pier.</span></div><b>14:30</b></div>
+                        <div class="ham-list-row"><div><strong>Old Town Dinner</strong><span>Round-trip chauffeur reserved for two.</span></div><b>19:15</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_suite_upgrade" name="App Suite Upgrade">
+        <section class="s_ham_mobile s_ham_suite_upgrade" data-snippet="s_app_suite_upgrade" data-name="App Suite Upgrade">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-card-hero">
+                        <div class="ham-pill">Limited Upgrade</div>
+                        <h2>Introduce suite upsells without breaking the luxury mood.</h2>
+                        <p>Highlight view, privacy and signature amenities as benefits instead of sales prompts.</p>
+                        <div class="ham-hero-metrics">
+                            <div><strong>68 sqm</strong><span>Private living</span></div>
+                            <div><strong>Sea View</strong><span>Full panorama</span></div>
+                            <div><strong>+ $140</strong><span>Tonight only</span></div>
+                        </div>
+                    </div>
+                    <div class="ham-grid ham-grid-2">
+                        <div class="ham-card ham-mini-card"><i class="fa fa-bath"/><h3>Marble Bath</h3><p>Soaking tub and dressing area with warm lighting.</p></div>
+                        <div class="ham-card ham-mini-card"><i class="fa fa-coffee"/><h3>Club Lounge</h3><p>All-day refreshments and sunset canapes included.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_pool_experience" name="App Pool Experience">
+        <section class="s_ham_mobile s_ham_pool_experience" data-snippet="s_app_pool_experience" data-name="App Pool Experience">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-section-head">
+                        <span class="ham-label">Pool Club</span>
+                        <h2>Build a luxury poolside launcher with service-first actions</h2>
+                    </div>
+                    <div class="ham-grid ham-grid-3 ham-actions-grid">
+                        <div class="ham-action-tile"><i class="fa fa-glass"/><span>Cocktails</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-cutlery"/><span>Light Bites</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-sun-o"/><span>Reserve Daybed</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-music"/><span>DJ Lineup</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-life-ring"/><span>Kids Pool</span></div>
+                        <div class="ham-action-tile"><i class="fa fa-camera"/><span>Photo Spot</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_celebration_concierge" name="App Celebration Concierge">
+        <section class="s_ham_mobile s_ham_celebration_concierge" data-snippet="s_app_celebration_concierge" data-name="App Celebration Concierge">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-profile-card">
+                        <div class="ham-avatar">C</div>
+                        <div>
+                            <span class="ham-label">Celebration Desk</span>
+                            <h2>Anniversary concierge</h2>
+                            <p>Showcase romance setups, cake moments and private dining preparation.</p>
+                        </div>
+                    </div>
+                    <div class="ham-stack">
+                        <div class="ham-card ham-guide-card">
+                            <h3>Golden Hour Table</h3>
+                            <p>Clifftop dinner arrangement with violin welcome and floral styling.</p>
+                            <div class="ham-row-meta"><strong>From $220</strong><span>Most requested</span></div>
+                        </div>
+                        <div class="ham-card ham-guide-card">
+                            <h3>Suite Celebration</h3>
+                            <p>Rose petals, vintage bubbles, custom cake and photo-ready lighting.</p>
+                            <div class="ham-row-meta"><strong>90 min setup</strong><span>Private</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_feedback_lounge" name="App Feedback Lounge">
+        <section class="s_ham_mobile s_ham_feedback_lounge" data-snippet="s_app_feedback_lounge" data-name="App Feedback Lounge">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-profile-card">
+                        <div class="ham-avatar">9.7</div>
+                        <div>
+                            <span class="ham-label">Guest Sentiment</span>
+                            <h2>Capture refined feedback without losing the premium tone.</h2>
+                            <p>Pair high-level satisfaction scores with elegant, low-friction follow-up cards.</p>
+                        </div>
+                    </div>
+                    <div class="ham-grid ham-grid-3 ham-score-grid">
+                        <div class="ham-score-box"><strong>9.8</strong><span>Room comfort</span></div>
+                        <div class="ham-score-box"><strong>9.6</strong><span>Dining</span></div>
+                        <div class="ham-score-box"><strong>9.7</strong><span>Service</span></div>
+                    </div>
+                    <div class="ham-list">
+                        <div class="ham-list-row"><div><strong>What delighted guests most?</strong><span>Sunset ritual, silent turndown and beach breakfast.</span></div><b>Top 3</b></div>
+                        <div class="ham-list-row"><div><strong>Next gentle prompt</strong><span>Invite a one-minute review before checkout.</span></div><b>Ready</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_guest_request_form" name="App Guest Request Form">
+        <section class="s_ham_mobile s_ham_guest_request" data-snippet="s_app_guest_request_form" data-name="App Guest Request Form" data-request-url="" data-project-id="">
+            <div class="container">
+                <div class="ham-phone ham-request-shell">
+                    <div class="ham-card ham-request-hero">
+                        <span class="ham-label">Guest Request</span>
+                        <h2>Send a room request in seconds.</h2>
+                        <p>Configure the target URL and Project ID from snippet settings. The form sends only room number and request text.</p>
+                    </div>
+
+                    <div class="ham-card ham-request-card">
+                        <div class="ham-section-head">
+                            <span class="ham-label">Create Task</span>
+                            <h2>Room request form</h2>
+                        </div>
+
+                        <div class="ham-request-status d-none" aria-live="polite"/>
+
+                        <form class="ham-request-form" method="post">
+                            <label class="ham-field">
+                                <span>Room Number</span>
+                                <input type="text" name="room_number" placeholder="804" required="required"/>
+                            </label>
+
+                            <label class="ham-field">
+                                <span>Request Description</span>
+                                <textarea name="description" rows="6" placeholder="Example: Broken shower head, please send technical support." required="required"/>
+                            </label>
+
+                            <button type="submit" class="btn btn-primary ham-request-submit">
+                                <i class="fa fa-paper-plane"/>
+                                <span>Send Request</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_shell_mode" name="App Shell Mode">
+        <section class="s_ham_mobile s_ham_shell_mode" data-snippet="s_app_shell_mode" data-name="App Shell Mode">
+            <div class="container">
+                <div class="ham-shell-mode-badge">
+                    <i class="fa fa-mobile"/>
+                    <span>App Shell Mode: header and footer hidden on this page.</span>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_app_bottom_nav" name="App Bottom Navigation">
+        <section class="s_ham_mobile s_ham_bottom_nav" data-snippet="s_app_bottom_nav" data-name="App Bottom Navigation">
+            <div class="container">
+                <div class="ham-phone">
+                    <div class="ham-card ham-screen-card">
+                        <span class="ham-label">Navigation</span>
+                        <h2>Bottom tab bar for a webview app shell</h2>
+                        <p>Use as the final block of a page to imitate a native hotel app dock.</p>
+                    </div>
+                    <div class="ham-bottom-dock">
+                        <a href="#"><i class="fa fa-home"/><span>Home</span></a>
+                        <a href="#"><i class="fa fa-compass"/><span>Explore</span></a>
+                        <a href="#" class="is-active"><i class="fa fa-th-large"/><span>App</span></a>
+                        <a href="#"><i class="fa fa-calendar"/><span>Plan</span></a>
+                        <a href="#"><i class="fa fa-user"/><span>Profile</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    
+    <template id="s_app_vip_home" name="App VIP Home">
+        <section class="s_ham_mobile s_app_vip_home" data-snippet="s_app_vip_home" data-name="App VIP Home">
+            <div class="container">
+                <div class="ham-vip-phone">
+
+                    <div class="ham-vip-hero">
+                        <div class="ham-vip-hero-media o_not_editable" contenteditable="false">
+                            <img src="/ronix_quality_manager/static/src/img/rama_hero.png" alt="Resort" class="ham-vip-hero-img o_editable_media"/>
+                        </div>
+                        <div class="ham-vip-hero-overlay"></div>
+                        <div class="ham-vip-swoosh">
+                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                                <path fill="url(#swoosh-gradient)" fill-opacity="1" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,192C1120,192,1280,128,1360,96L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+                                <defs>
+                                    <linearGradient id="swoosh-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#141113" />
+                                        <stop offset="50%" stop-color="#0a0809" />
+                                        <stop offset="100%" stop-color="#050505" />
+                                    </linearGradient>
+                                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#fce1a3"/>
+                                        <stop offset="50%" stop-color="#c98a3e"/>
+                                        <stop offset="100%" stop-color="#ffeac5"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="ham-vip-swoosh-border">
+                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                                <path fill="none" stroke="url(#gold-gradient)" stroke-width="4" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,192C1120,192,1280,128,1360,96L1440,64"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="ham-vip-body">
+                        <div class="ham-vip-grid">
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-glass" /></div>
+                                <div class="ham-vip-card-title">Bars</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-building-o" /></div>
+                                <div class="ham-vip-card-title">Departments</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_spa.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-leaf" /></div>
+                                <div class="ham-vip-card-title">Spa &amp; Hammam</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-cutlery" /></div>
+                                <div class="ham-vip-card-title">Dining Hours</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-bell-o" /></div>
+                                <div class="ham-vip-card-title">A La Carte<small>Reservation</small></div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-envelope-o" /></div>
+                                <div class="ham-vip-card-title">Send Message</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-bed" /></div>
+                                <div class="ham-vip-card-title">Room Cleaning</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-check-square-o" /></div>
+                                <div class="ham-vip-card-title">Survey</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-wrench" /></div>
+                                <div class="ham-vip-card-title">Technical Service</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                            <a href="#" class="ham-vip-card" style="background-image: url('/ronix_quality_manager/static/src/img/rama_bg_abstract.png')">
+                                <div class="ham-vip-card-icon"><i class="fa fa-ship" /></div>
+                                <div class="ham-vip-card-title">Activities</div>
+                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right" /></div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </template>
+
+    
+    <template id="s_app_vip_nav_dock" name="App VIP Navbar">
+        <section class="s_ham_mobile s_app_vip_nav_dock" data-snippet="s_app_vip_nav_dock" data-name="App VIP Navbar">
+            <div class="ham-vip-dock-wrapper">
+                <div class="ham-vip-dock">
+                    <a href="#"><i class="fa fa-bell-o"/></a>
+                    <a href="#"><i class="fa fa-compass"/></a>
+                    <a href="#" class="ham-vip-dock-main"><i class="fa fa-home"/></a>
+                    <a href="#"><i class="fa fa-calendar-o"/></a>
+                    <a href="#"><i class="fa fa-map-o"/></a>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    
+    <template id="s_app_vip_header" name="App VIP Header">
+        <section class="s_ham_mobile s_app_vip_header" data-snippet="s_app_vip_header" data-name="App VIP Header">
+            <div class="ham-vip-header">
+                <div class="ham-vip-logo">
+                    <img src="/ronix_quality_manager/static/src/img/rama_logo.png" alt="Logo" class="img-fluid"/>
+                </div>
+                <div class="ham-vip-actions">
+                    <a href="/juju-profile" class="ham-vip-btn ham-vip-profile-link" aria-label="Profile">
+                        <i class="fa fa-user-o"/>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="ronix_quality_manager_snippets" inherit_id="website.snippets" name="Ronix Quality Manager Snippets">
+        <xpath expr="//snippets[@id='snippet_groups']" position="inside">
+            <t snippet-group="ronix_quality_mobile" t-snippet="website.s_snippet_group" string="Hotel App"
+               t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg"/>
+        </xpath>
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="ronix_quality_manager.s_app_vip_header" string="VIP Webview Header" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_image.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_vip_nav_dock" string="VIP Webview Navbar" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_tabs.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_vip_home" string="VIP Webview Home" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_mobile_hero" string="App Mobile Hero" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_quick_actions" string="App Quick Actions" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_group.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_stay_wallet" string="App Stay Wallet" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_card.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_room_service" string="App Room Service" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_media_list.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_daily_timeline" string="App Daily Timeline" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_block.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_wellness_pass" string="App Wellness Pass" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_chart.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_local_guide" string="App Local Guide" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_picture.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_loyalty_profile" string="App Loyalty Profile" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_company_team.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_support_hub" string="App Support Hub" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_social_media.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_arrival_countdown" string="App Arrival Countdown" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_countdown.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_butler_services" string="App Butler Services" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_social_media.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_beach_cabana" string="App Beach Cabana" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_media_list.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_family_club" string="App Family Club" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_company_team.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_evening_program" string="App Evening Program" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_block.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_transfer_board" string="App Transfer Board" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_card.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_suite_upgrade" string="App Suite Upgrade" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_pool_experience" string="App Pool Experience" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_group.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_celebration_concierge" string="App Celebration Concierge" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_picture.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_feedback_lounge" string="App Feedback Lounge" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_chart.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_guest_request_form" string="App Guest Request Form" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_shell_mode" string="App Shell Mode" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_alert.svg"/>
+            <t t-snippet="ronix_quality_manager.s_app_bottom_nav" string="App Bottom Navigation" group="ronix_quality_mobile" t-thumbnail="/website/static/src/img/snippets_thumbs/s_button.svg"/>
+        </xpath>
+    </template>
+</odoo>

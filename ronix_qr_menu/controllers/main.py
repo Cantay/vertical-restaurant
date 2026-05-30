@@ -1,10 +1,7 @@
 import base64
-import logging
 
 from odoo import http
 from odoo.http import request
-
-_logger = logging.getLogger(__name__)
 
 
 class QrMenuController(http.Controller):
@@ -28,6 +25,7 @@ class QrMenuController(http.Controller):
         categories = request.env['qr.menu.category'].sudo().search([
             ('restaurant_id', '=', restaurant.id),
             ('active', '=', True),
+            ('parent_id', '=', False),
         ], order='sequence, name')
 
         return request.render('ronix_qr_menu.qr_menu_landing', {
@@ -62,11 +60,44 @@ class QrMenuController(http.Controller):
             ('is_available', '=', True),
         ], order='sequence, name')
 
+        child_categories = request.env['qr.menu.category'].sudo().search([
+            ('parent_id', '=', category.id),
+            ('active', '=', True),
+        ], order='sequence, name')
+
+        item_sections = []
+        if child_categories:
+            if items:
+                item_sections.append({
+                    'category': category,
+                    'items': items,
+                })
+
+            item_model = request.env['qr.menu.item'].sudo()
+            for child in child_categories:
+                child_items = item_model.search([
+                    ('category_id', '=', child.id),
+                    ('active', '=', True),
+                    ('is_available', '=', True),
+                ], order='sequence, name')
+                if child_items:
+                    item_sections.append({
+                        'category': child,
+                        'items': child_items,
+                    })
+        elif items:
+            item_sections.append({
+                'category': category,
+                'items': items,
+            })
+
         return request.render('ronix_qr_menu.qr_menu_category_page', {
             'restaurant': restaurant,
             'category': category,
             'table': table,
             'items': items,
+            'child_categories': child_categories,
+            'item_sections': item_sections,
         })
 
     @http.route('/qr-menu/<int:restaurant_id>/item/<int:item_id>', type='http', auth='public', website=True)
@@ -115,43 +146,22 @@ class QrMenuController(http.Controller):
     # --------------------------------------------------
 
     @http.route('/qr_menu/call_waiter', type='json', auth='public', methods=['POST'])
-    def call_waiter(self, restaurant_id=None, table_id=None, call_type='waiter', custom_message='', **kwargs):
-        _logger.info('[QR-WaiterCall] call_waiter called — restaurant_id=%s, table_id=%s, call_type=%s, custom_message=%r',
-                     restaurant_id, table_id, call_type, custom_message)
-
-        if not restaurant_id or not table_id:
-            _logger.warning('[QR-WaiterCall] Missing restaurant_id or table_id')
-            return {'error': 'Restoran veya masa bilgisi eksik.'}
-
-        try:
-            restaurant = request.env['qr.menu.restaurant'].sudo().browse(int(restaurant_id))
-            table = request.env['qr.menu.table'].sudo().browse(int(table_id))
-        except (ValueError, TypeError) as e:
-            _logger.error('[QR-WaiterCall] Invalid ID format: %s', e)
-            return {'error': 'Geçersiz restoran veya masa ID formatı.'}
+    def call_waiter(self, restaurant_id, table_id, call_type='waiter', custom_message='', **kwargs):
+        restaurant = request.env['qr.menu.restaurant'].sudo().browse(int(restaurant_id))
+        table = request.env['qr.menu.table'].sudo().browse(int(table_id))
 
         if not restaurant.exists() or not table.exists():
-            _logger.warning('[QR-WaiterCall] Restaurant or table not found — restaurant.exists=%s, table.exists=%s',
-                           restaurant.exists(), table.exists())
             return {'error': 'Geçersiz restoran veya masa.'}
 
         if table.restaurant_id.id != restaurant.id:
-            _logger.warning('[QR-WaiterCall] Table %s does not belong to restaurant %s (belongs to %s)',
-                           table.id, restaurant.id, table.restaurant_id.id)
             return {'error': 'Masa bu restorana ait değil.'}
 
-        try:
-            call = request.env['qr.menu.waiter.call'].sudo().create({
-                'restaurant_id': restaurant.id,
-                'table_id': table.id,
-                'call_type': call_type,
-                'custom_message': custom_message or False,
-            })
-            _logger.info('[QR-WaiterCall] Call created successfully — call_id=%s, table=%s, type=%s',
-                        call.id, table.name, call_type)
-        except Exception as e:
-            _logger.exception('[QR-WaiterCall] Failed to create waiter call: %s', e)
-            return {'error': 'Çağrı oluşturulamadı. Lütfen tekrar deneyin.'}
+        call = request.env['qr.menu.waiter.call'].sudo().create({
+            'restaurant_id': restaurant.id,
+            'table_id': table.id,
+            'call_type': call_type,
+            'custom_message': custom_message or False,
+        })
 
         return {'success': True, 'call_id': call.id}
 

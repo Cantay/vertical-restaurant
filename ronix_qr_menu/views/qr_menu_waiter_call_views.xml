@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Search View -->
+    <record id="view_qr_menu_waiter_call_search" model="ir.ui.view">
+        <field name="name">qr.menu.waiter.call.search</field>
+        <field name="model">qr.menu.waiter.call</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="restaurant_id"/>
+                <field name="table_id"/>
+                <field name="call_type"/>
+                <separator/>
+                <filter string="Active Calls" name="active_calls" domain="[('state', 'in', ('pending', 'acknowledged'))]"/>
+                <filter string="Completed (Archived)" name="completed_calls" domain="[('state', '=', 'completed')]"/>
+            </search>
+        </field>
+    </record>
+
     <!-- List View -->
     <record id="view_qr_menu_waiter_call_list" model="ir.ui.view">
         <field name="name">qr.menu.waiter.call.list</field>
@@ -55,12 +71,14 @@
         <field name="name">Waiter Calls</field>
         <field name="res_model">qr.menu.waiter.call</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('state', 'in', ('pending', 'acknowledged'))]</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_active_calls': 1}</field>
     </record>
 
     <menuitem id="menu_qr_menu_waiter_call"
               name="Waiter Calls"
               parent="menu_qr_menu_root"
               action="action_qr_menu_waiter_call"
-              sequence="50"/>
+              sequence="5"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 </odoo>

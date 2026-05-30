@@ -1,0 +1,217 @@
+.s_ronix_online_form_page,
+.s_ronix_online_form_catalog {
+    a {
+        text-decoration: none;
+    }
+}
+
+.ronix-online-form-backlink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    color: #f2d493;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.ronix-form-designer-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-top: 24px;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    border: 1px solid rgba(227, 191, 115, 0.22);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(41, 31, 25, 0.88), rgba(17, 13, 11, 0.94));
+}
+
+.ronix-form-designer-toolbar-copy {
+    color: rgba(244, 222, 176, 0.78);
+}
+
+.ronix-form-designer-toolbar-copy strong {
+    display: block;
+    color: #fff1cf;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ronix-form-designer-toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ronix-online-form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px 14px;
+    border: 1px solid rgba(227, 191, 115, 0.28);
+    border-radius: 12px;
+    background: rgba(255, 248, 233, 0.05);
+    color: #fff1cf;
+    outline: none;
+    resize: vertical;
+}
+
+.ronix-online-form textarea:focus {
+    border-color: rgba(255, 215, 145, 0.72);
+    box-shadow: 0 0 0 3px rgba(227, 191, 115, 0.14);
+}
+
+.ronix-online-form textarea::placeholder {
+    color: rgba(244, 222, 176, 0.38);
+}
+
+.ronix-online-form-help,
+.ronix-online-form-error {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.ronix-online-form-help {
+    color: rgba(244, 222, 176, 0.7);
+}
+
+.ronix-online-form-error {
+    color: #fca5a5;
+    font-weight: 700;
+}
+
+.ronix-online-form-section {
+    padding: 18px 18px 6px;
+    border: 1px solid rgba(227, 191, 115, 0.2);
+    border-radius: 16px;
+    background: rgba(255, 248, 233, 0.03);
+}
+
+.ronix-online-form-section h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-family: "Baskerville", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    color: #f6ddb2;
+}
+
+.ronix-online-form-section p {
+    margin: 0;
+    color: rgba(244, 222, 176, 0.72);
+}
+
+.ronix-form-field-slot {
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.ronix-form-field-editor {
+    display: none;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    border: 1px dashed rgba(227, 191, 115, 0.32);
+    border-radius: 12px;
+    background: rgba(255, 226, 156, 0.05);
+}
+
+.ronix-form-field-editor .badge {
+    margin-right: 8px;
+}
+
+.ronix-field-drag-handle {
+    cursor: move;
+}
+
+.ronix-field-width-button.active {
+    border-color: rgba(255, 222, 156, 0.72);
+    box-shadow: 0 10px 20px rgba(10, 7, 5, 0.22);
+    color: #fff0cf;
+}
+
+.s_ronix_online_form_page.is-layout-editing .ronix-form-field-editor {
+    display: block !important;
+}
+
+.s_ronix_online_form_page.is-layout-editing .ronix-form-field-slot {
+    cursor: move;
+}
+
+.s_ronix_online_form_page.is-layout-editing .ronix-form-field-slot:hover {
+    transform: translateY(-2px);
+}
+
+.s_ronix_online_form_page.is-layout-editing .ronix-form-field-slot.is-dragging {
+    opacity: 0.42;
+}
+
+.s_ronix_online_form_page.is-layout-editing .ronix-form-submit-wrap {
+    opacity: 0.45;
+}
+
+.ronix-online-form-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.ronix-online-form-catalog-card {
+    display: block;
+    padding: 22px;
+    border: 1px solid rgba(227, 191, 115, 0.22);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(41, 31, 25, 0.88), rgba(17, 13, 11, 0.94));
+    color: #fff1cf;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ronix-online-form-catalog-card h2 {
+    margin: 12px 0 8px;
+    font-size: 24px;
+    font-family: "Baskerville", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    color: #f6ddb2;
+}
+
+.ronix-online-form-catalog-card p {
+    margin: 0;
+    color: rgba(244, 222, 176, 0.72);
+}
+
+.ronix-online-form-catalog-card:hover,
+.ronix-online-form-catalog-card:focus {
+    border-color: rgba(255, 222, 156, 0.72);
+    box-shadow: 0 10px 20px rgba(10, 7, 5, 0.22);
+    transform: translateY(-1px);
+}
+
+.ronix-online-form-catalog-grid .ham-tracking-success {
+    grid-column: 1 / -1;
+    margin-top: 0;
+}
+
+.ham-tracking-field-check strong {
+    display: block;
+    margin-top: 8px;
+    color: rgba(255, 222, 156, 0.88);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+@media (max-width: 767.98px) {
+    .ronix-form-designer-toolbar {
+        padding: 14px;
+    }
+
+    .ronix-online-form-catalog-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ronix_quality_manager_snippet_options" inherit_id="website.snippet_options" name="Ronix Quality Manager Snippet Options">
+        <xpath expr="." position="inside">
+            <div data-selector=".s_ham_mobile">
+                <we-collapse string="Card Colors">
+                    <we-colorpicker string="Card Top"
+                                    data-select-style="true"
+                                    data-css-property="--ham-card-top"/>
+                    <we-colorpicker string="Card Bottom"
+                                    data-select-style="true"
+                                    data-css-property="--ham-card-bottom"/>
+                    <we-colorpicker string="Card Border"
+                                    data-select-style="true"
+                                    data-css-property="--ham-line"/>
+                </we-collapse>
+            </div>
+            <div data-selector="[data-snippet='s_app_guest_request_form']">
+                <we-collapse string="Request Target">
+                    <we-input string="Request URL"
+                              class="o_we_large"
+                              data-select-data-attribute=""
+                              data-attribute-name="requestUrl"
+                              data-no-preview="true"
+                              placeholder="https://example.com/ronix/guest_request"/>
+                    <we-input string="Project ID"
+                              class="o_we_large"
+                              data-select-data-attribute=""
+                              data-attribute-name="projectId"
+                              data-no-preview="true"
+                              placeholder="12"/>
+                </we-collapse>
+            </div>
+        </xpath>
+    </template>
+</odoo>

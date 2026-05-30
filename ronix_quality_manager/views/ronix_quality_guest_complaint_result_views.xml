@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_guest_complaint_result_list" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.result.list</field>
+        <field name="model">ronix.quality.guest.complaint.result</field>
+        <field name="arch" type="xml">
+            <list string="Misafir Sikayet Takip Raporu Sonucu" default_order="create_date desc, id desc">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="analyzed_report_count"/>
+                <field name="analyzed_comment_count"/>
+                <field name="status"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_guest_complaint_result_form" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.result.form</field>
+        <field name="model">ronix.quality.guest.complaint.result</field>
+        <field name="arch" type="xml">
+            <form string="Misafir Sikayet Takip Raporu Sonucu">
+                <header>
+                    <button name="action_open_website_page"
+                            string="Grafik Olarak Gor"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="status"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="location_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="analyzed_report_count"/>
+                            <field name="analyzed_comment_count"/>
+                            <field name="error_message"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ozet">
+                            <group>
+                                <field name="top_complaint_topics"/>
+                                <field name="department_distribution"/>
+                                <field name="top_likes"/>
+                                <field name="complaint_word_analysis" invisible="1"/>
+                                <field name="satisfaction_word_analysis" invisible="1"/>
+                                <field name="top_rooms_areas"/>
+                            </group>
+                        </page>
+                        <page string="Prompt ve AI">
+                            <group>
+                                <field name="generated_prompt"/>
+                                <field name="ai_response" widget="html"/>
+                                <field name="python_summary" widget="html"/>
+                            </group>
+                        </page>
+                        <page string="Kaynak Kayitlar">
+                            <field name="source_report_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_guest_complaint_result_search" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.result.search</field>
+        <field name="model">ronix.quality.guest.complaint.result</field>
+        <field name="arch" type="xml">
+            <search string="Misafir Sikayet Takip Raporu Sonucu">
+                <field name="location_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="status"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Durum" name="group_status" context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_guest_complaint_result" model="ir.actions.act_window">
+        <field name="name">Misafir Sikayet Analiz Sonuclari</field>
+        <field name="res_model">ronix.quality.guest.complaint.result</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_guest_complaint_result_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

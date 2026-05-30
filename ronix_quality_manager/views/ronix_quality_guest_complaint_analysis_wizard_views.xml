@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_guest_complaint_analysis_wizard_form" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.analysis.wizard.form</field>
+        <field name="model">ronix.quality.guest.complaint.analysis.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Misafir Sikayet Analizi">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="analyzed_report_count"/>
+                            <field name="analyzed_comment_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="python_summary" widget="html"/>
+                    </group>
+                    <group>
+                        <field name="result_message" widget="html"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_refresh_analysis" string="Analizi Yenile" type="object" class="btn-secondary"/>
+                    <button name="action_create_result" string="Sonuc Kaydi Olustur" type="object" class="btn-primary"/>
+                    <button string="Kapat" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_guest_complaint_analysis_from_reports" model="ir.actions.server">
+        <field name="name">Analiz Et</field>
+        <field name="model_id" ref="model_ronix_quality_guest_complaint_report"/>
+        <field name="binding_model_id" ref="model_ronix_quality_guest_complaint_report"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_open_analysis_wizard()</field>
+    </record>
+</odoo>

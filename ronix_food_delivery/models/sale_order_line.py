@@ -25,9 +25,6 @@ class SaleOrderLine(models.Model):
     def _compute_price_unit(self):
         super()._compute_price_unit()
         for line in self:
-            # Skip combo lines - Odoo handles their pricing natively
-            if line.product_id.type == 'combo' or line.combo_item_id:
-                continue
             if line.product_id.is_food:
                 addon_price = sum(line.food_line_addon_ids.mapped('price_total'))
                 line.price_unit = line.product_id.list_price + addon_price

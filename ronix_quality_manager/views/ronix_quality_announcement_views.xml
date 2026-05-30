@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_announcement_list" model="ir.ui.view">
+        <field name="name">ronix.quality.announcement.list</field>
+        <field name="model">ronix.quality.announcement</field>
+        <field name="arch" type="xml">
+            <list string="Duyurular" default_order="sequence asc, id desc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id" optional="show"/>
+                <field name="name"/>
+                <field name="announcement_date"/>
+                <field name="subtitle"/>
+                <field name="button_label"/>
+                <field name="website_published"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_announcement_form" model="ir.ui.view">
+        <field name="name">ronix.quality.announcement.form</field>
+        <field name="model">ronix.quality.announcement</field>
+        <field name="arch" type="xml">
+            <form string="Duyuru">
+                <header>
+                    <button name="action_open_website_page"
+                            string="Detay Sayfasini Ac"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="website_published" widget="boolean_toggle"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="name"/>
+                            <field name="announcement_date"/>
+                            <field name="subtitle"/>
+                            <field name="button_label"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="body" widget="html"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_announcement_search" model="ir.ui.view">
+        <field name="name">ronix.quality.announcement.search</field>
+        <field name="model">ronix.quality.announcement</field>
+        <field name="arch" type="xml">
+            <search string="Duyurular">
+                <field name="location_id"/>
+                <field name="name"/>
+                <field name="announcement_date"/>
+                <field name="subtitle"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Website'de Acik" name="website_published" domain="[('website_published', '=', True)]"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_announcement" model="ir.actions.act_window">
+        <field name="name">Duyurular</field>
+        <field name="res_model">ronix.quality.announcement</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_announcement_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

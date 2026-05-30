@@ -441,14 +441,10 @@ class FoodDeliveryController(http.Controller):
         food = request.env['product.template'].sudo().browse(food_id)
         if not food.exists():
             return '<div class="p-4 text-center text-danger">Yemek bulunamadı.</div>'
-
-        values = {'food': food}
-        # Pass combo data for combo products
-        if food.type == 'combo' and food.combo_ids:
-            values['is_combo'] = True
-            values['combo_choices'] = food.combo_ids
-
-        return request.env['ir.ui.view']._render_template('ronix_food_delivery.food_detail_offcanvas_content', values)
+            
+        return request.env['ir.ui.view']._render_template('ronix_food_delivery.food_detail_offcanvas_content', {
+            'food': food,
+        })
 
     @http.route('/food/reviews', type='json', auth="public", website=True)
     def food_reviews(self, review_type, record_id, offset=0, limit=20, rating=None, **kwargs):
@@ -517,14 +513,14 @@ class FoodDeliveryController(http.Controller):
         return order
 
     @http.route('/food/cart/add_json', type='json', auth="user", website=True)
-    def food_cart_add_json(self, product_id, quantity=1, addons=None, combo_items=None, **kwargs):
+    def food_cart_add_json(self, product_id, quantity=1, addons=None, **kwargs):
         partner = request.env.user.partner_id
         if not partner.current_food_address_id:
             return {'error': 'address_required'}
 
         order = self._get_cart_order(create=True)
         product = request.env['product.template'].sudo().browse(int(product_id))
-
+        
         if not product.exists():
             return {'error': 'Yemek bulunamadı.'}
 
@@ -537,87 +533,53 @@ class FoodDeliveryController(http.Controller):
                 'new_restaurant': product.food_restaurant_id.name
             }
 
+        # Process addons: list of {'id': addon_id, 'qty': qty}
+        addons_data = addons or []
+        # Sort by ID for consistent comparison
+        addons_data = sorted(addons_data, key=lambda x: int(x['id']))
+        for a in addons_data:
+            a['id'] = int(a['id'])
+            a['qty'] = int(a.get('qty', 1))
+
         product_product = request.env['product.product'].sudo().search([('product_tmpl_id', '=', product.id)], limit=1)
-
-        # Combo product flow
-        if product.type == 'combo' and combo_items:
-            self._add_combo_to_cart(order, product_product, quantity, combo_items)
+        
+        # Enhanced comparison for identical lines
+        existing_line = False
+        for line in order.order_line.filtered(lambda l: l.product_id.id == product_product.id):
+            line_addons = sorted([{ 'id': a.addon_id.id, 'qty': a.quantity } for a in line.food_line_addon_ids], key=lambda x: x['id'])
+            if line_addons == addons_data:
+                existing_line = line
+                break
+        
+        if existing_line:
+            existing_line.sudo().write({
+                'product_uom_qty': existing_line.product_uom_qty + quantity
+            })
         else:
-            # Regular product flow
-            # Process addons: list of {'id': addon_id, 'qty': qty}
-            addons_data = addons or []
-            addons_data = sorted(addons_data, key=lambda x: int(x['id']))
-            for a in addons_data:
-                a['id'] = int(a['id'])
-                a['qty'] = int(a.get('qty', 1))
-
-            # Enhanced comparison for identical lines
-            existing_line = False
-            for line in order.order_line.filtered(lambda l: l.product_id.id == product_product.id and not l.combo_item_id):
-                line_addons = sorted([{ 'id': a.addon_id.id, 'qty': a.quantity } for a in line.food_line_addon_ids], key=lambda x: x['id'])
-                if line_addons == addons_data:
-                    existing_line = line
-                    break
-
-            if existing_line:
-                existing_line.sudo().write({
-                    'product_uom_qty': existing_line.product_uom_qty + quantity
+            line_vals = {
+                'order_id': order.id,
+                'product_id': product_product.id,
+                'product_uom_qty': quantity,
+            }
+            new_line = request.env['sale.order.line'].sudo().create(line_vals)
+            
+            # Create addon lines
+            for addon_item in addons_data:
+                request.env['sale.order.line.food.addon'].sudo().create({
+                    'line_id': new_line.id,
+                    'addon_id': addon_item['id'],
+                    'quantity': addon_item['qty'],
                 })
-            else:
-                line_vals = {
-                    'order_id': order.id,
-                    'product_id': product_product.id,
-                    'product_uom_qty': quantity,
-                }
-                new_line = request.env['sale.order.line'].sudo().create(line_vals)
-
-                # Create addon lines
-                for addon_item in addons_data:
-                    request.env['sale.order.line.food.addon'].sudo().create({
-                        'line_id': new_line.id,
-                        'addon_id': addon_item['id'],
-                        'quantity': addon_item['qty'],
-                    })
-                # Trigger price recompute
-                new_line.sudo()._compute_price_unit()
-
+            # Trigger price recompute
+            new_line.sudo()._compute_price_unit()
+            
         # Ensure delivery fee line is present and total is updated
         order.sudo().action_calculate_delivery_fee()
+        # Invalidate cache to get fresh totals
         order.sudo().invalidate_recordset(['amount_untaxed', 'amount_tax', 'amount_total'])
-
-        return self._get_cart_summary_data(order)
-
-    def _add_combo_to_cart(self, order, combo_product, quantity, combo_items):
-        """Create combo parent line + child lines with linked_line_id and combo_item_id."""
-        SOL = request.env['sale.order.line'].sudo()
-
-        # Create parent combo line (price will be 0 by Odoo design)
-        combo_line = SOL.create({
-            'order_id': order.id,
-            'product_id': combo_product.id,
-            'product_uom_qty': quantity,
-        })
-
-        # Create child lines for each selected combo item
-        for item_data in combo_items:
-            combo_item = request.env['product.combo.item'].sudo().browse(int(item_data['combo_item_id']))
-            if not combo_item.exists():
-                continue
-            SOL.create({
-                'order_id': order.id,
-                'product_id': combo_item.product_id.id,
-                'product_uom_qty': quantity,
-                'linked_line_id': combo_line.id,
-                'combo_item_id': combo_item.id,
-            })
-
-    def _get_cart_summary_data(self, order):
-        """Return cart summary dict, excluding combo child lines from quantity count."""
-        food_lines = order.order_line.filtered(
-            lambda l: l.product_id.is_food and not l.combo_item_id
-        )
+            
         return {
-            'cart_quantity': sum(food_lines.mapped('product_uom_qty')),
+            'cart_quantity': sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')),
             'cart_untaxed': order.amount_untaxed - order.food_delivery_fee,
             'cart_tax': order.amount_tax,
             'cart_delivery_fee': order.food_delivery_fee,
@@ -626,7 +588,7 @@ class FoodDeliveryController(http.Controller):
         }
 
     @http.route('/food/cart/clear_and_add', type='json', auth="user", website=True)
-    def food_cart_clear_and_add(self, product_id, quantity=1, addons=None, combo_items=None, **kwargs):
+    def food_cart_clear_and_add(self, product_id, quantity=1, addons=None, **kwargs):
         order = self._get_cart_order()
         if order:
             order.order_line.sudo().unlink()
@@ -635,7 +597,7 @@ class FoodDeliveryController(http.Controller):
                 'food_delivery_fee': 0.0,
                 'food_delivery_distance': 0.0
             })
-        return self.food_cart_add_json(product_id, quantity, addons, combo_items, **kwargs)
+        return self.food_cart_add_json(product_id, quantity, addons, **kwargs)
 
     @http.route('/food/cart/get_summary', type='json', auth="user", website=True)
     def food_cart_get_summary(self, **kwargs):
@@ -643,10 +605,16 @@ class FoodDeliveryController(http.Controller):
         if not order:
             return {'cart_quantity': 0, 'cart_total': 0}
         restaurant = order.food_restaurant_id
-        summary = self._get_cart_summary_data(order)
-        summary['restaurant_id'] = restaurant.id if restaurant else False
-        summary['restaurant_url'] = '/food-restaurant/%s' % restaurant.id if restaurant else '/food'
-        return summary
+        return {
+            'cart_quantity': sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')),
+            'cart_untaxed': order.amount_untaxed - order.food_delivery_fee,
+            'cart_tax': order.amount_tax,
+            'cart_delivery_fee': order.food_delivery_fee,
+            'cart_total': order.amount_total,
+            'min_order_amount': restaurant.min_order_amount or 0.0,
+            'restaurant_id': restaurant.id if restaurant else False,
+            'restaurant_url': '/food-restaurant/%s' % restaurant.id if restaurant else '/food',
+        }
 
     @http.route('/food/order/tip/standalone', type='json', auth="user", website=True)
     def food_order_tip_standalone(self, order_id, amount, **kwargs):
@@ -969,49 +937,53 @@ class FoodDeliveryController(http.Controller):
     def food_cart_update_quantity(self, line_id, quantity, **kwargs):
         line = request.env['sale.order.line'].sudo().browse(int(line_id))
         order = self._get_cart_order()
-
+        
         if not line.exists() or not order or line.order_id.id != order.id:
             return {'error': 'Sipariş satırı bulunamadı.'}
-
+            
         if quantity <= 0:
-            # For combo parent, linked_line_ids will cascade delete
             line.sudo().unlink()
         else:
             line.sudo().write({'product_uom_qty': quantity})
-            # Also update linked combo child lines
-            if line.product_id.type == 'combo':
-                for child in line.linked_line_ids:
-                    child.sudo().write({'product_uom_qty': quantity})
-
+            
         # Ensure delivery fee line and fresh totals
         order.sudo().action_calculate_delivery_fee()
         order.sudo().invalidate_recordset(['amount_untaxed', 'amount_tax', 'amount_total'])
-
-        result = self._get_cart_summary_data(order)
+            
+        result = {
+            'cart_quantity': sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')),
+            'cart_untaxed': order.amount_untaxed,
+            'cart_tax': order.amount_tax,
+            'cart_delivery_fee': order.food_delivery_fee,
+            'cart_total': order.amount_total,
+            'min_order_amount': order.food_restaurant_id.min_order_amount or 0.0,
+        }
         if line.exists():
-            # For combo, total price = sum of child lines
-            if line.product_id.type == 'combo':
-                result['line_price_total'] = sum(line.linked_line_ids.mapped('price_total'))
-            else:
-                result['line_price_total'] = line.price_total
+            result['line_price_total'] = line.price_total
         return result
 
     @http.route('/food/cart/remove_item', type='json', auth="user", website=True)
     def food_cart_remove_item(self, line_id, **kwargs):
         line = request.env['sale.order.line'].sudo().browse(int(line_id))
         order = self._get_cart_order()
-
+        
         if not line.exists() or not order or line.order_id.id != order.id:
             return {'error': 'Sipariş satırı bulunamadı.'}
-
-        # For combo parent, linked_line_ids cascade delete automatically
+            
         line.sudo().unlink()
-
+        
         # Ensure delivery fee line and fresh totals
         order.sudo().action_calculate_delivery_fee()
         order.sudo().invalidate_recordset(['amount_untaxed', 'amount_tax', 'amount_total'])
-
-        return self._get_cart_summary_data(order)
+            
+        return {
+            'cart_quantity': sum(order.order_line.filtered(lambda l: l.product_id.is_food).mapped('product_uom_qty')),
+            'cart_untaxed': order.amount_untaxed,
+            'cart_tax': order.amount_tax,
+            'cart_delivery_fee': order.food_delivery_fee,
+            'cart_total': order.amount_total,
+            'min_order_amount': order.food_restaurant_id.min_order_amount or 0.0,
+        }
 
     @http.route('/food/payment/manage', type='http', auth="user", website=True)
     def food_payment_manage(self, landing_route='/food-payment-methods', **kwargs):

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_guest_complaint_report_list" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.report.list</field>
+        <field name="model">ronix.quality.guest.complaint.report</field>
+        <field name="arch" type="xml">
+            <list string="Misafir Sikayet Takip Raporu" default_order="report_date desc, report_time desc, id desc">
+                <field name="report_date"/>
+                <field name="report_time"/>
+                <field name="location_id" optional="show"/>
+                <field name="room_number"/>
+                <field name="agency_name"/>
+                <field name="guest_language"/>
+                <field name="guest_type"/>
+                <field name="assistant_name"/>
+                <field name="return_status"/>
+                <field name="source_filename" optional="hide"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_guest_complaint_report_form" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.report.form</field>
+        <field name="model">ronix.quality.guest.complaint.report</field>
+        <field name="arch" type="xml">
+            <form string="Misafir Sikayet Takip Raporu">
+                <header>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="report_date"/>
+                            <field name="report_time"/>
+                            <field name="room_number"/>
+                            <field name="agency_name"/>
+                            <field name="guest_language"/>
+                        </group>
+                        <group>
+                            <field name="checkin_date"/>
+                            <field name="checkout_date"/>
+                            <field name="guest_type"/>
+                            <field name="assistant_name"/>
+                            <field name="return_status"/>
+                            <field name="source_filename"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Icerikler">
+                            <group>
+                                <field name="original_text"/>
+                                <field name="likes_text"/>
+                                <field name="complaints_text"/>
+                                <field name="suggestions_text"/>
+                                <field name="requests_text"/>
+                                <field name="notes_text"/>
+                                <field name="action_text"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_guest_complaint_report_search" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.report.search</field>
+        <field name="model">ronix.quality.guest.complaint.report</field>
+        <field name="arch" type="xml">
+            <search string="Misafir Sikayet Takip Raporu">
+                <field name="location_id"/>
+                <field name="report_date"/>
+                <field name="room_number"/>
+                <field name="agency_name"/>
+                <field name="likes_text"/>
+                <field name="complaints_text"/>
+                <field name="assistant_name"/>
+                <field name="guest_type"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Beğeni Var" name="has_likes" domain="[('likes_text', '!=', False)]"/>
+                <filter string="Şikayet Var" name="has_complaints" domain="[('complaints_text', '!=', False)]"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Acente" name="group_agency_name" context="{'group_by': 'agency_name'}"/>
+                <filter string="Turu" name="group_guest_type" context="{'group_by': 'guest_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_guest_complaint_report" model="ir.actions.act_window">
+        <field name="name">Misafir Sikayet Takip Raporu</field>
+        <field name="res_model">ronix.quality.guest.complaint.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_guest_complaint_report_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

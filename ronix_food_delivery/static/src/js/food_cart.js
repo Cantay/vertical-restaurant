@@ -10,7 +10,6 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
         'click .js-food-addon': '_onAddonClick',
         'click .js-addon-qty-plus': '_onAddonQtyPlus',
         'click .js-addon-qty-minus': '_onAddonQtyMinus',
-        'click .js-food-combo-item': '_onComboItemClick',
         'click .js-food-qty-plus': '_onQtyPlus',
         'click .js-food-qty-minus': '_onQtyMinus',
         'click .js-food-add-to-cart': '_onAddToCart',
@@ -26,7 +25,6 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
     init: function () {
         this._super.apply(this, arguments);
         this.selectedAddons = new Map(); // Map of addonId -> quantity
-        this.selectedComboItems = new Map(); // Map of comboId -> {comboItemId, productId, extraPrice}
     },
 
     start: function () {
@@ -86,37 +84,6 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
         this._updateOffcanvasPrice();
     },
 
-    _onComboItemClick: function (ev) {
-        var $item = $(ev.currentTarget);
-        var comboId = parseInt($item.data('combo-id'));
-        var comboItemId = parseInt($item.data('combo-item-id'));
-        var productId = parseInt($item.data('product-id'));
-        var extraPrice = parseFloat($item.data('extra-price')) || 0;
-
-        // Radio behavior: deselect previous in same combo group
-        var $group = $item.closest('.js-food-combo-group');
-        $group.find('.js-food-combo-item').each(function () {
-            $(this).removeClass('active food-border-orange bg-orange-light');
-            $(this).find('.selection-indicator i')
-                .removeClass('ri-radio-button-fill text-orange')
-                .addClass('ri-radio-button-line text-secondary');
-        });
-
-        // Select current
-        $item.addClass('active food-border-orange bg-orange-light');
-        $item.find('.selection-indicator i')
-            .removeClass('ri-radio-button-line text-secondary')
-            .addClass('ri-radio-button-fill text-orange');
-
-        this.selectedComboItems.set(comboId, {
-            comboItemId: comboItemId,
-            productId: productId,
-            extraPrice: extraPrice,
-        });
-
-        this._updateOffcanvasPrice();
-    },
-
     _toggleAddonUI: function ($item, active) {
         var type = $item.data('selection-type');
         if (active) {
@@ -154,23 +121,14 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
     _updateOffcanvasPrice: function () {
         var basePrice = parseFloat(this.$('.js-food-add-to-cart').data('base-price')) || 0;
         var qty = parseInt(this.$('.js-food-qty-value').text()) || 1;
-        var isCombo = this.$('.js-food-add-to-cart').data('is-combo') === '1';
-        var extraTotal = 0;
+        var addonPrice = 0;
 
-        if (isCombo) {
-            // Sum extra prices from selected combo items
-            this.selectedComboItems.forEach((data) => {
-                extraTotal += data.extraPrice;
-            });
-        } else {
-            // Sum addon prices
-            this.selectedAddons.forEach((addonQty, id) => {
-                var price = parseFloat($(`.js-food-addon[data-addon-id="${id}"]`).data('extra-price')) || 0;
-                extraTotal += (price * addonQty);
-            });
-        }
+        this.selectedAddons.forEach((addonQty, id) => {
+            var price = parseFloat($(`.js-food-addon[data-addon-id="${id}"]`).data('extra-price')) || 0;
+            addonPrice += (price * addonQty);
+        });
 
-        var total = (basePrice + extraTotal) * qty;
+        var total = (basePrice + addonPrice) * qty;
         this.$('.js-food-total-price').text('$' + (total || 0).toFixed(2));
     },
 
@@ -179,52 +137,26 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
         var $btn = $(ev.currentTarget);
         var productId = $btn.data('food-id');
         var qty = parseInt(this.$('.js-food-qty-value').text()) || 1;
-        var isCombo = $btn.data('is-combo') === '1';
-        var comboCount = parseInt($btn.data('combo-count')) || 0;
 
-        var params = {
-            product_id: productId,
-            quantity: qty,
-        };
-
-        if (isCombo) {
-            // Validate all combo groups have a selection
-            if (this.selectedComboItems.size < comboCount) {
-                // Highlight unselected groups
-                this.$('.js-food-combo-group').each(function () {
-                    var cId = parseInt($(this).data('combo-id'));
-                    if (!self.selectedComboItems.has(cId)) {
-                        $(this).find('h3').addClass('text-danger');
-                        setTimeout(function () {
-                            $(this).find('h3').removeClass('text-danger');
-                        }.bind(this), 2000);
-                    }
-                });
-                return;
-            }
-
-            var comboItems = [];
-            this.selectedComboItems.forEach((data, comboId) => {
-                comboItems.push({
-                    combo_item_id: data.comboItemId,
-                    product_id: data.productId,
-                });
-            });
-            params.combo_items = comboItems;
-        } else {
-            var addons = [];
-            this.selectedAddons.forEach((addonQty, id) => {
-                addons.push({ id: id, qty: addonQty });
-            });
-            params.addons = addons;
-        }
+        var addons = [];
+        this.selectedAddons.forEach((addonQty, id) => {
+            addons.push({ id: id, qty: addonQty });
+        });
 
         $btn.prop('disabled', true).addClass('opacity-50');
 
-        rpc('/food/cart/add_json', params).then(function (result) {
+        rpc('/food/cart/add_json', {
+            product_id: productId,
+            quantity: qty,
+            addons: addons,
+        }).then(function (result) {
             $btn.prop('disabled', false).removeClass('opacity-50');
             if (result.error === 'different_restaurant') {
-                self.pendingProduct = params;
+                self.pendingProduct = {
+                    product_id: productId,
+                    quantity: qty,
+                    addons: addons
+                };
                 var $modal = $('#differentRestaurantModal');
                 $modal.find('.js-current-res-name').text(result.current_restaurant);
                 $modal.find('.js-new-res-name').text(result.new_restaurant);
@@ -239,7 +171,6 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
                 self._updateCartSummary(result);
                 // Reset selection for next open
                 self.selectedAddons.clear();
-                self.selectedComboItems.clear();
                 self.$('.js-food-qty-value').text(1);
             }
         });
@@ -323,7 +254,7 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
                 if ($('.js-food-cart-item').length === 0) location.reload();
             } else {
                 $line.find('.js-food-cart-qty-value').text(quantity);
-                $line.find('.js-food-cart-line-price').text('$' + parseFloat(result.line_price_total || 0).toFixed(2));
+                $line.find('.food-text-orange').text('$' + parseFloat(result.line_price_total || 0).toFixed(2));
             }
             self._updateCartSummary(result);
         });
@@ -347,6 +278,7 @@ publicWidget.registry.FoodCart = publicWidget.Widget.extend({
         var untaxed = parseFloat(data.cart_untaxed || 0);
         var minAmount = parseFloat(data.min_order_amount || 0);
         var $warning = $('.js-food-min-order-warning');
+        var $checkoutBtn = $('.fixed-bottom button:contains("Sipariş Ver"), .fixed-bottom button:contains("Order Now")');
 
         if (untaxed < minAmount) {
             $warning.removeClass('d-none');

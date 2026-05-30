@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="spreadsheet_editor_template" name="Spreadsheet Editor">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_spreadsheet_editor"
+                         t-att-data-document-id="document.id"
+                         t-att-data-load-url="'/ronix-quality/spreadsheet/%s/data' % document.access_token"
+                         t-att-data-save-url="'/ronix-quality/spreadsheet/%s/save' % document.access_token"
+                         t-att-data-download-url="document.download_url">
+                    <div class="ham-sheet-shell">
+                        <div class="ham-sheet-stage">
+                            <header class="ham-sheet-head">
+                                <span class="ham-info-kicker">Juju Quality</span>
+                                <h1 t-esc="document.name"/>
+                                <div class="ham-info-ornament" aria-hidden="true">
+                                    <span/>
+                                    <i class="fa fa-diamond"/>
+                                    <span/>
+                                </div>
+                                <p>Excel dosyasini burada duzenleyebilir, kaydedebilir ve tekrar indirebilirsiniz.</p>
+                            </header>
+
+                            <div class="ham-sheet-toolbar">
+                                <div class="ham-sheet-toolbar-left">
+                                    <button type="button" class="ham-ann-button ham-sheet-add-row">Satir Ekle</button>
+                                    <button type="button" class="ham-ann-button ham-sheet-add-col">Sutun Ekle</button>
+                                </div>
+                                <div class="ham-sheet-toolbar-right">
+                                    <button type="button" class="ham-ann-button ham-sheet-save">Kaydet</button>
+                                    <t t-if="document.google_sheets_url">
+                                        <a t-att-href="document.google_sheets_url"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="ham-ann-button ham-ann-button-secondary ham-sheet-open-link">Linki Ac</a>
+                                    </t>
+                                    <a t-att-href="document.download_url" class="ham-ann-button ham-ann-button-secondary ham-sheet-download">Excel Indir</a>
+                                </div>
+                            </div>
+
+                            <div class="ham-sheet-status">
+                                <span class="ham-sheet-status-text">Hazir</span>
+                            </div>
+
+                            <div class="ham-sheet-tabs"/>
+                            <div class="ham-sheet-grid-wrap">
+                                <div class="ham-sheet-grid"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

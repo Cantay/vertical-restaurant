@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_online_form_submission_list" model="ir.ui.view">
+        <field name="name">ronix.online.form.submission.list</field>
+        <field name="model">ronix.online.form.submission</field>
+        <field name="arch" type="xml">
+            <list string="Tamamlanan Formlar" default_order="submitted_on desc, id desc">
+                <field name="name" optional="hide"/>
+                <field name="template_id"/>
+                <field name="location_id"/>
+                <field name="submitted_on"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_online_form_submission_calendar" model="ir.ui.view">
+        <field name="name">ronix.online.form.submission.calendar</field>
+        <field name="model">ronix.online.form.submission</field>
+        <field name="arch" type="xml">
+            <calendar string="Form Takvimi"
+                      date_start="calendar_date"
+                      color="calendar_color"
+                      mode="month"
+                      hide_time="1"
+                      event_open_popup="1"
+                      quick_create="0">
+                <field name="name"/>
+                <field name="template_id" filters="1"/>
+                <field name="location_id" filters="1"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_ronix_online_form_submission_form" model="ir.ui.view">
+        <field name="name">ronix.online.form.submission.form</field>
+        <field name="model">ronix.online.form.submission</field>
+        <field name="arch" type="xml">
+            <form string="Form Gonderimi">
+                <header>
+                    <button name="action_print_pdf" string="PDF Yazdir" type="object" class="btn btn-secondary"/>
+                    <button name="action_mark_reviewed" string="Incelendi Olarak Isaretle" type="object" class="btn btn-primary" invisible="state == 'reviewed'"/>
+                    <button name="action_archive_submission" string="Arsivle" type="object" class="btn btn-secondary" invisible="state == 'archived'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,reviewed,archived"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="template_id" readonly="1"/>
+                            <field name="location_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="submitted_on" readonly="1"/>
+                            <field name="calendar_date_display" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                    <notebook>
+                        <page string="Alan Degerleri">
+                            <field name="value_ids" readonly="1">
+                                <list string="Alan Degerleri">
+                                    <field name="field_name"/>
+                                    <field name="field_code" optional="hide"/>
+                                    <field name="field_type"/>
+                                    <field name="display_value"/>
+                                    <field name="value_integer" optional="hide"/>
+                                    <field name="value_float" optional="hide"/>
+                                    <field name="value_date" optional="hide"/>
+                                    <field name="value_datetime" optional="hide"/>
+                                    <field name="value_boolean" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ham JSON Verisi">
+                            <field name="payload_json" widget="text" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_online_form_submission_search" model="ir.ui.view">
+        <field name="name">ronix.online.form.submission.search</field>
+        <field name="model">ronix.online.form.submission</field>
+        <field name="arch" type="xml">
+            <search string="Tamamlanan Formlar">
+                <field name="name"/>
+                <field name="template_id"/>
+                <field name="location_id"/>
+                <field name="state"/>
+                <filter string="Yeni" name="new" domain="[('state', '=', 'new')]"/>
+                <filter string="Incelendi" name="reviewed" domain="[('state', '=', 'reviewed')]"/>
+                <filter string="Arsivlendi" name="archived" domain="[('state', '=', 'archived')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_online_form_submission" model="ir.actions.act_window">
+        <field name="name">Tamamlanan Formlar</field>
+        <field name="res_model">ronix.online.form.submission</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="search_view_id" ref="view_ronix_online_form_submission_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_online_form_manager.group_ronix_online_form_user'),
+            ref('ronix_online_form_manager.group_ronix_online_form_manager'),
+            ref('ronix_online_form_manager.group_ronix_online_form_admin')
+        ])]"/>
+    </record>
+
+    <record id="action_ronix_online_form_submission_calendar" model="ir.actions.act_window">
+        <field name="name">Form Takvimi</field>
+        <field name="res_model">ronix.online.form.submission</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="view_id" ref="view_ronix_online_form_submission_calendar"/>
+        <field name="search_view_id" ref="view_ronix_online_form_submission_search"/>
+        <field name="domain">[('calendar_date', '!=', False)]</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_online_form_manager.group_ronix_online_form_user'),
+            ref('ronix_online_form_manager.group_ronix_online_form_manager'),
+            ref('ronix_online_form_manager.group_ronix_online_form_admin')
+        ])]"/>
+    </record>
+</odoo>
