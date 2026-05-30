@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ronix_pwa_app_website_designer,ronix.pwa.app.website.designer,model_ronix_pwa_app,website.group_website_designer,1,1,1,1
+access_ronix_pwa_app_system,ronix.pwa.app.system,model_ronix_pwa_app,base.group_system,1,1,1,1

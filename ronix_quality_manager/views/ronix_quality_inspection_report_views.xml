@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_inspection_department_list" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.department.list</field>
+        <field name="model">ronix.quality.inspection.department</field>
+        <field name="arch" type="xml">
+            <list string="Kalite Denetim Departmanlari" default_order="sequence asc, id asc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id" optional="show"/>
+                <field name="name"/>
+                <field name="question_count"/>
+                <field name="report_count"/>
+                <field name="active" string="Aktif"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_department_form" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.department.form</field>
+        <field name="model">ronix.quality.inspection.department</field>
+        <field name="arch" type="xml">
+            <form string="Kalite Denetim Departmani">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="question_count" readonly="1"/>
+                            <field name="report_count" readonly="1"/>
+                            <field name="active" string="Aktif"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sorular">
+                            <field name="question_ids" context="{'default_department_id': id}" mode="list,form">
+                                <list editable="bottom" default_order="sequence asc, id asc">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="weight"/>
+                                    <field name="active" string="Aktif"/>
+                                </list>
+                                <form string="Soru">
+                                    <group>
+                                        <group>
+                                            <field name="department_id"/>
+                                            <field name="sequence"/>
+                                            <field name="weight"/>
+                                        </group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="active" string="Aktif"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Raporlar">
+                            <field name="report_ids" readonly="1">
+                                <list default_order="report_year desc, report_month desc, report_week desc">
+                                    <field name="name"/>
+                                    <field name="report_year"/>
+                                    <field name="report_month"/>
+                                    <field name="report_week"/>
+                                    <field name="score"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_department_search" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.department.search</field>
+        <field name="model">ronix.quality.inspection.department</field>
+        <field name="arch" type="xml">
+            <search string="Kalite Denetim Departmanlari">
+                <field name="location_id"/>
+                <field name="name"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_inspection_department" model="ir.actions.act_window">
+        <field name="name">Departmanlar</field>
+        <field name="res_model">ronix.quality.inspection.department</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_inspection_department_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+
+    <record id="view_ronix_quality_inspection_question_list" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.question.list</field>
+        <field name="model">ronix.quality.inspection.question</field>
+        <field name="arch" type="xml">
+            <list string="Kalite Denetim Sorulari" default_order="department_id asc, sequence asc, id asc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id" optional="show"/>
+                <field name="department_id"/>
+                <field name="name"/>
+                <field name="weight"/>
+                <field name="active" string="Aktif"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_question_form" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.question.form</field>
+        <field name="model">ronix.quality.inspection.question</field>
+        <field name="arch" type="xml">
+            <form string="Kalite Denetim Sorusu">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id" readonly="1"/>
+                            <field name="department_id"/>
+                            <field name="sequence"/>
+                            <field name="weight"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active" string="Aktif"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_question_search" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.question.search</field>
+        <field name="model">ronix.quality.inspection.question</field>
+        <field name="arch" type="xml">
+            <search string="Kalite Denetim Sorulari">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="department_id"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Departman" name="group_department_id" context="{'group_by': 'department_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_inspection_question" model="ir.actions.act_window">
+        <field name="name">Sorular</field>
+        <field name="res_model">ronix.quality.inspection.question</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_inspection_question_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+
+    <record id="view_ronix_quality_inspection_report_list" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.report.list</field>
+        <field name="model">ronix.quality.inspection.report</field>
+        <field name="arch" type="xml">
+            <list string="Haftalik Kalite Denetim Raporlari" default_order="report_year desc, report_month desc, report_week desc, id desc">
+                <field name="name"/>
+                <field name="location_id" optional="show"/>
+                <field name="department_id"/>
+                <field name="report_year"/>
+                <field name="report_month"/>
+                <field name="report_week"/>
+                <field name="question_count"/>
+                <field name="answer_count"/>
+                <field name="score"/>
+                <field name="active" string="Aktif"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_report_form" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.report.form</field>
+        <field name="model">ronix.quality.inspection.report</field>
+        <field name="arch" type="xml">
+            <form string="Kalite Denetim Raporu">
+                <header>
+                    <button name="action_open_website_page"
+                            string="Frontend Form"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <button name="action_refresh_questions"
+                            string="Sorulari Yenile"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="active" string="Aktif" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="department_id"/>
+                            <field name="report_year"/>
+                            <field name="report_month"/>
+                            <field name="report_week"/>
+                        </group>
+                        <group>
+                            <field name="question_count" readonly="1"/>
+                            <field name="answer_count" readonly="1"/>
+                            <field name="total_weight" readonly="1"/>
+                            <field name="achieved_weight" readonly="1"/>
+                            <field name="score" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Soru Cevaplari">
+                            <field name="line_ids" context="{'default_report_id': id}" mode="list,form">
+                                <list editable="bottom" default_order="sequence asc, id asc">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question_text"/>
+                                    <field name="weight"/>
+                                    <field name="answer"/>
+                                    <field name="achieved_weight" readonly="1"/>
+                                </list>
+                                <form string="Soru Cevabi">
+                                    <group>
+                                        <group>
+                                            <field name="sequence"/>
+                                            <field name="question_id" readonly="1"/>
+                                            <field name="question_text"/>
+                                        </group>
+                                        <group>
+                                            <field name="weight"/>
+                                            <field name="answer"/>
+                                            <field name="achieved_weight" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_inspection_report_search" model="ir.ui.view">
+        <field name="name">ronix.quality.inspection.report.search</field>
+        <field name="model">ronix.quality.inspection.report</field>
+        <field name="arch" type="xml">
+            <search string="Haftalik Kalite Denetim Raporlari">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="department_id"/>
+                <field name="report_year"/>
+                <field name="report_month"/>
+                <field name="report_week"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Departman" name="group_department_id" context="{'group_by': 'department_id'}"/>
+                <filter string="Yil" name="group_report_year" context="{'group_by': 'report_year'}"/>
+                <filter string="Ay" name="group_report_month" context="{'group_by': 'report_month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_inspection_report" model="ir.actions.act_window">
+        <field name="name">Haftalik Raporlar</field>
+        <field name="res_model">ronix.quality.inspection.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_inspection_report_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

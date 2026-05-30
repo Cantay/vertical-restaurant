@@ -124,11 +124,13 @@
     <menuitem id="menu_qr_menu_root"
               name="QR Menu"
               web_icon="ronix_qr_menu,static/description/icon.png"
-              sequence="100"/>
+              sequence="100"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 
     <menuitem id="menu_qr_menu_restaurant"
               name="Restaurants"
               parent="menu_qr_menu_root"
               action="action_qr_menu_restaurant"
-              sequence="10"/>
+              sequence="10"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 </odoo>

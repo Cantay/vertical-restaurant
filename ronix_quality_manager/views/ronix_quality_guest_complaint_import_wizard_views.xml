@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_guest_complaint_import_wizard_form" model="ir.ui.view">
+        <field name="name">ronix.quality.guest.complaint.import.wizard.form</field>
+        <field name="model">ronix.quality.guest.complaint.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Misafir Sikayet Excel Import">
+                <sheet>
+                    <group>
+                        <field name="location_id"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                    <group>
+                        <field name="result_message" widget="html" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_import_files" string="Import Et" type="object" class="btn-primary"/>
+                    <button string="Iptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_guest_complaint_import_wizard" model="ir.actions.act_window">
+        <field name="name">Misafir Sikayet Excel Import</field>
+        <field name="res_model">ronix.quality.guest.complaint.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

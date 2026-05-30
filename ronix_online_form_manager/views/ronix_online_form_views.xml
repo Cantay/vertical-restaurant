@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_online_form_template_list" model="ir.ui.view">
+        <field name="name">ronix.online.form.template.list</field>
+        <field name="model">ronix.online.form.template</field>
+        <field name="arch" type="xml">
+            <list string="Cevrimici Formlar" default_order="sequence asc, id desc">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="location_id" optional="hide"/>
+                <field name="slug" optional="hide"/>
+                <field name="state"/>
+                <field name="submission_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_online_form_template_form" model="ir.ui.view">
+        <field name="name">ronix.online.form.template.form</field>
+        <field name="model">ronix.online.form.template</field>
+        <field name="arch" type="xml">
+            <form string="Cevrimici Form">
+                <header>
+                    <button name="action_publish" string="Yayina Al" type="object" class="btn btn-primary" invisible="state == 'published'"/>
+                    <button name="action_set_draft" string="Taslak Yap" type="object" class="btn btn-secondary" invisible="state == 'draft'"/>
+                    <button name="action_archive_template" string="Arsivle" type="object" class="btn btn-secondary" invisible="state == 'archived'"/>
+                    <button name="action_open_frontend" string="Formu Ac" type="object" class="btn btn-secondary" invisible="not frontend_path"/>
+                    <button name="action_view_submissions" string="Tamamlanan Formlar" type="object" class="btn btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,archived"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="slug"/>
+                            <field name="location_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="submit_button_label"/>
+                            <field name="calendar_color" widget="color"/>
+                            <field name="calendar_field_id"/>
+                            <field name="submission_count" readonly="1"/>
+                            <field name="frontend_path" widget="url" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Formun amacini ve kullanicilara gostermek istediginiz aciklamayi yazin..."/>
+                    </group>
+                    <group>
+                        <field name="thank_you_message" placeholder="Basarili gonderim sonrasi mesaj"/>
+                    </group>
+                    <notebook>
+                        <page string="Alanlar">
+                            <field name="field_ids" context="{'default_template_id': id}">
+                                <list editable="bottom" string="Alanlar">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" placeholder="Ornek: Misafir adi soyadi"/>
+                                    <field name="code" placeholder="alan etiketinden otomatik olusur" optional="hide"/>
+                                    <field name="field_type"/>
+                                    <field name="required"/>
+                                    <field name="column_span"/>
+                                    <field name="placeholder"/>
+                                    <field name="help_text"/>
+                                    <field name="selection_options_text" placeholder="Ornek: Evet, Hayir, Beklemede"/>
+                                    <field name="active"/>
+                                </list>
+                                <form string="Alan">
+                                    <group>
+                                        <group>
+                                            <field name="name" placeholder="Ornek: Misafir adi soyadi"/>
+                                            <field name="code" placeholder="alan etiketinden otomatik olusur"/>
+                                            <field name="field_type"/>
+                                            <field name="required"/>
+                                        </group>
+                                        <group>
+                                            <field name="column_span"/>
+                                            <field name="placeholder"/>
+                                            <field name="help_text"/>
+                                            <field name="active"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="selection_options_text"
+                                               placeholder="Ornek: Evet, Hayir, Beklemede"
+                                               invisible="field_type != 'selection'"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_online_form_template_search" model="ir.ui.view">
+        <field name="name">ronix.online.form.template.search</field>
+        <field name="model">ronix.online.form.template</field>
+        <field name="arch" type="xml">
+            <search string="Cevrimici Formlar">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="state"/>
+                <filter string="Yayinda" name="published" domain="[('state', '=', 'published')]"/>
+                <filter string="Taslak" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Arsivde" name="archived" domain="[('state', '=', 'archived')]"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_online_form_template" model="ir.actions.act_window">
+        <field name="name">Formlar</field>
+        <field name="res_model">ronix.online.form.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_online_form_template_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_online_form_manager.group_ronix_online_form_user'),
+            ref('ronix_online_form_manager.group_ronix_online_form_manager'),
+            ref('ronix_online_form_manager.group_ronix_online_form_admin')
+        ])]"/>
+    </record>
+</odoo>

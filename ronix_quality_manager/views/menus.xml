@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="menu_ronix_quality_manager_root" model="ir.ui.menu">
+        <field name="name">Kalite Kontrol</field>
+        <field name="sequence">220</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+        <field name="web_icon">ronix_quality_manager,static/description/icon.png</field>
+    </record>
+
+    <menuitem id="menu_ronix_quality_content_root"
+              name="Icerik Yonetimi"
+              parent="menu_ronix_quality_manager_root"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_mobile_root"
+              name="Mobil Yonetimi"
+              parent="menu_ronix_quality_manager_root"
+              sequence="20"
+              active="False"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_audit_root"
+              name="Kalite Formları"
+              parent="menu_ronix_quality_manager_root"
+              sequence="37"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_operational_nonconformity_root"
+              name="Operasyonel Uygunsuzluk Raporu"
+              parent="menu_ronix_quality_manager_root"
+              sequence="38"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_document_root"
+              name="Dokuman ve Tablolar"
+              parent="menu_ronix_quality_manager_root"
+              sequence="40"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_guest_satisfaction_root"
+              name="Misafir Memnuniyet"
+              parent="menu_ronix_quality_manager_root"
+              sequence="35"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_inspection_root"
+              name="Kalite Denetim Raporu"
+              parent="menu_ronix_quality_manager_root"
+              sequence="36"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_buttons"
+              name="Buttons"
+              parent="menu_ronix_quality_mobile_root"
+              action="action_ronix_quality_button"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_locations"
+              name="Lokasyonlar"
+              parent="menu_ronix_quality_manager_root"
+              action="action_ronix_quality_location"
+              sequence="15"
+              groups="ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_information"
+              name="Bilgilendirmeler"
+              parent="menu_ronix_quality_content_root"
+              action="action_ronix_quality_information"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_information_category"
+              name="Bilgilendirme Kategorileri"
+              parent="menu_ronix_quality_content_root"
+              action="action_ronix_quality_information_category"
+              sequence="11"
+              groups="ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_announcement"
+              name="Duyurular"
+              parent="menu_ronix_quality_content_root"
+              action="action_ronix_quality_announcement"
+              sequence="20"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_training"
+              name="Egitimler"
+              parent="menu_ronix_quality_content_root"
+              action="action_ronix_quality_training"
+              sequence="30"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_audit_checklist"
+              name="Denetime Hazır Mıyım?"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_audit_group"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_operational_nonconformity"
+              name="Raporlar"
+              parent="menu_ronix_quality_operational_nonconformity_root"
+              action="action_ronix_quality_operational_nonconformity"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_product_tracking_form"
+              name="Urun Izleme Formu"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_product_tracking_form"
+              sequence="30"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_goods_acceptance_form"
+              name="Mal Kabul Formu"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_goods_acceptance_form"
+              sequence="31"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_goods_acceptance_skt_control"
+              name="SKT Kontrol"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_goods_acceptance_skt_control"
+              sequence="32"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_butchery_tracking_form"
+              name="Kasaphane Ürün İzleme Formu"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_butchery_tracking_form"
+              sequence="33"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_butchery_section"
+              name="Kasaphane Bölümleri"
+              parent="menu_ronix_quality_audit_root"
+              action="action_ronix_quality_butchery_section"
+              sequence="34"
+              groups="ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_guest_complaint_report"
+              name="Misafir Sikayet Takip Raporu"
+              parent="menu_ronix_quality_guest_satisfaction_root"
+              action="action_ronix_quality_guest_complaint_report"
+              sequence="35"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_guest_complaint_import_wizard"
+              name="Misafir Sikayet Excel Import"
+              parent="menu_ronix_quality_guest_satisfaction_root"
+              action="action_ronix_quality_guest_complaint_import_wizard"
+              sequence="36"
+              groups="ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_guest_complaint_result"
+              name="Misafir Sikayet Analiz Sonuclari"
+              parent="menu_ronix_quality_guest_satisfaction_root"
+              action="action_ronix_quality_guest_complaint_result"
+              sequence="37"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_inspection_department"
+              name="Departmanlar"
+              parent="menu_ronix_quality_inspection_root"
+              action="action_ronix_quality_inspection_department"
+              sequence="10"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_inspection_question"
+              name="Sorular"
+              parent="menu_ronix_quality_inspection_root"
+              action="action_ronix_quality_inspection_question"
+              sequence="20"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_inspection_report"
+              name="Haftalik Raporlar"
+              parent="menu_ronix_quality_inspection_root"
+              action="action_ronix_quality_inspection_report"
+              sequence="30"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+
+    <menuitem id="menu_ronix_quality_spreadsheet_document"
+              name="Excel Editor"
+              parent="menu_ronix_quality_document_root"
+              action="action_ronix_quality_spreadsheet_document"
+              sequence="10"
+              active="False"
+              groups="ronix_quality_manager.group_ronix_quality_user,ronix_quality_manager.group_ronix_quality_manager,ronix_quality_manager.group_ronix_quality_admin"/>
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="goods_acceptance_form_template" name="Goods Acceptance Form">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_product_tracking_form">
+                    <div class="ham-tracking-shell">
+                        <div class="ham-tracking-stage">
+                            <header class="ham-tracking-head">
+                                <span class="ham-info-kicker">Juju Quality</span>
+                                <h1>Mal Kabul Formu</h1>
+                                <p>Mal kabul satirlarini frontend uzerinden hizli sekilde kaydedin.</p>
+                            </header>
+
+                            <t t-if="success">
+                                <div class="ham-tracking-success">Form basariyla kaydedildi.</div>
+                            </t>
+
+                            <form action="/mal-kabul-formu/submit" method="post" class="ham-goods-acceptance-form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="line_payload" value="[]" class="ham-goods-line-payload"/>
+
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Genel Bilgi</h2>
+                                    </div>
+                                    <div class="ham-tracking-subcard ham-tracking-subcard-intro">
+                                        <div class="ham-tracking-grid ham-tracking-grid-2">
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Tarih</span>
+                                                <input type="date" value="" disabled="disabled" t-att-value="today"/>
+                                            </label>
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Islemi Yapan</span>
+                                                <input type="text" name="operator_name" t-att-value="current_user_name"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card s_ham_goods_acceptance_lines">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Mal Kabul Satirlari</h2>
+                                        <button type="button" class="ham-goods-add-line">Satir Ekle</button>
+                                    </div>
+                                    <div class="ham-tracking-line-list">
+                                        <article class="ham-tracking-line-card">
+                                            <div class="ham-tracking-line-head">
+                                                <h3 class="ham-goods-line-title">1. Urun</h3>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-5">
+                                                <label class="ham-tracking-field"><span>Tarih</span><input type="date" data-line-field="line_date" t-att-value="today"/></label>
+                                                <label class="ham-tracking-field"><span>Urun (Isim - Marka)</span><input type="text" data-line-field="product_name_brand"/></label>
+                                                <label class="ham-tracking-field"><span>Parti No</span><input type="text" data-line-field="batch_no"/></label>
+                                                <label class="ham-tracking-field"><span>Uretim Tarihi</span><input type="date" data-line-field="production_date"/></label>
+                                                <label class="ham-tracking-field"><span>Son Kullanma Tarihi</span><input type="date" data-line-field="expiry_date"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Arac Genel Hijyen</span>
+                                                    <select data-line-field="vehicle_hygiene">
+                                                        <option value=""/>
+                                                        <option value="ok">Uygun</option>
+                                                        <option value="not_ok">Uygun Degil</option>
+                                                    </select>
+                                                </label>
+                                                <label class="ham-tracking-field"><span>Ambalaj Genel Hijyen</span>
+                                                    <select data-line-field="packaging_hygiene">
+                                                        <option value=""/>
+                                                        <option value="ok">Uygun</option>
+                                                        <option value="not_ok">Uygun Degil</option>
+                                                    </select>
+                                                </label>
+                                                <label class="ham-tracking-field"><span>Tedarikci Firma</span><input type="text" data-line-field="supplier_name"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Sicaklik Arac</span><input type="number" step="0.01" data-line-field="vehicle_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Sicaklik Urun</span><input type="number" step="0.01" data-line-field="product_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Hammadde Kabul Kriteri</span>
+                                                    <select data-line-field="acceptance_status">
+                                                        <option value=""/>
+                                                        <option value="accept">Kabul</option>
+                                                        <option value="reject">Ret</option>
+                                                        <option value="conditional">Sartli Kabul</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <div class="ham-tracking-grid">
+                                                <label class="ham-tracking-field"><span>Aciklama</span><input type="text" data-line-field="description"/></label>
+                                            </div>
+                                            <div class="ham-tracking-line-actions">
+                                                <button type="button" class="ham-goods-remove-line">Satiri Sil</button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+
+                                <div class="ham-tracking-submit-wrap">
+                                    <button type="submit" class="ham-tracking-submit">Formu Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

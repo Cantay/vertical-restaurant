@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_location_list" model="ir.ui.view">
+        <field name="name">ronix.quality.location.list</field>
+        <field name="model">ronix.quality.location</field>
+        <field name="arch" type="xml">
+            <list string="Uygulama Lokasyonlari">
+                <field name="name"/>
+                <field name="token"/>
+                <field name="button_count"/>
+                <field name="manager_ids" widget="many2many_tags" optional="show"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_location_form" model="ir.ui.view">
+        <field name="name">ronix.quality.location.form</field>
+        <field name="model">ronix.quality.location</field>
+        <field name="arch" type="xml">
+            <form string="Uygulama Lokasyonu">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="token"/>
+                            <field name="manager_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="button_count" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Advanced Settings">
+                            <group name="vapi_integration" string="Vapi Entegrasyonu">
+                                <group>
+                                    <field name="vapi_enabled" widget="boolean_toggle"/>
+                                    <field name="vapi_public_key" password="True" invisible="not vapi_enabled" required="vapi_enabled"/>
+                                    <field name="vapi_assistant_id" invisible="not vapi_enabled" required="vapi_enabled"/>
+                                    <field name="vapi_widget_mode" invisible="not vapi_enabled" required="vapi_enabled"/>
+                                    <field name="vapi_page_ids" widget="many2many_tags" invisible="not vapi_enabled"/>
+                                    <field name="vapi_cta_title" invisible="not vapi_enabled"/>
+                                    <field name="vapi_cta_subtitle" invisible="not vapi_enabled"/>
+                                    <field name="vapi_offset_top_px" invisible="not vapi_enabled"/>
+                                    <field name="vapi_offset_right_px" invisible="not vapi_enabled"/>
+                                </group>
+                                <group name="vapi_colors" string="Ozel Renkler" invisible="not vapi_enabled">
+                                    <field name="vapi_color_base" widget="color" invisible="not vapi_enabled"/>
+                                    <field name="vapi_color_accent" widget="color" invisible="not vapi_enabled"/>
+                                    <field name="vapi_color_button_base" widget="color" invisible="not vapi_enabled"/>
+                                    <field name="vapi_color_button_accent" widget="color" invisible="not vapi_enabled"/>
+                                    <field name="vapi_color_icon" widget="color" invisible="not vapi_enabled"/>
+                                </group>
+                            </group>
+                            <group name="gemini_integration" string="Gemini AI">
+                                <group>
+                                    <field name="gemini_enabled" widget="boolean_toggle"/>
+                                    <field name="gemini_api_key" password="True" invisible="not gemini_enabled" required="gemini_enabled and not gemini_use_vertex_ai"/>
+                                    <field name="gemini_model" invisible="not gemini_enabled" required="gemini_enabled"/>
+                                    <field name="gemini_use_vertex_ai" invisible="not gemini_enabled"/>
+                                    <field name="gemini_project_id" invisible="not gemini_enabled or not gemini_use_vertex_ai"/>
+                                    <field name="gemini_location" invisible="not gemini_enabled"/>
+                                </group>
+                                <group>
+                                    <field name="gemini_temperature" invisible="not gemini_enabled"/>
+                                    <field name="gemini_top_p" invisible="not gemini_enabled"/>
+                                    <field name="gemini_top_k" invisible="not gemini_enabled"/>
+                                    <field name="gemini_max_output_tokens" invisible="not gemini_enabled"/>
+                                </group>
+                                <group col="1">
+                                    <field name="gemini_system_prompt" invisible="not gemini_enabled" placeholder="Gemini sistem promptunu buraya yazin..."/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_location" model="ir.actions.act_window">
+        <field name="name">Lokasyonlar</field>
+        <field name="res_model">ronix.quality.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="groups_id" eval="[(6, 0, [ref('ronix_quality_manager.group_ronix_quality_admin')])]"/>
+    </record>
+</odoo>

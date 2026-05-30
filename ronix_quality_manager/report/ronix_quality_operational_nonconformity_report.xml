@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_nonconformity_report" model="report.paperformat">
+        <field name="name">Uygunsuzluk Raporu - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_operational_nonconformity" model="ir.actions.report">
+        <field name="name">Operasyonel Uygunsuzluk Karti</field>
+        <field name="model">ronix.quality.operational.nonconformity</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ronix_quality_manager.report_operational_nonconformity_template</field>
+        <field name="report_file">ronix_quality_manager.report_operational_nonconformity_template</field>
+        <field name="print_report_name">'Uygunsuzluk Raporu'</field>
+        <field name="paperformat_id" ref="paperformat_nonconformity_report"/>
+        <field name="binding_model_id" ref="model_ronix_quality_operational_nonconformity"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_operational_nonconformity_template">
+        <t t-call="web.basic_layout">
+            <t t-set="filters" t-value="env.context.get('public_report_filters', {})"/>
+            <style>
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    background: #f7f3ec !important;
+                    color: #2a211c;
+                    font-family: 'DejaVu Sans', Arial, sans-serif !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                @page {
+                    margin: 10mm;
+                    background: #f7f3ec;
+                }
+
+                .page {
+                    margin-top: 0 !important;
+                    min-height: 277mm;
+                    padding: 10px;
+                    background: linear-gradient(180deg, #fbf7f1 0%, #f3ece3 100%);
+                }
+
+                .report-header {
+                    border: 1px solid #d8c7ad;
+                    border-left: 7px solid #7b5a34;
+                    background: linear-gradient(135deg, #fffdfa 0%, #f5ede1 100%);
+                    padding: 20px 22px;
+                    margin-bottom: 18px;
+                    border-radius: 16px;
+                    box-shadow: 0 10px 24px rgba(77, 54, 32, 0.08);
+                }
+
+                .report-header-table,
+                .report-filters,
+                .card-header,
+                .card-body {
+                    display: table;
+                    width: 100%;
+                    table-layout: fixed;
+                }
+
+                .report-header-cell,
+                .report-filter,
+                .card-header-cell,
+                .description-cell,
+                .photo-cell {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+
+                .report-title {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: #3b2a1b;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                    margin-bottom: 5px;
+                }
+
+                .report-subtitle,
+                .meta-label,
+                .report-filter-label,
+                .cell-caption,
+                .block-title {
+                    text-transform: uppercase;
+                    letter-spacing: 0.12em;
+                    color: #8a6d4a;
+                }
+
+                .report-subtitle {
+                    font-size: 10px;
+                }
+
+                .report-meta {
+                    text-align: right;
+                }
+
+                .meta-label {
+                    font-size: 9px;
+                    margin-bottom: 2px;
+                }
+
+                .meta-value {
+                    font-size: 26px;
+                    font-weight: 700;
+                    color: #3b2a1b;
+                    line-height: 1;
+                }
+
+                .report-filters {
+                    margin-bottom: 16px;
+                }
+
+                .report-filter {
+                    padding: 12px 14px;
+                    border: 1px solid #dccfb9;
+                    background: rgba(255, 252, 247, 0.92);
+                }
+
+                .report-filter + .report-filter {
+                    border-left: 0;
+                }
+
+                .report-filter-label {
+                    font-size: 8px;
+                    margin-bottom: 5px;
+                }
+
+                .report-filter-value {
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #433121;
+                }
+
+                .department-block {
+                    margin-bottom: 16px;
+                    page-break-inside: avoid;
+                }
+
+                .department-title {
+                    border: 1px solid #d9c2c1;
+                    border-left: 8px solid #c79d9b;
+                    background: #efdedd;
+                    padding: 10px 14px;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #7f5d5b;
+                    text-transform: uppercase;
+                    letter-spacing: 0.10em;
+                    border-radius: 14px;
+                    margin-bottom: 10px;
+                    text-align: center;
+                }
+
+                .department-title-tone-0 {
+                    border-left-color: #c79d9b;
+                    color: #7f5d5b;
+                    background: #efdedd;
+                }
+
+                .department-title-tone-1 {
+                    border-left-color: #cfa9a7;
+                    color: #876462;
+                    background: #f3e5e4;
+                }
+
+                .department-title-tone-2 {
+                    border-left-color: #bc8f8d;
+                    color: #785654;
+                    background: #ebd8d7;
+                }
+
+                .department-title-tone-3 {
+                    border-left-color: #d7b6b4;
+                    color: #906f6c;
+                    background: #f6eceb;
+                }
+
+                .record-card {
+                    border: 1px solid #d8c7ad;
+                    margin-bottom: 12px;
+                    page-break-inside: avoid;
+                    background: #fffdfa;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 12px 26px rgba(77, 54, 32, 0.10);
+                }
+
+                .record-card-inner {
+                    margin: 8px;
+                    border: 1px solid #e6d9c6;
+                    border-radius: 14px;
+                    overflow: hidden;
+                    background: linear-gradient(180deg, #fffdfa 0%, #fcf7f0 100%);
+                }
+
+                .card-ribbon {
+                    padding: 7px 10px;
+                    border-bottom: 1px solid #dccfb9;
+                    background: linear-gradient(90deg, #efe1cd 0%, #fbf6ee 100%);
+                }
+
+                .card-ribbon-label {
+                    display: inline-block;
+                    font-size: 8px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.14em;
+                    color: #7b5a34;
+                }
+
+                .department-records {
+                    padding-top: 6px;
+                }
+
+                .card-header {
+                    background: linear-gradient(180deg, #f8f1e7 0%, #fdfaf5 100%);
+                    border-bottom: 1px solid #dccfb9;
+                }
+
+                .card-header-cell {
+                    padding: 8px 10px;
+                    border-right: 1px solid #dccfb9;
+                }
+
+                .card-header-cell:last-child {
+                    border-right: 0;
+                }
+
+                .cell-caption {
+                    font-size: 7px;
+                    margin-bottom: 2px;
+                }
+
+                .cell-value {
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: #3b2a1b;
+                }
+
+                .status-badge {
+                    display: inline-block;
+                    padding: 4px 8px;
+                    border: 1px solid #baa07d;
+                    background: #fffdfa;
+                    font-size: 9px;
+                    font-weight: 700;
+                    color: #3b2a1b;
+                    border-radius: 999px;
+                    letter-spacing: 0.02em;
+                }
+
+                .status-badge-ongoing {
+                    background: #fbedd8;
+                    border-color: #c88c39;
+                    color: #915e17;
+                }
+
+                .status-badge-new_job {
+                    background: #e8ecf1;
+                    border-color: #91a0b2;
+                    color: #3f4e60;
+                }
+
+                .status-badge-ordered {
+                    background: #efe8df;
+                    border-color: #9c7754;
+                    color: #5f452d;
+                }
+
+                .status-badge-done {
+                    background: #e8f0e4;
+                    border-color: #6e8b5d;
+                    color: #415936;
+                }
+
+                .description-cell,
+                .photo-cell {
+                    vertical-align: top;
+                }
+
+                .description-cell {
+                    width: 82%;
+                    border-right: 1px solid #dccfb9;
+                }
+
+                .photo-cell {
+                    width: 18%;
+                }
+
+                .block-title {
+                    background: #f7efe5;
+                    border-bottom: 1px solid #dccfb9;
+                    padding: 7px 10px;
+                    font-size: 8px;
+                    font-weight: 700;
+                }
+
+                .block-content {
+                    padding: 8px 10px 10px;
+                    min-height: 64px;
+                    font-size: 11px;
+                    line-height: 1.4;
+                    color: #3f3125;
+                    white-space: normal;
+                    text-align: left !important;
+                    text-indent: 0;
+                    vertical-align: top;
+                    display: block;
+                    width: 100%;
+                    margin: 0;
+                    word-break: break-word;
+                }
+
+                .description-copy {
+                    display: block;
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    text-align: left !important;
+                    text-indent: 0 !important;
+                    vertical-align: top;
+                    white-space: normal;
+                }
+
+                .photo-wrap {
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                .photo-box {
+                    width: 50%;
+                    border: 1px solid #dccfb9;
+                    background: linear-gradient(180deg, #fffdfa 0%, #f4ece1 100%);
+                    display: block;
+                    text-align: center;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    line-height: 0;
+                    margin: 0 auto;
+                }
+
+                .photo-box img {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                }
+
+                .photo-placeholder {
+                    display: table-cell;
+                    vertical-align: middle;
+                    text-align: center;
+                    font-size: 10px;
+                    color: #a18968;
+                    text-transform: uppercase;
+                    letter-spacing: 0.10em;
+                }
+            </style>
+
+            <div class="page">
+                <div class="report-header">
+                    <div class="report-header-table">
+                        <div class="report-header-cell">
+                            <div class="report-title">Operasyonel Uygunsuzluk Raporu</div>
+                            <div class="report-subtitle">Kalite operasyonel uygunsuzluk takibi ve yonetimi</div>
+                        </div>
+                        <div class="report-header-cell report-meta">
+                            <div class="meta-label">Uygunsuzluk sayisi</div>
+                            <div class="meta-value"><t t-esc="len(docs)"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-filters">
+                    <div class="report-filter">
+                        <div class="report-filter-label">Tarih Araligi</div>
+                        <div class="report-filter-value" t-esc="docs.format_report_date(filters.get('date_from')) + ' - ' + docs.format_report_date(filters.get('date_to'))"/>
+                    </div>
+                    <div class="report-filter">
+                        <div class="report-filter-label">Departman</div>
+                        <div class="report-filter-value" t-esc="filters.get('department_name') or 'Tum Departmanlar'"/>
+                    </div>
+                    <div class="report-filter">
+                        <div class="report-filter-label">Son Durum</div>
+                        <div class="report-filter-value" t-esc="filters.get('state_label') or 'Tum Durumlar'"/>
+                    </div>
+                </div>
+
+                <t t-set="all_depts" t-value="docs.mapped('department_name')"/>
+                <t t-set="unique_depts" t-value="[]"/>
+                <t t-foreach="all_depts" t-as="d">
+                    <t t-set="fixed_dept" t-value="docs._repair_mojibake_text(d)"/>
+                    <t t-if="fixed_dept not in unique_depts">
+                        <t t-set="unique_depts" t-value="unique_depts + [fixed_dept]"/>
+                    </t>
+                </t>
+
+                <t t-foreach="unique_depts" t-as="dept">
+                    <div class="department-block">
+                        <div t-attf-class="department-title department-title-tone-#{dept_index % 4}">
+                            Departman: <t t-esc="dept"/>
+                        </div>
+
+                        <div class="department-records">
+                            <t t-foreach="docs.filtered(lambda x: x.get_report_department_name() == dept)" t-as="o">
+                                <div class="record-card">
+                                    <div class="record-card-inner">
+                                        <div class="card-ribbon">
+                                            <span class="card-ribbon-label">
+                                                Uygunsuzluk <t t-esc="o_index + 1"/>
+                                            </span>
+                                        </div>
+                                        <div class="card-header">
+                                            <div class="card-header-cell">
+                                                <div class="cell-caption">Uygunsuzluk Tarihi</div>
+                                                <div class="cell-value">
+                                                    <t t-esc="o.format_report_date(o.nonconformity_date)"/>
+                                                </div>
+                                            </div>
+                                            <div class="card-header-cell">
+                                                <div class="cell-caption">Termin Tarihi</div>
+                                                <div class="cell-value">
+                                                    <t t-if="o.deadline_date">
+                                                        <t t-esc="o.format_report_date(o.deadline_date)"/>
+                                                    </t>
+                                                    <t t-else="">-</t>
+                                                </div>
+                                            </div>
+                                            <div class="card-header-cell">
+                                                <div class="cell-caption">Durum</div>
+                                                <div class="cell-value">
+                                                    <span t-attf-class="status-badge status-badge-#{o.state}">
+                                                        <t t-esc="o.get_report_state_label()"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="description-cell">
+                                                <div class="block-title">Aciklama</div>
+                                                <div class="block-content" t-esc="o.get_report_description()"/>
+                                            </div>
+
+                                            <div class="photo-cell">
+                                                <div class="block-title">Fotograf</div>
+                                                <div class="photo-wrap">
+                                                    <div class="photo-box">
+                                                        <t t-if="o.photo">
+                                                            <img t-att-src="image_data_uri(o.get_report_photo())" alt="Fotograf"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <div class="photo-placeholder">Fotograf Yok</div>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_butchery_section_list" model="ir.ui.view">
+        <field name="name">ronix.quality.butchery.section.list</field>
+        <field name="model">ronix.quality.butchery.section</field>
+        <field name="arch" type="xml">
+            <list string="Kasaphane Bölümleri" default_order="sequence asc, name asc">
+                <field name="sequence" widget="handle"/>
+                <field name="location_id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_butchery_section_form" model="ir.ui.view">
+        <field name="name">ronix.quality.butchery.section.form</field>
+        <field name="model">ronix.quality.butchery.section</field>
+        <field name="arch" type="xml">
+            <form string="Kasaphane Bölümü">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_butchery_section" model="ir.actions.act_window">
+        <field name="name">Kasaphane Bölümleri</field>
+        <field name="res_model">ronix.quality.butchery.section</field>
+        <field name="view_mode">list,form</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+
+    <record id="view_ronix_quality_butchery_tracking_form_list" model="ir.ui.view">
+        <field name="name">ronix.quality.butchery.tracking.form.list</field>
+        <field name="model">ronix.quality.butchery.tracking.form</field>
+        <field name="arch" type="xml">
+            <list string="Kasaphane Ürün İzleme Formu" default_order="tracking_date desc, id desc">
+                <field name="location_id" optional="show"/>
+                <field name="tracking_date"/>
+                <field name="name"/>
+                <field name="operator_name"/>
+                <field name="line_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_butchery_tracking_form_form" model="ir.ui.view">
+        <field name="name">ronix.quality.butchery.tracking.form.form</field>
+        <field name="model">ronix.quality.butchery.tracking.form</field>
+        <field name="arch" type="xml">
+            <form string="Kasaphane Ürün İzleme Formu">
+                <header>
+                    <button name="action_print_report" string="PDF" type="object" class="btn btn-secondary"/>
+                    <button name="action_open_website_page" string="Frontend Form" type="object" class="btn btn-secondary"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="tracking_date"/>
+                            <field name="operator_name"/>
+                            <field name="line_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ürünler">
+                            <field name="line_ids" context="{'default_form_id': id}" mode="list,form">
+                                <list editable="bottom" open_form_view="1">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_name"/>
+                                    <field name="brand_name"/>
+                                    <field name="batch_no"/>
+                                    <field name="expiry_date"/>
+                                    <field name="cold_room"/>
+                                    <field name="running_water"/>
+                                    <field name="thaw_start_date"/>
+                                    <field name="thaw_start_time"/>
+                                    <field name="thaw_start_temperature"/>
+                                    <field name="thaw_end_date"/>
+                                    <field name="thaw_end_time"/>
+                                    <field name="thaw_end_temperature"/>
+                                    <field name="delivered_section" widget="many2many_tags"/>
+                                </list>
+                                <form string="Kasaphane Ürün Satırı">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="product_name"/>
+                                                <field name="brand_name"/>
+                                                <field name="batch_no"/>
+                                                <field name="expiry_date"/>
+                                            </group>
+                                            <group>
+                                                <field name="cold_room"/>
+                                                <field name="running_water"/>
+                                                <field name="delivered_section" widget="many2many_tags"/>
+                                            </group>
+                                        </group>
+                                        <group string="KKN 1 - Çözdürme">
+                                            <group string="Başlangıç">
+                                                <field name="thaw_start_date"/>
+                                                <field name="thaw_start_time"/>
+                                                <field name="thaw_start_temperature"/>
+                                            </group>
+                                            <group string="Bitiş">
+                                                <field name="thaw_end_date"/>
+                                                <field name="thaw_end_time"/>
+                                                <field name="thaw_end_temperature"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_butchery_tracking_form_search" model="ir.ui.view">
+        <field name="name">ronix.quality.butchery.tracking.form.search</field>
+        <field name="model">ronix.quality.butchery.tracking.form</field>
+        <field name="arch" type="xml">
+            <search string="Kasaphane Ürün İzleme Formu">
+                <field name="location_id"/>
+                <field name="tracking_date"/>
+                <field name="name"/>
+                <field name="operator_name"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_butchery_tracking_form" model="ir.actions.act_window">
+        <field name="name">Kasaphane Ürün İzleme Formu</field>
+        <field name="res_model">ronix.quality.butchery.tracking.form</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_butchery_tracking_form_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

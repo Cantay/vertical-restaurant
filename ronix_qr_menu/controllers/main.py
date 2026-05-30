@@ -25,6 +25,7 @@ class QrMenuController(http.Controller):
         categories = request.env['qr.menu.category'].sudo().search([
             ('restaurant_id', '=', restaurant.id),
             ('active', '=', True),
+            ('parent_id', '=', False),
         ], order='sequence, name')
 
         return request.render('ronix_qr_menu.qr_menu_landing', {
@@ -59,11 +60,44 @@ class QrMenuController(http.Controller):
             ('is_available', '=', True),
         ], order='sequence, name')
 
+        child_categories = request.env['qr.menu.category'].sudo().search([
+            ('parent_id', '=', category.id),
+            ('active', '=', True),
+        ], order='sequence, name')
+
+        item_sections = []
+        if child_categories:
+            if items:
+                item_sections.append({
+                    'category': category,
+                    'items': items,
+                })
+
+            item_model = request.env['qr.menu.item'].sudo()
+            for child in child_categories:
+                child_items = item_model.search([
+                    ('category_id', '=', child.id),
+                    ('active', '=', True),
+                    ('is_available', '=', True),
+                ], order='sequence, name')
+                if child_items:
+                    item_sections.append({
+                        'category': child,
+                        'items': child_items,
+                    })
+        elif items:
+            item_sections.append({
+                'category': category,
+                'items': items,
+            })
+
         return request.render('ronix_qr_menu.qr_menu_category_page', {
             'restaurant': restaurant,
             'category': category,
             'table': table,
             'items': items,
+            'child_categories': child_categories,
+            'item_sections': item_sections,
         })
 
     @http.route('/qr-menu/<int:restaurant_id>/item/<int:item_id>', type='http', auth='public', website=True)

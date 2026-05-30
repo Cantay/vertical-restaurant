@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ronix_online_form_root"
+              name="Cevrimici Formlar"
+              sequence="230"
+              web_icon="ronix_online_form_manager,static/description/icon.png"
+              groups="ronix_online_form_manager.group_ronix_online_form_user,ronix_online_form_manager.group_ronix_online_form_manager,ronix_online_form_manager.group_ronix_online_form_admin"/>
+
+    <menuitem id="menu_ronix_online_form_templates"
+              name="Formlar"
+              parent="menu_ronix_online_form_root"
+              action="action_ronix_online_form_template"
+              sequence="10"
+              groups="ronix_online_form_manager.group_ronix_online_form_user,ronix_online_form_manager.group_ronix_online_form_manager,ronix_online_form_manager.group_ronix_online_form_admin"/>
+
+    <menuitem id="menu_ronix_online_form_submissions"
+              name="Tamamlanan Formlar"
+              parent="menu_ronix_online_form_root"
+              action="action_ronix_online_form_submission"
+              sequence="20"
+              groups="ronix_online_form_manager.group_ronix_online_form_user,ronix_online_form_manager.group_ronix_online_form_manager,ronix_online_form_manager.group_ronix_online_form_admin"/>
+
+    <menuitem id="menu_ronix_online_form_calendar"
+              name="Takvim"
+              parent="menu_ronix_online_form_root"
+              action="action_ronix_online_form_submission_calendar"
+              sequence="30"
+              groups="ronix_online_form_manager.group_ronix_online_form_user,ronix_online_form_manager.group_ronix_online_form_manager,ronix_online_form_manager.group_ronix_online_form_admin"/>
+</odoo>

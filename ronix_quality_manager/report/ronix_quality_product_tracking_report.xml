@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_product_tracking_report" model="report.paperformat">
+        <field name="name">Urun Izleme Formu - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_product_tracking_form" model="ir.actions.report">
+        <field name="name">Urun Izleme Formu PDF</field>
+        <field name="model">ronix.quality.product.tracking.form</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ronix_quality_manager.report_product_tracking_form_template</field>
+        <field name="report_file">ronix_quality_manager.report_product_tracking_form_template</field>
+        <field name="print_report_name">'Urun Izleme Formu - %s' % (object.tracking_date or '')</field>
+        <field name="paperformat_id" ref="paperformat_product_tracking_report"/>
+        <field name="binding_model_id" ref="model_ronix_quality_product_tracking_form"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_product_tracking_form_template">
+        <t t-call="web.basic_layout">
+            <style>
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    font-family: 'DejaVu Sans', Arial, sans-serif !important;
+                    color: #111827;
+                    background: #ffffff !important;
+                }
+                @page {
+                    size: A4 landscape;
+                    margin: 8mm;
+                }
+                .page {
+                    padding: 0;
+                    page-break-after: always;
+                }
+                .page:last-child {
+                    page-break-after: auto;
+                }
+                .sheet {
+                    border: 1px solid #111827;
+                    background: #ffffff;
+                }
+                .sheet table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    table-layout: fixed;
+                }
+                .sheet td, .sheet th {
+                    border: 1px solid #111827;
+                    padding: 4px 5px;
+                    font-size: 9px;
+                    vertical-align: middle;
+                    word-wrap: break-word;
+                }
+                .center { text-align: center; }
+                .right { text-align: right; }
+                .title {
+                    font-size: 20px;
+                    font-weight: 700;
+                    text-align: center;
+                    padding: 10px 0;
+                }
+                .section {
+                    background: #d9d2e9;
+                    font-size: 16px;
+                    font-weight: 700;
+                    text-align: center;
+                }
+                .section-evening {
+                    background: #f8cbad;
+                }
+                .label-gray {
+                    background: #d9d9d9;
+                    font-weight: 700;
+                }
+                .label-green {
+                    background: #dbe8bd;
+                    font-weight: 700;
+                }
+                .label-orange {
+                    background: #f8cbad;
+                    font-weight: 700;
+                }
+                .subtle {
+                    background: #f7f7f7;
+                }
+                .form-note {
+                    font-size: 8px;
+                    font-weight: 700;
+                }
+                .line-header {
+                    background: #d9d9d9;
+                    font-weight: 700;
+                    text-align: center;
+                }
+                .line-subheader {
+                    background: #efefef;
+                    font-weight: 700;
+                    text-align: center;
+                }
+                .value-box {
+                    min-height: 18px;
+                }
+                .footer-meta td {
+                    font-size: 8px;
+                    padding: 2px 5px;
+                }
+            </style>
+
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div class="sheet">
+                        <table>
+                            <colgroup>
+                                <col style="width: 9%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 8%;"/>
+                                <col style="width: 11%;"/>
+                            </colgroup>
+                            <tr>
+                                <td rowspan="2" class="center"><strong>JUJU</strong></td>
+                                <td colspan="11" class="title">URUN IZLEME FORMU</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="section">SABAH</td>
+                                <td colspan="5" class="section section-evening">AKSAM</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="label-gray center">BUFE SUNUMU</td>
+                                <td rowspan="2" class="label-green center">Sicaklik Olcer<br/>Sabah</td>
+                                <td class="label-green center">Saat</td>
+                                <td colspan="2" class="label-green center">Sicak Sunum Urun(C)</td>
+                                <td colspan="2" class="label-green center">Soguk Sunum Urun(C)</td>
+                                <td rowspan="2" class="label-orange center">Sicaklik Olcer<br/>Aksam</td>
+                                <td class="label-orange center">Saat</td>
+                                <td colspan="2" class="label-orange center">Sicak Sunum Urun(C)</td>
+                                <td colspan="1" class="label-orange center">Soguk Sunum Urun(C)</td>
+                            </tr>
+                            <tr>
+                                <td class="value-box center"><t t-esc="doc.morning_buffet_time or ''"/></td>
+                                <td class="value-box center"><strong>1.</strong> <t t-esc="doc.morning_hot_service_control_1 or ''"/></td>
+                                <td class="value-box center"><strong>2.</strong> <t t-esc="doc.morning_hot_service_control_2 or ''"/></td>
+                                <td class="value-box center"><strong>1.</strong> <t t-esc="doc.morning_cold_service_control_1 or ''"/></td>
+                                <td class="value-box center"><strong>2.</strong> <t t-esc="doc.morning_cold_service_control_2 or ''"/></td>
+                                <td class="value-box center"><t t-esc="doc.evening_buffet_time or ''"/></td>
+                                <td class="value-box center"><strong>1.</strong> <t t-esc="doc.evening_hot_service_control_1 or ''"/></td>
+                                <td class="value-box center"><strong>2.</strong> <t t-esc="doc.evening_hot_service_control_2 or ''"/></td>
+                                <td class="value-box center"><strong>1.</strong> <t t-esc="doc.evening_cold_service_control_1 or ''"/> / <strong>2.</strong> <t t-esc="doc.evening_cold_service_control_2 or ''"/></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="label-gray center">SOGUK DOLAP DERECESI</td>
+                                <td rowspan="2" class="label-green center">Soguk Dolap<br/>Sabah</td>
+                                <td class="label-green center">Saat</td>
+                                <td colspan="2" class="label-green center">Soguk Dolap (+4 C)</td>
+                                <td colspan="2" class="label-green center">Sok Dolap (-18 C)</td>
+                                <td rowspan="2" class="label-orange center">Soguk Dolap<br/>Aksam</td>
+                                <td class="label-orange center">Saat</td>
+                                <td colspan="2" class="label-orange center">Soguk Dolap (+4 C)</td>
+                                <td class="label-orange center">Sok Dolap (-18 C)</td>
+                            </tr>
+                            <tr>
+                                <td class="value-box center"><t t-esc="doc.morning_cold_storage_time or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.morning_cold_storage_temp or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.morning_shock_storage_temp or ''"/></td>
+                                <td class="value-box center"><t t-esc="doc.evening_cold_storage_time or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.evening_cold_storage_temp or ''"/></td>
+                                <td class="value-box center"><t t-esc="doc.evening_shock_storage_temp or ''"/></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="label-gray center">URUN ISLEME ORTAM SICAKLIGI</td>
+                                <td rowspan="2" class="label-green center">Nem Olcer<br/>Sabah</td>
+                                <td class="label-green center">Saat</td>
+                                <td colspan="2" class="label-green center">Sicaklik (C)</td>
+                                <td colspan="2" class="label-green center">Nem (%)</td>
+                                <td rowspan="2" class="label-orange center">Nem Olcer<br/>Aksam</td>
+                                <td class="label-orange center">Saat</td>
+                                <td colspan="2" class="label-orange center">Sicaklik (C)</td>
+                                <td class="label-orange center">Nem (%)</td>
+                            </tr>
+                            <tr>
+                                <td class="value-box center"><t t-esc="doc.morning_environment_time or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.morning_environment_temperature or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.morning_environment_humidity or ''"/></td>
+                                <td class="value-box center"><t t-esc="doc.evening_environment_time or ''"/></td>
+                                <td colspan="2" class="value-box center"><t t-esc="doc.evening_environment_temperature or ''"/></td>
+                                <td class="value-box center"><t t-esc="doc.evening_environment_humidity or ''"/></td>
+                            </tr>
+                        </table>
+
+                        <table>
+                            <colgroup>
+                                <col style="width: 10%;"/>
+                                <col style="width: 9%;"/>
+                                <col style="width: 4%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 6.5%;"/>
+                                <col style="width: 4%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 4%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 4%;"/>
+                                <col style="width: 3.5%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 4.5%;"/>
+                                <col style="width: 4.5%;"/>
+                            </colgroup>
+                            <tr>
+                                <td class="label-gray"><strong>BOLUM:</strong></td>
+                                <td class="value-box center"><t t-esc="doc.section_name or ''"/></td>
+                                <td colspan="14" class="center form-note">Uretim alani icin olmasi gereken degerler: Sicaklik 18 C - 24 C / Nem: 40% - %65 / Sicaklik ve sure ters orantili olup sicakligin yukselmesi durumunda hazirlik suresi azaltilmalidir.</td>
+                            </tr>
+                            <tr>
+                                <td class="label-gray"><strong>ISLEMI YAPAN:</strong></td>
+                                <td colspan="15" class="value-box"><t t-esc="doc.operator_name or ''"/></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="line-header">Tarih<br/>(Gun/Ay/Yil)</td>
+                                <td rowspan="2" class="line-header">Urunun<br/>Adi</td>
+                                <td rowspan="2" class="line-header">Hazirlik<br/>Suresi</td>
+                                <td colspan="2" class="line-header">KKN 2 - Pisirme</td>
+                                <td colspan="4" class="line-header">KKN 3 - Sogutma</td>
+                                <td rowspan="2" class="line-header">Bufe Ismi</td>
+                                <td rowspan="2" class="line-header">Banket Arabasinda Muhafaza Sicakligi</td>
+                                <td colspan="2" class="line-header">Sahit Numune</td>
+                                <td rowspan="2" class="line-header">Geri Donusum</td>
+                                <td rowspan="2" class="line-header">Urun Imha</td>
+                                <td rowspan="2" class="line-header">Tekrar Isitma</td>
+                            </tr>
+                            <tr>
+                                <td class="line-subheader">Pisirme Suresi</td>
+                                <td class="line-subheader">Bitis Urun Merkez Sicakligi</td>
+                                <td class="line-subheader">Baslangic Saati</td>
+                                <td class="line-subheader">Baslangic Sicakligi</td>
+                                <td class="line-subheader">Bitis Saati</td>
+                                <td class="line-subheader">Bitis Sicakligi</td>
+                                <td class="line-subheader">Alindi Mi?</td>
+                                <td class="line-subheader">Urun Sicakligi</td>
+                            </tr>
+                            <t t-set="lines" t-value="doc.line_ids"/>
+                            <t t-foreach="range(max(len(lines), 5))" t-as="line_index">
+                                <t t-set="line" t-value="lines[line_index] if line_index &lt; len(lines) else False"/>
+                                <tr>
+                                    <td class="value-box center"><t t-esc="line.line_date if line else ''"/></td>
+                                    <td class="value-box"><t t-esc="line.product_name if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.preparation_duration if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooking_duration if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooking_end_temperature if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooling_start_time if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooling_start_temperature if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooling_end_time if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.cooling_end_temperature if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.buffet_name if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.banquet_cart_temperature if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="'Evet' if line and line.witness_sample_taken else 'Hayir' if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.witness_product_temperature if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.returned_quantity if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.destroyed_quantity if line else ''"/></td>
+                                    <td class="value-box center"><t t-esc="line.reheated_product_temperature if line else ''"/></td>
+                                </tr>
+                            </t>
+                            <tr class="footer-meta">
+                                <td colspan="5">Dokuman No:MT.FR.08</td>
+                                <td colspan="7" class="center">Yayin Tarihi:01.01.2023</td>
+                                <td colspan="4" class="right">REV:00/-</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

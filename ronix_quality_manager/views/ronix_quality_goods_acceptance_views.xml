@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_goods_acceptance_form_list" model="ir.ui.view">
+        <field name="name">ronix.quality.goods.acceptance.form.list</field>
+        <field name="model">ronix.quality.goods.acceptance.form</field>
+        <field name="arch" type="xml">
+            <list string="Mal Kabul Formu" default_order="id desc">
+                <field name="name"/>
+                <field name="location_id" optional="show"/>
+                <field name="first_line_date" optional="show"/>
+                <field name="operator_name"/>
+                <field name="line_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_goods_acceptance_form_form" model="ir.ui.view">
+        <field name="name">ronix.quality.goods.acceptance.form.form</field>
+        <field name="model">ronix.quality.goods.acceptance.form</field>
+        <field name="arch" type="xml">
+            <form string="Mal Kabul Formu">
+                <header>
+                    <button name="action_print_report"
+                            string="PDF"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <button name="action_open_website_page"
+                            string="Frontend Form"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="operator_name"/>
+                            <field name="first_line_date" readonly="1"/>
+                            <field name="line_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" context="{'default_form_id': id}" mode="list,form">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_date"/>
+                            <field name="product_name_brand"/>
+                            <field name="batch_no"/>
+                            <field name="production_date"/>
+                            <field name="expiry_date"/>
+                            <field name="expiry_warning" column_invisible="1"/>
+                            <field name="expiry_warning_label" string="Uyarı" decoration-danger="expiry_warning"/>
+                            <field name="vehicle_hygiene"/>
+                            <field name="packaging_hygiene"/>
+                            <field name="supplier_name"/>
+                            <field name="vehicle_temperature"/>
+                            <field name="product_temperature"/>
+                            <field name="acceptance_status"/>
+                            <field name="description"/>
+                        </list>
+                        <form string="Mal Kabul Satiri">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="sequence"/>
+                                        <field name="line_date"/>
+                                        <field name="product_name_brand"/>
+                                        <field name="batch_no"/>
+                                        <field name="production_date"/>
+                                        <field name="expiry_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="vehicle_hygiene"/>
+                                        <field name="packaging_hygiene"/>
+                                        <field name="supplier_name"/>
+                                        <field name="vehicle_temperature"/>
+                                        <field name="product_temperature"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="acceptance_status"/>
+                                    </group>
+                                    <group>
+                                        <field name="description"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_goods_acceptance_form_search" model="ir.ui.view">
+        <field name="name">ronix.quality.goods.acceptance.form.search</field>
+        <field name="model">ronix.quality.goods.acceptance.form</field>
+        <field name="arch" type="xml">
+            <search string="Mal Kabul Formu">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="operator_name"/>
+                <field name="first_line_date"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_goods_acceptance_line_skt_list" model="ir.ui.view">
+        <field name="name">ronix.quality.goods.acceptance.form.line.skt.list</field>
+        <field name="model">ronix.quality.goods.acceptance.form.line</field>
+        <field name="arch" type="xml">
+            <list string="SKT Kontrol" default_order="expiry_date asc, id desc" create="false" edit="false" delete="false">
+                <field name="expiry_warning" column_invisible="1"/>
+                <field name="skt_checked" column_invisible="1"/>
+                <button name="action_mark_skt_checked" string="Kontrolü Tamamla" type="object" class="btn btn-secondary btn-sm"/>
+                <field name="expiry_warning_label" string="Uyarı" decoration-danger="expiry_warning"/>
+                <field name="product_name_brand" string="Ürün"/>
+                <field name="supplier_name"/>
+                <field name="batch_no"/>
+                <field name="line_date" string="Mal Kabul Tarihi"/>
+                <field name="production_date"/>
+                <field name="expiry_date"/>
+                <field name="acceptance_status"/>
+                <field name="form_id" string="Form"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_goods_acceptance_line_skt_search" model="ir.ui.view">
+        <field name="name">ronix.quality.goods.acceptance.form.line.skt.search</field>
+        <field name="model">ronix.quality.goods.acceptance.form.line</field>
+        <field name="arch" type="xml">
+            <search string="SKT Kontrol">
+                <field name="product_name_brand"/>
+                <field name="supplier_name"/>
+                <field name="batch_no"/>
+                <field name="expiry_date"/>
+                <filter string="SKT Uyarılı" name="expiry_warning" domain="[('expiry_warning', '=', True)]"/>
+                <filter string="Kontrol Edilmemiş" name="skt_not_checked" domain="[('skt_checked', '=', False)]"/>
+                <group expand="0" string="Grupla">
+                    <filter string="Tedarikçi" name="group_supplier_name" context="{'group_by': 'supplier_name'}"/>
+                    <filter string="SKT" name="group_expiry_date" context="{'group_by': 'expiry_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_goods_acceptance_form" model="ir.actions.act_window">
+        <field name="name">Mal Kabul Formu</field>
+        <field name="res_model">ronix.quality.goods.acceptance.form</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_goods_acceptance_form_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+
+    <record id="action_ronix_quality_goods_acceptance_skt_control" model="ir.actions.act_window">
+        <field name="name">SKT Kontrol</field>
+        <field name="res_model">ronix.quality.goods.acceptance.form.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_ronix_quality_goods_acceptance_line_skt_list"/>
+        <field name="search_view_id" ref="view_ronix_quality_goods_acceptance_line_skt_search"/>
+        <field name="domain">[('expiry_warning', '=', True), ('skt_checked', '=', False)]</field>
+        <field name="context">{}</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

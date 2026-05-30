@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ronix_quality_product_tracking_form_list" model="ir.ui.view">
+        <field name="name">ronix.quality.product.tracking.form.list</field>
+        <field name="model">ronix.quality.product.tracking.form</field>
+        <field name="arch" type="xml">
+            <list string="Urun Izleme Formu" default_order="tracking_date desc, id desc">
+                <field name="location_id" optional="show"/>
+                <field name="section_name" optional="show"/>
+                <field name="tracking_date"/>
+                <field name="name"/>
+                <field name="line_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_product_tracking_form_form" model="ir.ui.view">
+        <field name="name">ronix.quality.product.tracking.form.form</field>
+        <field name="model">ronix.quality.product.tracking.form</field>
+        <field name="arch" type="xml">
+            <form string="Urun Izleme Formu">
+                <header>
+                    <button name="action_open_website_page"
+                            string="Frontend Form"
+                            type="object"
+                            class="btn btn-secondary"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="tracking_date"/>
+                            <field name="operator_name"/>
+                            <field name="section_name"/>
+                            <field name="line_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="website_url" widget="url" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sabah Kontrolleri">
+                            <group string="Bufe Sunumu">
+                                <group>
+                                    <field name="morning_buffet_time"/>
+                                    <field name="morning_hot_service_control_1"/>
+                                    <field name="morning_hot_service_control_2"/>
+                                </group>
+                                <group>
+                                    <field name="morning_cold_service_control_1"/>
+                                    <field name="morning_cold_service_control_2"/>
+                                </group>
+                            </group>
+                            <group string="Soguk Dolap">
+                                <group>
+                                    <field name="morning_cold_storage_time"/>
+                                    <field name="morning_cold_storage_temp"/>
+                                </group>
+                                <group>
+                                    <field name="morning_shock_storage_temp"/>
+                                </group>
+                            </group>
+                            <group string="Ortam Olcumleri">
+                                <group>
+                                    <field name="morning_environment_time"/>
+                                    <field name="morning_environment_temperature"/>
+                                </group>
+                                <group>
+                                    <field name="morning_environment_humidity"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Aksam Kontrolleri">
+                            <group string="Bufe Sunumu">
+                                <group>
+                                    <field name="evening_buffet_time"/>
+                                    <field name="evening_hot_service_control_1"/>
+                                    <field name="evening_hot_service_control_2"/>
+                                </group>
+                                <group>
+                                    <field name="evening_cold_service_control_1"/>
+                                    <field name="evening_cold_service_control_2"/>
+                                </group>
+                            </group>
+                            <group string="Soguk Dolap">
+                                <group>
+                                    <field name="evening_cold_storage_time"/>
+                                    <field name="evening_cold_storage_temp"/>
+                                </group>
+                                <group>
+                                    <field name="evening_shock_storage_temp"/>
+                                </group>
+                            </group>
+                            <group string="Ortam Olcumleri">
+                                <group>
+                                    <field name="evening_environment_time"/>
+                                    <field name="evening_environment_temperature"/>
+                                </group>
+                                <group>
+                                    <field name="evening_environment_humidity"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Sabah Numune Alımı">
+                            <field name="line_ids" domain="[('sample_period', '=', 'morning')]" context="{'default_form_id': id, 'default_sample_period': 'morning'}" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="sample_period" column_invisible="1"/>
+                                    <field name="line_date"/>
+                                    <field name="product_name"/>
+                                    <field name="preparation_duration"/>
+                                    <field name="cooking_duration"/>
+                                    <field name="cooking_end_temperature"/>
+                                    <field name="cooling_start_time"/>
+                                    <field name="cooling_start_temperature"/>
+                                    <field name="cooling_end_time"/>
+                                    <field name="cooling_end_temperature"/>
+                                    <field name="buffet_name"/>
+                                    <field name="banquet_cart_temperature"/>
+                                    <field name="witness_sample_taken"/>
+                                    <field name="witness_product_temperature"/>
+                                    <field name="returned_quantity"/>
+                                    <field name="destroyed_quantity"/>
+                                    <field name="reheated_product_temperature"/>
+                                </list>
+                                <form string="Urun Satiri">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="sample_period" invisible="1"/>
+                                                <field name="line_date"/>
+                                                <field name="product_name"/>
+                                            </group>
+                                            <group>
+                                                <field name="preparation_duration"/>
+                                                <field name="buffet_name"/>
+                                                <field name="banquet_cart_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Pisirme ve Sogutma">
+                                            <group>
+                                                <field name="cooking_duration"/>
+                                                <field name="cooking_end_temperature"/>
+                                                <field name="cooling_start_time"/>
+                                                <field name="cooling_start_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="cooling_end_time"/>
+                                                <field name="cooling_end_temperature"/>
+                                                <field name="reheated_product_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Numune ve Miktarlar">
+                                            <group>
+                                                <field name="witness_sample_taken"/>
+                                                <field name="witness_product_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="returned_quantity"/>
+                                                <field name="destroyed_quantity"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Öğle Numune Alımı">
+                            <field name="line_ids" domain="[('sample_period', '=', 'noon')]" context="{'default_form_id': id, 'default_sample_period': 'noon'}" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="sample_period" column_invisible="1"/>
+                                    <field name="line_date"/>
+                                    <field name="product_name"/>
+                                    <field name="preparation_duration"/>
+                                    <field name="cooking_duration"/>
+                                    <field name="cooking_end_temperature"/>
+                                    <field name="cooling_start_time"/>
+                                    <field name="cooling_start_temperature"/>
+                                    <field name="cooling_end_time"/>
+                                    <field name="cooling_end_temperature"/>
+                                    <field name="buffet_name"/>
+                                    <field name="banquet_cart_temperature"/>
+                                    <field name="witness_sample_taken"/>
+                                    <field name="witness_product_temperature"/>
+                                    <field name="returned_quantity"/>
+                                    <field name="destroyed_quantity"/>
+                                    <field name="reheated_product_temperature"/>
+                                </list>
+                                <form string="Urun Satiri">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="sample_period" invisible="1"/>
+                                                <field name="line_date"/>
+                                                <field name="product_name"/>
+                                            </group>
+                                            <group>
+                                                <field name="preparation_duration"/>
+                                                <field name="buffet_name"/>
+                                                <field name="banquet_cart_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Pisirme ve Sogutma">
+                                            <group>
+                                                <field name="cooking_duration"/>
+                                                <field name="cooking_end_temperature"/>
+                                                <field name="cooling_start_time"/>
+                                                <field name="cooling_start_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="cooling_end_time"/>
+                                                <field name="cooling_end_temperature"/>
+                                                <field name="reheated_product_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Numune ve Miktarlar">
+                                            <group>
+                                                <field name="witness_sample_taken"/>
+                                                <field name="witness_product_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="returned_quantity"/>
+                                                <field name="destroyed_quantity"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Akşam Numune Alımı">
+                            <field name="line_ids" domain="[('sample_period', '=', 'evening')]" context="{'default_form_id': id, 'default_sample_period': 'evening'}" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="sample_period" column_invisible="1"/>
+                                    <field name="line_date"/>
+                                    <field name="product_name"/>
+                                    <field name="preparation_duration"/>
+                                    <field name="cooking_duration"/>
+                                    <field name="cooking_end_temperature"/>
+                                    <field name="cooling_start_time"/>
+                                    <field name="cooling_start_temperature"/>
+                                    <field name="cooling_end_time"/>
+                                    <field name="cooling_end_temperature"/>
+                                    <field name="buffet_name"/>
+                                    <field name="banquet_cart_temperature"/>
+                                    <field name="witness_sample_taken"/>
+                                    <field name="witness_product_temperature"/>
+                                    <field name="returned_quantity"/>
+                                    <field name="destroyed_quantity"/>
+                                    <field name="reheated_product_temperature"/>
+                                </list>
+                                <form string="Urun Satiri">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="sample_period" invisible="1"/>
+                                                <field name="line_date"/>
+                                                <field name="product_name"/>
+                                            </group>
+                                            <group>
+                                                <field name="preparation_duration"/>
+                                                <field name="buffet_name"/>
+                                                <field name="banquet_cart_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Pisirme ve Sogutma">
+                                            <group>
+                                                <field name="cooking_duration"/>
+                                                <field name="cooking_end_temperature"/>
+                                                <field name="cooling_start_time"/>
+                                                <field name="cooling_start_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="cooling_end_time"/>
+                                                <field name="cooling_end_temperature"/>
+                                                <field name="reheated_product_temperature"/>
+                                            </group>
+                                        </group>
+                                        <group string="Numune ve Miktarlar">
+                                            <group>
+                                                <field name="witness_sample_taken"/>
+                                                <field name="witness_product_temperature"/>
+                                            </group>
+                                            <group>
+                                                <field name="returned_quantity"/>
+                                                <field name="destroyed_quantity"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ronix_quality_product_tracking_form_search" model="ir.ui.view">
+        <field name="name">ronix.quality.product.tracking.form.search</field>
+        <field name="model">ronix.quality.product.tracking.form</field>
+        <field name="arch" type="xml">
+            <search string="Urun Izleme Formu">
+                <field name="location_id"/>
+                <field name="tracking_date"/>
+                <field name="name"/>
+                <filter string="Lokasyon" name="group_location_id" context="{'group_by': 'location_id'}"/>
+                <filter string="Aktif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ronix_quality_product_tracking_form" model="ir.actions.act_window">
+        <field name="name">Urun Izleme Formu</field>
+        <field name="res_model">ronix.quality.product.tracking.form</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ronix_quality_product_tracking_form_search"/>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('ronix_quality_manager.group_ronix_quality_user'),
+            ref('ronix_quality_manager.group_ronix_quality_manager'),
+            ref('ronix_quality_manager.group_ronix_quality_admin'),
+        ])]"/>
+    </record>
+</odoo>

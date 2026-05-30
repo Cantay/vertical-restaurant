@@ -24,11 +24,13 @@
     <menuitem id="menu_qr_menu_config"
               name="Configuration"
               parent="menu_qr_menu_root"
-              sequence="90"/>
+              sequence="90"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 
     <menuitem id="menu_qr_menu_allergen"
               name="Allergens"
               parent="menu_qr_menu_config"
               action="action_qr_menu_allergen"
-              sequence="10"/>
+              sequence="10"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 </odoo>

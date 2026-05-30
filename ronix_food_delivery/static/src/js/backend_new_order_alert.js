@@ -72,7 +72,7 @@ export const backendNewOrderAlertService = {
             if (document.getElementById('ronix_audio_unlock_banner')) return;
             const banner = document.createElement('div');
             banner.id = 'ronix_audio_unlock_banner';
-            banner.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:1000000; background:#dc3545; color:white; padding:15px 20px; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:10px; animation: bounceIn 0.5s ease;";
+            banner.style.cssText = "display:none;";
             banner.innerHTML = '<i class="fa fa-volume-up fa-2x"></i> <div>SİPARİŞ SESİNİ AKTİF ETMEK İÇİN TIKLAYIN<br><small style="font-size:0.7rem;opacity:0.8;">Tarayıcı güvenliği için ilk tıklama gereklidir.</small></div>';
             banner.onclick = () => {
                 primeAudioInternal();
@@ -200,7 +200,7 @@ export const backendNewOrderAlertService = {
                 console.log("[Ronix Audio] Autoplay is already allowed.");
             }).catch(() => {
                 console.warn("[Ronix Audio] Autoplay blocked. Waiting for interaction.");
-                showUnlockBanner();
+                // Banner gizlendi - Chrome ayarlarından ses izni verildi
             });
 
             const primeOnAny = (event) => {

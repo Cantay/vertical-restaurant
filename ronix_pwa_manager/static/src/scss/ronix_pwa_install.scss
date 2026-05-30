@@ -1,0 +1,40 @@
+.o_ronix_pwa_install_root {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1085;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    width: 22rem;
+    max-width: calc(100vw - 2rem);
+}
+
+.o_ronix_pwa_install_button {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.9rem 1.15rem;
+    background: linear-gradient(135deg, #9f1d35, #d9485f);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 14px 30px rgba(159, 29, 53, 0.25);
+}
+
+.o_ronix_pwa_install_status {
+    border-radius: 1rem;
+    padding: 0.75rem 0.9rem;
+    background: rgba(20, 20, 20, 0.86);
+    color: #fff;
+    font-size: 0.92rem;
+    line-height: 1.35;
+}
+
+@media (max-width: 767.98px) {
+    .o_ronix_pwa_install_root {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        max-width: none;
+    }
+}

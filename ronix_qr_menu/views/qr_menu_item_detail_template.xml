@@ -11,7 +11,7 @@
             <div class="qr-menu-container">
                 <!-- Back Header -->
                 <div class="qr-menu-top-bar">
-                    <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, item.category_id.id, ('?table_id=%s' % table.id) if table else '')"
+                    <a t-att-href="'/qr-menu/%s/category/%s%s' % (restaurant.id, (item.category_id.parent_id.id or item.category_id.id), ('?table_id=%s' % table.id) if table else '')"
                        class="text-dark text-decoration-none">
                         <i class="ri-arrow-left-line fs-5 me-2"></i>
                     </a>
@@ -21,7 +21,7 @@
                 <!-- Item Image -->
                 <div class="qr-menu-detail-hero">
                     <t t-if="item.image_1920">
-                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920' % item.id"
+                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920/800x600' % item.id"
                              class="w-100" style="max-height: 300px; object-fit: cover;" t-att-alt="item.name"/>
                     </t>
                 </div>
@@ -147,6 +147,7 @@
                         <i class="ri-user-voice-line"></i>
                     </button>
                 </t>
+                <t t-call="ronix_qr_menu.qr_menu_waiter_call_modal_template"/>
             </div>
         </t>
     </template>

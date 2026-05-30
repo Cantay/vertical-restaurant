@@ -12,7 +12,7 @@
                 <!-- Restaurant Header -->
                 <div class="qr-menu-hero position-relative">
                     <t t-if="restaurant.image_1920">
-                        <img t-att-src="'/web/image/qr.menu.restaurant/%s/image_1920' % restaurant.id"
+                        <img t-att-src="'/web/image/qr.menu.restaurant/%s/image_1920/960x440' % restaurant.id"
                              class="qr-menu-hero-img" alt="Restaurant"/>
                     </t>
                     <t t-else="">
@@ -59,7 +59,7 @@
                                    class="text-decoration-none">
                                     <div class="qr-menu-category-card">
                                         <t t-if="cat.image">
-                                            <img t-att-src="'/web/image/qr.menu.category/%s/image' % cat.id"
+                                            <img t-att-src="'/web/image/qr.menu.category/%s/image/400x240' % cat.id"
                                                  class="qr-menu-category-img" t-att-alt="cat.name"/>
                                         </t>
                                         <t t-else="">
@@ -88,53 +88,59 @@
                         <i class="ri-user-voice-line"></i>
                     </button>
                 </t>
+                <t t-call="ronix_qr_menu.qr_menu_waiter_call_modal_template"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- WAITER CALL MODALS TEMPLATE                                  -->
+    <!-- ============================================================ -->
+    <template id="qr_menu_waiter_call_modal_template" name="QR Menu Waiter Call Modals">
+        <!-- Waiter Call Modal -->
+        <t t-if="table">
+            <div class="modal fade" id="waiterCallModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content border-0 rounded-4 shadow">
+                        <div class="modal-header border-0 pb-0">
+                            <h6 class="modal-title fw-bold">Garson Çağır</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-grid gap-2">
+                                <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="waiter">
+                                    <i class="ri-user-voice-line me-2"></i>Garson Çağır
+                                </button>
+                                <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="bill">
+                                    <i class="ri-bill-line me-2"></i>Hesap İste
+                                </button>
+                                <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="water">
+                                    <i class="ri-drop-line me-2"></i>Su İste
+                                </button>
+                            </div>
+                            <div class="mt-3">
+                                <textarea class="form-control js-qr-custom-message" rows="2"
+                                          placeholder="Özel istek yazın (opsiyonel)..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Waiter Call Modal -->
-            <t t-if="table">
-                <div class="modal fade" id="waiterCallModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content border-0 rounded-4 shadow">
-                            <div class="modal-header border-0 pb-0">
-                                <h6 class="modal-title fw-bold">Garson Çağır</h6>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="d-grid gap-2">
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="waiter">
-                                        <i class="ri-user-voice-line me-2"></i>Garson Çağır
-                                    </button>
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="bill">
-                                        <i class="ri-bill-line me-2"></i>Hesap İste
-                                    </button>
-                                    <button class="btn qr-menu-btn-outline-orange js-qr-call-type" data-call-type="water">
-                                        <i class="ri-drop-line me-2"></i>Su İste
-                                    </button>
-                                </div>
-                                <div class="mt-3">
-                                    <textarea class="form-control js-qr-custom-message" rows="2"
-                                              placeholder="Özel istek yazın (opsiyonel)..."></textarea>
-                                </div>
+            <!-- Success Modal -->
+            <div class="modal fade" id="waiterCallSuccessModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content border-0 rounded-4 shadow text-center p-4">
+                        <div class="mb-3">
+                            <div class="qr-menu-success-icon mx-auto">
+                                <i class="ri-checkbox-circle-fill"></i>
                             </div>
                         </div>
+                        <h6 class="fw-bold">İsteğiniz İletildi!</h6>
+                        <p class="text-muted small mb-0">Garsonunuz en kısa sürede gelecektir.</p>
                     </div>
                 </div>
-
-                <!-- Success Modal -->
-                <div class="modal fade" id="waiterCallSuccessModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content border-0 rounded-4 shadow text-center p-4">
-                            <div class="mb-3">
-                                <div class="qr-menu-success-icon mx-auto">
-                                    <i class="ri-checkbox-circle-fill"></i>
-                                </div>
-                            </div>
-                            <h6 class="fw-bold">İsteğiniz İletildi!</h6>
-                            <p class="text-muted small mb-0">Garsonunuz en kısa sürede gelecektir.</p>
-                        </div>
-                    </div>
-                </div>
-            </t>
+            </div>
         </t>
     </template>
 
@@ -153,53 +159,67 @@
                        class="text-dark text-decoration-none">
                         <i class="ri-arrow-left-line fs-5 me-2"></i>
                     </a>
-                    <h6 class="fw-bold mb-0" t-field="category.name"/>
+                    <div class="min-w-0">
+                        <h6 class="fw-bold mb-0" t-field="category.name"/>
+                        <small t-if="category.child_ids" class="text-muted">Alt kategoriler</small>
+                    </div>
                 </div>
 
                 <!-- Item List -->
                 <div class="px-3 py-2">
-                    <t t-foreach="items" t-as="item">
-                        <a t-att-href="'/qr-menu/%s/item/%s%s' % (restaurant.id, item.id, ('?table_id=%s' % table.id) if table else '')"
-                           class="text-decoration-none">
-                            <div class="qr-menu-item-card">
-                                <div class="qr-menu-item-img-wrap">
-                                    <t t-if="item.image_1920">
-                                        <img t-att-src="'/web/image/qr.menu.item/%s/image_1920/200x200' % item.id"
-                                             class="qr-menu-item-img" t-att-alt="item.name"/>
+                    <t t-if="item_sections">
+                        <t t-foreach="item_sections" t-as="section">
+                            <div class="qr-menu-section-block">
+                                <div class="qr-menu-section-head">
+                                    <h5 class="fw-bold mb-1" t-field="section['category'].name"/>
+                                    <t t-if="section['category'].description">
+                                        <p class="text-muted small mb-0" t-field="section['category'].description"/>
                                     </t>
-                                    <t t-else="">
-                                        <div class="qr-menu-item-img-placeholder">
-                                            <i class="ri-restaurant-line"></i>
+                                </div>
+                                <t t-foreach="section['items']" t-as="item">
+                                    <a t-att-href="'/qr-menu/%s/item/%s%s' % (restaurant.id, item.id, ('?table_id=%s' % table.id) if table else '')"
+                                       class="text-decoration-none">
+                                        <div class="qr-menu-item-card">
+                                            <div class="qr-menu-item-img-wrap">
+                                                <t t-if="item.image_1920">
+                                                    <img t-att-src="'/web/image/qr.menu.item/%s/image_1920/200x200' % item.id"
+                                                         class="qr-menu-item-img" t-att-alt="item.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="qr-menu-item-img-placeholder">
+                                                        <i class="ri-restaurant-line"></i>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                            <div class="qr-menu-item-info">
+                                                <div class="fw-bold text-dark" t-field="item.name"/>
+                                                <div class="text-muted small text-truncate" t-if="item.description"
+                                                     t-field="item.description"/>
+                                                <div class="mt-1">
+                                                    <span class="qr-menu-price" t-field="item.price"
+                                                          t-options="{'widget': 'monetary', 'display_currency': item.currency_id}"/>
+                                                </div>
+                                                <div class="mt-1 d-flex flex-wrap gap-1">
+                                                    <span t-if="item.is_vegetarian" class="badge bg-success-subtle text-success">Vejetaryen</span>
+                                                    <span t-if="item.is_vegan" class="badge bg-success-subtle text-success">Vegan</span>
+                                                    <span t-if="item.is_gluten_free" class="badge bg-info-subtle text-info">Glütensiz</span>
+                                                    <span t-if="item.is_spicy" class="badge bg-danger-subtle text-danger">Acı</span>
+                                                    <span t-if="item.has_ar" class="badge bg-primary-subtle text-primary">
+                                                        <i class="ri-camera-3d-line me-1"></i>AR
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="qr-menu-item-arrow">
+                                                <i class="ri-arrow-right-s-line text-muted"></i>
+                                            </div>
                                         </div>
-                                    </t>
-                                </div>
-                                <div class="qr-menu-item-info">
-                                    <div class="fw-bold text-dark" t-field="item.name"/>
-                                    <div class="text-muted small text-truncate" t-if="item.description"
-                                         t-field="item.description"/>
-                                    <div class="mt-1">
-                                        <span class="qr-menu-price" t-field="item.price"
-                                              t-options="{'widget': 'monetary', 'display_currency': item.currency_id}"/>
-                                    </div>
-                                    <!-- Badges -->
-                                    <div class="mt-1 d-flex flex-wrap gap-1">
-                                        <span t-if="item.is_vegetarian" class="badge bg-success-subtle text-success">Vejetaryen</span>
-                                        <span t-if="item.is_vegan" class="badge bg-success-subtle text-success">Vegan</span>
-                                        <span t-if="item.is_gluten_free" class="badge bg-info-subtle text-info">Glütensiz</span>
-                                        <span t-if="item.is_spicy" class="badge bg-danger-subtle text-danger">Acı</span>
-                                        <span t-if="item.has_ar" class="badge bg-primary-subtle text-primary">
-                                            <i class="ri-camera-3d-line me-1"></i>AR
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="qr-menu-item-arrow">
-                                    <i class="ri-arrow-right-s-line text-muted"></i>
-                                </div>
+                                    </a>
+                                </t>
                             </div>
-                        </a>
+                        </t>
                     </t>
 
-                    <t t-if="not items">
+                    <t t-if="not item_sections">
                         <div class="text-center py-5 text-muted">
                             <i class="ri-restaurant-line fs-1 d-block mb-2"></i>
                             <p>Bu kategoride henüz ürün yok.</p>
@@ -215,6 +235,7 @@
                         <i class="ri-user-voice-line"></i>
                     </button>
                 </t>
+                <t t-call="ronix_qr_menu.qr_menu_waiter_call_modal_template"/>
             </div>
         </t>
     </template>

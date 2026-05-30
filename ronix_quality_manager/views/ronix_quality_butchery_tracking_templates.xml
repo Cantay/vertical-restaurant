@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="butchery_tracking_form_template" name="Butchery Product Tracking Form">
+        <t t-call="website.layout">
+            <t t-set="butchery_sections" t-value="request.env['ronix.quality.butchery.section'].sudo().search([('active', '=', True)], order='sequence asc, name asc, id asc')"/>
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_product_tracking_form">
+                    <div class="ham-tracking-shell">
+                        <div class="ham-tracking-stage">
+                            <header class="ham-tracking-head">
+                                <span class="ham-info-kicker">Juju Quality</span>
+                                <h1>Kasaphane Ürün İzleme Formu</h1>
+                                <p>Kasaphane çözdürme ve ürün izleme kaydını oluşturun.</p>
+                            </header>
+                            <t t-if="success">
+                                <div class="ham-tracking-success">Form başarıyla kaydedildi.</div>
+                            </t>
+                            <form action="/kasaphane-urun-izleme-formu/submit" method="post" class="ham-tracking-form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="line_payload" value="[]" class="ham-tracking-line-payload"/>
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head"><h2>Genel Bilgi</h2></div>
+                                    <div class="ham-tracking-subcard ham-tracking-subcard-intro">
+                                        <div class="ham-tracking-grid ham-tracking-grid-2">
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Form Tarihi</span>
+                                                <input type="date" name="tracking_date" t-att-value="today"/>
+                                            </label>
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>İşlemi Yapan Adı Soyadı</span>
+                                                <input type="text" name="operator_name"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="ham-tracking-card s_ham_product_tracking_lines" data-sample-period="butchery">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Ürünler</h2>
+                                        <button type="button" class="ham-tracking-add-line">Satır Ekle</button>
+                                    </div>
+                                    <div class="ham-tracking-line-list">
+                                        <article class="ham-tracking-line-card">
+                                            <div class="ham-tracking-line-head"><h3 class="ham-tracking-line-title">1. Ürün</h3></div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Ürünün Adı</span><input type="text" data-line-field="product_name"/></label>
+                                                <label class="ham-tracking-field"><span>Marka</span><input type="text" data-line-field="brand_name"/></label>
+                                                <label class="ham-tracking-field"><span>Ürün Parti Numarası</span><input type="text" data-line-field="batch_no"/></label>
+                                                <label class="ham-tracking-field"><span>Son Kullanma Tarihi</span><input type="date" data-line-field="expiry_date"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-2">
+                                                <label class="ham-tracking-field ham-tracking-field-check"><span>Soğuk Oda</span><input type="checkbox" data-line-field="cold_room"/></label>
+                                                <label class="ham-tracking-field ham-tracking-field-check"><span>Akar Su</span><input type="checkbox" data-line-field="running_water"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Çözdürme Başlangıç Tarihi</span><input type="date" data-line-field="thaw_start_date" t-att-value="today"/></label>
+                                                <label class="ham-tracking-field"><span>Çözdürme Başlangıç Saati</span><input type="time" data-line-field="thaw_start_time"/></label>
+                                                <label class="ham-tracking-field"><span>Başlangıç Sıcaklığı (C)</span><input type="number" step="0.01" data-line-field="thaw_start_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Çözdürme Bitiş Tarihi</span><input type="date" data-line-field="thaw_end_date"/></label>
+                                                <label class="ham-tracking-field"><span>Çözdürme Bitiş Saati</span><input type="time" data-line-field="thaw_end_time"/></label>
+                                                <label class="ham-tracking-field"><span>Bitiş Sıcaklığı (C)</span><input type="number" step="0.01" data-line-field="thaw_end_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-1">
+                                                <label class="ham-tracking-field">
+                                                    <span>Verildiği Bölüm</span>
+                                                    <select class="ham-tracking-tag-picker" data-tag-picker-field="delivered_section">
+                                                        <option value="">Seçiniz</option>
+                                                        <t t-foreach="butchery_sections" t-as="section" t-key="section.id">
+                                                            <option t-att-value="section.id" t-esc="section.name"/>
+                                                        </t>
+                                                    </select>
+                                                    <select class="ham-tracking-hidden-multi" data-line-field="delivered_section" multiple="multiple">
+                                                        <t t-foreach="butchery_sections" t-as="section" t-key="section.id">
+                                                            <option t-att-value="section.id" t-esc="section.name"/>
+                                                        </t>
+                                                    </select>
+                                                    <div class="ham-tracking-selected-tags" data-tag-field="delivered_section"/>
+                                                </label>
+                                            </div>
+                                            <div class="ham-tracking-line-actions">
+                                                <button type="button" class="ham-tracking-remove-line">Satırı Sil</button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+                                <div class="ham-tracking-submit-wrap">
+                                    <button type="submit" class="ham-tracking-submit">Formu Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

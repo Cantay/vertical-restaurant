@@ -1,0 +1,1338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="page_bilgilendirmeler" model="website.page">
+        <field name="name">Bilgilendirmeler</field>
+        <field name="type">qweb</field>
+        <field name="url">/bilgilendirmeler</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="is_published">True</field>
+        <field name="key">ronix_quality_manager.page_bilgilendirmeler</field>
+        <field name="arch" type="xml">
+            <t t-name="ronix_quality_manager.page_bilgilendirmeler">
+                <t t-call="website.layout">
+                    <t t-set="informations" t-value="request.env['ronix.quality.information'].sudo().search([('active', '=', True), ('website_published', '=', True)], order='publish_date desc, sequence asc, id desc')"/>
+                    <t t-set="main_categories" t-value="request.env['ronix.quality.information.category'].sudo().search([('active', '=', True), ('parent_id', '=', False)], order='sequence asc, name asc, id asc')"/>
+                    <div id="wrap" class="oe_structure">
+                        <section class="s_ham_mobile s_ham_information_page" data-snippet="s_app_information_page" data-name="Bilgilendirmeler">
+                            <div class="container">
+                                <div class="ham-phone ham-info-shell">
+                                    <div class="ham-info-stage">
+                                        <header class="ham-info-head ham-info-head-ann">
+                                            <span class="ham-info-kicker">Juju Quality</span>
+                                            <h1>Bilgilendirmeler</h1>
+                                            <div class="ham-info-ornament" aria-hidden="true">
+                                                <span/>
+                                                <i class="fa fa-diamond"/>
+                                                <span/>
+                                            </div>
+                                        </header>
+
+                                        <div class="ham-front-search">
+                                            <i class="fa fa-search"/>
+                                            <input type="search" placeholder="Bilgilendirme ara..." data-ham-search-input="information"/>
+                                        </div>
+                                        <div class="ham-info-feed ham-info-list-feed">
+                                            <t t-if="main_categories">
+                                                <t t-foreach="main_categories" t-as="main_category" t-key="main_category.id">
+                                                    <t t-set="category_informations" t-value="request.env['ronix.quality.information'].sudo().search([('active', '=', True), ('website_published', '=', True), ('category_id', 'child_of', main_category.id)], order='publish_date desc, sequence asc, id desc')"/>
+                                                    <t t-if="category_informations">
+                                                        <details class="ham-info-category-item" data-ham-search-item="information">
+                                                            <summary class="ham-info-category-summary">
+                                                                <span class="ham-info-list-icon">
+                                                                    <i class="fa fa-folder-o"/>
+                                                                </span>
+                                                                <span class="ham-info-list-main">
+                                                                    <strong t-field="main_category.name"/>
+                                                                    <span t-esc="'%s bilgilendirme' % len(category_informations)"/>
+                                                                </span>
+                                                                <span class="ham-info-list-chevron">
+                                                                    <i class="fa fa-angle-down"/>
+                                                                </span>
+                                                            </summary>
+                                                            <div class="ham-info-category-detail">
+                                                                <t t-foreach="request.env['ronix.quality.information.category'].sudo().search([('active', '=', True), ('parent_id', '=', main_category.id)], order='sequence asc, name asc, id asc')" t-as="child_category" t-key="child_category.id">
+                                                                    <t t-set="child_informations" t-value="request.env['ronix.quality.information'].sudo().search([('active', '=', True), ('website_published', '=', True), ('category_id', 'child_of', child_category.id)], order='publish_date desc, sequence asc, id desc')"/>
+                                                                    <t t-if="child_informations">
+                                                                        <details class="ham-info-category-item ham-info-subcategory-item" data-ham-search-item="information">
+                                                                            <summary class="ham-info-category-summary ham-info-subcategory-summary">
+                                                                                <span class="ham-info-list-icon">
+                                                                                    <i class="fa fa-folder-open-o"/>
+                                                                                </span>
+                                                                                <span class="ham-info-list-main">
+                                                                                    <strong t-field="child_category.name"/>
+                                                                                    <span t-esc="'%s bilgilendirme' % len(child_informations)"/>
+                                                                                </span>
+                                                                                <span class="ham-info-list-chevron">
+                                                                                    <i class="fa fa-angle-down"/>
+                                                                                </span>
+                                                                            </summary>
+                                                                            <div class="ham-info-category-detail ham-info-subcategory-detail">
+                                                                                <t t-foreach="child_informations" t-as="information" t-key="information.id">
+                                                                                    <details class="ham-info-list-item" data-ham-search-item="information">
+                                                                                        <summary class="ham-info-list-summary">
+                                                                                            <span class="ham-info-list-icon">
+                                                                                                <i class="fa fa-info"/>
+                                                                                            </span>
+                                                                                            <span class="ham-info-list-main">
+                                                                                                <strong t-field="information.name"/>
+                                                                                                <span>
+                                                                                                    <t t-esc="information.publish_date or ''"/>
+                                                                                                    <t t-if="information.attachment_count">
+                                                                                                        <t t-esc="' • %s dosya' % information.attachment_count"/>
+                                                                                                    </t>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                            <span class="ham-info-list-chevron">
+                                                                                                <i class="fa fa-angle-down"/>
+                                                                                            </span>
+                                                                                        </summary>
+                                                                                        <div class="ham-info-list-detail">
+                                                                                            <div class="ham-info-body" t-field="information.body"/>
+                                                                                            <div class="ham-info-subtitle">
+                                                                                                <span/>
+                                                                                                <strong>Dosyalar</strong>
+                                                                                                <span/>
+                                                                                            </div>
+                                                                                            <t t-if="information.attachment_ids">
+                                                                                                <div class="ham-info-files">
+                                                                                                    <t t-foreach="information.attachment_ids" t-as="attachment" t-key="attachment.id">
+                                                                                                        <a t-att-href="attachment.download_url" class="ham-info-file">
+                                                                                                            <span class="ham-info-file-main">
+                                                                                                                <i t-attf-class="fa #{attachment.icon_class}"/>
+                                                                                                                <span class="ham-info-file-name" t-esc="attachment.name or attachment.datas_fname"/>
+                                                                                                            </span>
+                                                                                                            <span class="ham-info-file-arrow">
+                                                                                                                <i class="fa fa-angle-right"/>
+                                                                                                            </span>
+                                                                                                        </a>
+                                                                                                    </t>
+                                                                                                </div>
+                                                                                            </t>
+                                                                                            <t t-else="">
+                                                                                                <div class="ham-info-no-files">Dosya bulunmuyor.</div>
+                                                                                            </t>
+                                                                                        </div>
+                                                                                    </details>
+                                                                                </t>
+                                                                            </div>
+                                                                        </details>
+                                                                    </t>
+                                                                </t>
+                                                                <t t-set="direct_informations" t-value="request.env['ronix.quality.information'].sudo().search([('active', '=', True), ('website_published', '=', True), ('category_id', '=', main_category.id)], order='publish_date desc, sequence asc, id desc')"/>
+                                                                <t t-if="direct_informations">
+                                                                    <t t-foreach="direct_informations" t-as="information" t-key="information.id">
+                                                                        <details class="ham-info-list-item" data-ham-search-item="information">
+                                                                            <summary class="ham-info-list-summary">
+                                                                                <span class="ham-info-list-icon">
+                                                                                    <i class="fa fa-info"/>
+                                                                                </span>
+                                                                                <span class="ham-info-list-main">
+                                                                                    <strong t-field="information.name"/>
+                                                                                    <span>
+                                                                                        <t t-esc="information.publish_date or ''"/>
+                                                                                        <t t-if="information.attachment_count">
+                                                                                            <t t-esc="' • %s dosya' % information.attachment_count"/>
+                                                                                        </t>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="ham-info-list-chevron">
+                                                                                    <i class="fa fa-angle-down"/>
+                                                                                </span>
+                                                                            </summary>
+                                                                            <div class="ham-info-list-detail">
+                                                                                <div class="ham-info-body" t-field="information.body"/>
+                                                                                <div class="ham-info-subtitle">
+                                                                                    <span/>
+                                                                                    <strong>Dosyalar</strong>
+                                                                                    <span/>
+                                                                                </div>
+                                                                                <t t-if="information.attachment_ids">
+                                                                                    <div class="ham-info-files">
+                                                                                        <t t-foreach="information.attachment_ids" t-as="attachment" t-key="attachment.id">
+                                                                                            <a t-att-href="attachment.download_url" class="ham-info-file">
+                                                                                                <span class="ham-info-file-main">
+                                                                                                    <i t-attf-class="fa #{attachment.icon_class}"/>
+                                                                                                    <span class="ham-info-file-name" t-esc="attachment.name or attachment.datas_fname"/>
+                                                                                                </span>
+                                                                                                <span class="ham-info-file-arrow">
+                                                                                                    <i class="fa fa-angle-right"/>
+                                                                                                </span>
+                                                                                            </a>
+                                                                                        </t>
+                                                                                    </div>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                    <div class="ham-info-no-files">Dosya bulunmuyor.</div>
+                                                                                </t>
+                                                                            </div>
+                                                                        </details>
+                                                                    </t>
+                                                                </t>
+                                                            </div>
+                                                        </details>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-set="uncategorized_informations" t-value="request.env['ronix.quality.information'].sudo().search([('active', '=', True), ('website_published', '=', True), ('category_id', '=', False)], order='publish_date desc, sequence asc, id desc')"/>
+                                            <t t-if="uncategorized_informations">
+                                                <details class="ham-info-category-item" data-ham-search-item="information">
+                                                    <summary class="ham-info-category-summary">
+                                                        <span class="ham-info-list-icon">
+                                                            <i class="fa fa-folder-o"/>
+                                                        </span>
+                                                        <span class="ham-info-list-main">
+                                                            <strong>Diğer</strong>
+                                                            <span t-esc="'%s bilgilendirme' % len(uncategorized_informations)"/>
+                                                        </span>
+                                                        <span class="ham-info-list-chevron">
+                                                            <i class="fa fa-angle-down"/>
+                                                        </span>
+                                                    </summary>
+                                                    <div class="ham-info-category-detail">
+                                                        <t t-foreach="uncategorized_informations" t-as="information" t-key="information.id">
+                                                    <details class="ham-info-list-item" data-ham-search-item="information">
+                                                        <summary class="ham-info-list-summary">
+                                                            <span class="ham-info-list-icon">
+                                                                <i class="fa fa-info"/>
+                                                            </span>
+                                                            <span class="ham-info-list-main">
+                                                                <strong t-field="information.name"/>
+                                                                <span>
+                                                                    <t t-esc="information.publish_date or ''"/>
+                                                                    <t t-if="information.attachment_count">
+                                                                        <t t-esc="' • %s dosya' % information.attachment_count"/>
+                                                                    </t>
+                                                                </span>
+                                                            </span>
+                                                            <span class="ham-info-list-chevron">
+                                                                <i class="fa fa-angle-down"/>
+                                                            </span>
+                                                        </summary>
+                                                        <div class="ham-info-list-detail">
+                                                            <div class="ham-info-body" t-field="information.body"/>
+                                                            <div class="ham-info-subtitle">
+                                                                <span/>
+                                                                <strong>Dosyalar</strong>
+                                                                <span/>
+                                                            </div>
+                                                            <t t-if="information.attachment_ids">
+                                                                <div class="ham-info-files">
+                                                                    <t t-foreach="information.attachment_ids" t-as="attachment" t-key="attachment.id">
+                                                                        <a t-att-href="attachment.download_url" class="ham-info-file">
+                                                                            <span class="ham-info-file-main">
+                                                                                <i t-attf-class="fa #{attachment.icon_class}"/>
+                                                                                <span class="ham-info-file-name" t-esc="attachment.name or attachment.datas_fname"/>
+                                                                            </span>
+                                                                            <span class="ham-info-file-arrow">
+                                                                                <i class="fa fa-angle-right"/>
+                                                                            </span>
+                                                                        </a>
+                                                                    </t>
+                                                                </div>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <div class="ham-info-no-files">Dosya bulunmuyor.</div>
+                                                            </t>
+                                                        </div>
+                                                    </details>
+                                                        </t>
+                                                    </div>
+                                                </details>
+                                            </t>
+                                            <t t-if="not informations">
+                                                <article class="ham-info-card ham-info-empty">
+                                                    <div class="ham-info-card-frame">
+                                                        <div class="ham-info-card-head">
+                                                            <h2>Bilgilendirme bekleniyor</h2>
+                                                        </div>
+                                                        <div class="ham-info-body">
+                                                            <p>Backend'de yeni bir bilgilendirme olusturdugunuzda bu alan otomatik olarak dolacaktir.</p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="page_duyurular" model="website.page">
+        <field name="name">Duyurular</field>
+        <field name="type">qweb</field>
+        <field name="url">/duyurular</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="is_published">True</field>
+        <field name="key">ronix_quality_manager.page_duyurular</field>
+        <field name="arch" type="xml">
+            <t t-name="ronix_quality_manager.page_duyurular">
+                <t t-call="website.layout">
+                    <t t-set="announcements" t-value="request.env['ronix.quality.announcement'].sudo().search([('active', '=', True), ('website_published', '=', True)], order='sequence asc, id desc')"/>
+                    <div id="wrap" class="oe_structure">
+                        <section class="s_ham_mobile s_ham_announcement_page" data-snippet="s_app_announcement_page" data-name="Duyurular">
+                            <div class="container">
+                                <div class="ham-phone ham-ann-shell">
+                                    <div class="ham-ann-stage">
+                                        <header class="ham-ann-head">
+                                            <span class="ham-info-kicker">Juju Quality</span>
+                                            <h1>Duyurular</h1>
+                                            <div class="ham-info-ornament" aria-hidden="true">
+                                                <span/>
+                                                <i class="fa fa-diamond"/>
+                                                <span/>
+                                            </div>
+                                        </header>
+
+                                        <div class="ham-front-search">
+                                            <i class="fa fa-search"/>
+                                            <input type="search" placeholder="Duyuru ara..." data-ham-search-input="announcement"/>
+                                        </div>
+                                        <div class="ham-info-feed ham-info-list-feed ham-ann-tab-feed">
+                                            <t t-if="announcements">
+                                                <t t-foreach="announcements" t-as="announcement" t-key="announcement.id">
+                                                    <details class="ham-info-list-item" data-ham-search-item="announcement">
+                                                        <summary class="ham-info-list-summary">
+                                                            <span class="ham-info-list-icon">
+                                                                <i class="fa fa-bullhorn"/>
+                                                            </span>
+                                                            <span class="ham-info-list-main">
+                                                                <strong t-field="announcement.name"/>
+                                                                <span>
+                                                                    <t t-esc="announcement.announcement_date or announcement.subtitle or ''"/>
+                                                                </span>
+                                                            </span>
+                                                            <span class="ham-info-list-chevron">
+                                                                <i class="fa fa-angle-down"/>
+                                                            </span>
+                                                        </summary>
+                                                        <div class="ham-info-list-detail">
+                                                            <t t-if="announcement.announcement_date">
+                                                                <div class="ham-ann-date" t-field="announcement.announcement_date"/>
+                                                            </t>
+                                                            <t t-if="announcement.subtitle">
+                                                                <p class="ham-ann-subtitle" t-field="announcement.subtitle"/>
+                                                            </t>
+                                                            <div class="ham-ann-detail-body" t-field="announcement.body"/>
+                                                            <a t-att-href="announcement.website_url" class="ham-ann-button">
+                                                                <span t-esc="announcement.button_label or 'Detaylar'"/>
+                                                            </a>
+                                                        </div>
+                                                    </details>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <article class="ham-ann-card ham-ann-empty">
+                                                    <div class="ham-ann-card-frame">
+                                                        <div class="ham-ann-card-head">
+                                                            <h2>Duyuru bekleniyor</h2>
+                                                        </div>
+                                                        <p class="ham-ann-subtitle">Backend'de yeni duyuru olusturdugunuzda bu alan otomatik dolacaktir.</p>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="page_egitimler" model="website.page">
+        <field name="name">Egitimler</field>
+        <field name="type">qweb</field>
+        <field name="url">/egitimler</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="is_published">True</field>
+        <field name="key">ronix_quality_manager.page_egitimler</field>
+        <field name="arch" type="xml">
+            <t t-name="ronix_quality_manager.page_egitimler">
+                <t t-call="website.layout">
+                    <t t-set="trainings" t-value="request.env['ronix.quality.training'].sudo().search([('active', '=', True), ('website_published', '=', True)], order='publish_date desc, sequence asc, id desc')"/>
+                    <div id="wrap" class="oe_structure">
+                        <section class="s_ham_mobile s_ham_information_page" data-snippet="s_app_training_page" data-name="Egitimler">
+                            <div class="container">
+                                <div class="ham-phone ham-info-shell">
+                                    <div class="ham-info-stage">
+                                        <header class="ham-info-head ham-info-head-ann">
+                                            <span class="ham-info-kicker">Juju Quality</span>
+                                            <h1>Egitimler</h1>
+                                            <div class="ham-info-ornament" aria-hidden="true">
+                                                <span/>
+                                                <i class="fa fa-diamond"/>
+                                                <span/>
+                                            </div>
+                                        </header>
+
+                                        <div class="ham-info-feed">
+                                            <t t-if="trainings">
+                                                <t t-foreach="trainings" t-as="training" t-key="training.id">
+                                                    <article class="ham-info-card">
+                                                        <div class="ham-info-card-frame">
+                                                            <div class="ham-info-card-head ham-info-card-head-ann">
+                                                                <h2 t-field="training.name"/>
+                                                            </div>
+                                                            <div class="ham-info-body" t-field="training.body"/>
+                                                            <t t-if="training.attachment_ids">
+                                                                <div class="ham-info-subtitle">
+                                                                    <span/>
+                                                                    <strong>Ekler</strong>
+                                                                    <span/>
+                                                                </div>
+                                                                <div class="ham-info-files">
+                                                                    <t t-foreach="training.attachment_ids" t-as="attachment" t-key="attachment.id">
+                                                                        <div class="ham-info-file ham-info-file-training">
+                                                                            <span class="ham-info-file-main ham-info-file-main-training">
+                                                                                <i t-attf-class="fa #{attachment.icon_class}"/>
+                                                                                <span class="ham-info-file-name" t-esc="attachment.name or attachment.datas_fname"/>
+                                                                            </span>
+                                                                            <span class="ham-info-file-actions">
+                                                                                <a t-att-href="attachment.preview_url"
+                                                                                   target="_blank"
+                                                                                   rel="noopener noreferrer"
+                                                                                   class="ham-info-file-action">
+                                                                                    Gor
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
+                                                                    </t>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </article>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <article class="ham-info-card ham-info-empty">
+                                                    <div class="ham-info-card-frame">
+                                                        <div class="ham-info-card-head">
+                                                            <h2>Egitim bekleniyor</h2>
+                                                        </div>
+                                                        <div class="ham-info-body">
+                                                            <p>Backend'de yeni bir egitim olusturdugunuzda bu alan otomatik olarak dolacaktir.</p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="page_denetime_hazir_miyim" model="website.page">
+        <field name="name">Denetime Hazır Mıyım?</field>
+        <field name="type">qweb</field>
+        <field name="url">/denetime-hazir-miyim</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="is_published">True</field>
+        <field name="key">ronix_quality_manager.page_denetime_hazir_miyim</field>
+        <field name="arch" type="xml">
+            <t t-name="ronix_quality_manager.page_denetime_hazir_miyim">
+                <t t-call="website.layout">
+                    <t t-set="audit_groups" t-value="request.env['ronix.quality.audit.group'].sudo().search([('active', '=', True), ('website_published', '=', True)], order='sequence asc, id asc')"/>
+                    <div id="wrap" class="oe_structure">
+                        <section class="s_ham_mobile s_ham_audit_page" data-snippet="s_app_audit_page" data-name="Denetime Hazır Mıyım?">
+                            <div class="container">
+                                <div class="ham-phone ham-audit-shell">
+                                    <div class="ham-audit-stage">
+                                        <header class="ham-audit-head">
+                                            <span class="ham-info-kicker">Juju Quality</span>
+                                            <h1>Denetime Hazır Mıyım?</h1>
+                                            <div class="ham-info-ornament" aria-hidden="true">
+                                                <span/>
+                                                <i class="fa fa-diamond"/>
+                                                <span/>
+                                            </div>
+                                        </header>
+
+                                        <div class="ham-audit-feed">
+                                            <t t-if="audit_groups">
+                                                <t t-foreach="audit_groups" t-as="group" t-key="group.id">
+                                                    <article class="ham-audit-group" t-att-data-group-id="group.id">
+                                                        <button type="button" class="ham-audit-group-toggle">
+                                                            <span class="ham-audit-group-main">
+                                                                <span class="ham-audit-group-title" t-field="group.department_name"/>
+                                                                <t t-if="group.note">
+                                                                    <span class="ham-audit-group-note" t-field="group.note"/>
+                                                                </t>
+                                                            </span>
+                                                            <span class="ham-audit-group-meta">
+                                                                <span class="ham-audit-count">0/0</span>
+                                                                <i class="fa fa-angle-down ham-audit-chevron"/>
+                                                            </span>
+                                                        </button>
+                                                        <div class="ham-audit-group-body">
+                                                            <div class="ham-audit-status">Harika, Denetime Hazırsın!</div>
+                                                            <div class="ham-audit-items">
+                                                                <t t-foreach="group.item_ids.filtered('active')" t-as="item" t-key="item.id">
+                                                                    <label class="ham-audit-item"
+                                                                           t-att-data-item-id="item.id"
+                                                                           t-att-data-sequence="item.sequence">
+                                                                        <span class="ham-audit-item-left">
+                                                                            <input type="checkbox" class="ham-audit-checkbox"/>
+                                                                            <span class="ham-audit-checkbox-ui">
+                                                                                <i class="fa fa-check"/>
+                                                                            </span>
+                                                                            <span class="ham-audit-item-copy">
+                                                                                <strong t-field="item.name"/>
+                                                                                <t t-if="item.note">
+                                                                                    <small t-field="item.note"/>
+                                                                                </t>
+                                                                            </span>
+                                                                        </span>
+                                                                    </label>
+                                                                </t>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <article class="ham-audit-group ham-audit-group-empty is-open">
+                                                    <div class="ham-audit-group-body d-block">
+                                                        <div class="ham-audit-status is-visible">Checklist hazır olduğunda bu alanda departmanlar listelenecek.</div>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <template id="announcement_detail_template" name="Announcement Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile s_ham_announcement_page s_ham_announcement_detail">
+                    <div class="container">
+                        <div class="ham-phone ham-ann-shell">
+                            <div class="ham-ann-stage">
+                                <header class="ham-ann-head">
+                                    <span class="ham-info-kicker">Juju Quality</span>
+                                    <h1>Duyurular</h1>
+                                    <div class="ham-info-ornament" aria-hidden="true">
+                                        <span/>
+                                        <i class="fa fa-diamond"/>
+                                        <span/>
+                                    </div>
+                                </header>
+
+                                <article class="ham-ann-card ham-ann-detail-card">
+                                    <div class="ham-ann-card-frame">
+                                        <div class="ham-ann-card-head">
+                                            <h2 t-field="announcement.name"/>
+                                        </div>
+                                        <t t-if="announcement.announcement_date">
+                                            <div class="ham-ann-date" t-field="announcement.announcement_date"/>
+                                        </t>
+                                        <t t-if="announcement.subtitle">
+                                            <p class="ham-ann-subtitle" t-field="announcement.subtitle"/>
+                                        </t>
+                                        <div class="ham-ann-detail-body" t-field="announcement.body"/>
+                                        <div class="ham-ann-detail-actions">
+                                            <a href="/duyurular" class="ham-ann-button ham-ann-button-secondary">Tum Duyurular</a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="operational_nonconformity_public_page" name="Operational Nonconformity Public Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile s_ham_nonconformity_page">
+                    <div class="container">
+                        <div class="ham-phone ham-ncr-shell">
+                            <div class="ham-ncr-stage">
+                                <header class="ham-ann-head ham-ncr-head">
+                                    <span class="ham-info-kicker">Juju Quality</span>
+                                    <h1>Operasyonel Uygunsuzluk Raporu</h1>
+                                    <div class="ham-info-ornament" aria-hidden="true">
+                                        <span/>
+                                        <i class="fa fa-diamond"/>
+                                        <span/>
+                                    </div>
+                                    <p>İki tarih aralığı, departman ve son durum seçerek raporu PDF olarak oluşturabilirsiniz.</p>
+                                </header>
+
+                                <div class="ham-ncr-card">
+                                    <div class="ham-ncr-card-frame">
+                                        <form action="/operasyonel-uygunsuzluk-raporu/download" method="get" class="ham-ncr-form">
+                                            <div class="ham-ncr-grid">
+                                                <label class="ham-ncr-field">
+                                                    <span>Baslangic Tarihi</span>
+                                                    <input type="date" name="date_from" t-att-value="date_from" inputmode="none" readonly="readonly" onfocus="if (this.showPicker) { this.showPicker(); }"/>
+                                                </label>
+                                                <label class="ham-ncr-field">
+                                                    <span>Bitis Tarihi</span>
+                                                    <input type="date" name="date_to" t-att-value="date_to" inputmode="none" readonly="readonly" onfocus="if (this.showPicker) { this.showPicker(); }"/>
+                                                </label>
+                                                <label class="ham-ncr-field">
+                                                    <span>Departman</span>
+                                                    <select name="department_id">
+                                                        <option value="">Tum Departmanlar</option>
+                                                        <t t-foreach="departments" t-as="department" t-key="department">
+                                                            <option t-att-value="department.id" t-att-selected="department.id == department_id and 'selected' or None">
+                                                                <t t-esc="department.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </label>
+                                                <label class="ham-ncr-field">
+                                                    <span>Son Durum</span>
+                                                    <select name="state">
+                                                        <option value="">Tum Durumlar</option>
+                                                        <t t-foreach="state_selection.items()" t-as="state_item" t-key="state_item[0]">
+                                                            <option t-att-value="state_item[0]" t-att-selected="state_item[0] == state and 'selected' or None">
+                                                                <t t-esc="state_item[1]"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </label>
+                                            </div>
+
+                                            <div class="ham-ncr-actions">
+                                                <button type="submit" class="ham-ann-button ham-ncr-submit">
+                                                    <i class="fa fa-download"/>
+                                                    <span>Raporu Indir</span>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <div class="ham-ncr-dashboard">
+                                            <div class="ham-ncr-dashboard-head">
+                                                <strong>Departman Bazlı Özet</strong>
+                                                <span t-esc="'%s departman listeleniyor' % len(dashboard_rows)"/>
+                                            </div>
+
+                                            <div class="ham-ncr-summary-grid">
+                                                <article class="ham-ncr-summary-card is-total">
+                                                    <span>Toplam</span>
+                                                    <strong t-esc="summary_total"/>
+                                                </article>
+                                                <article class="ham-ncr-summary-card is-new-job">
+                                                    <span>Yeni İş</span>
+                                                    <strong t-esc="summary_new_job"/>
+                                                </article>
+                                                <article class="ham-ncr-summary-card is-ongoing">
+                                                    <span>Devam Eden</span>
+                                                    <strong t-esc="summary_ongoing"/>
+                                                </article>
+                                                <article class="ham-ncr-summary-card is-ordered">
+                                                    <span>Sipariste</span>
+                                                    <strong t-esc="summary_ordered"/>
+                                                </article>
+                                                <article class="ham-ncr-summary-card is-done">
+                                                    <span>Tamamlanan</span>
+                                                    <strong t-esc="summary_done"/>
+                                                </article>
+                                            </div>
+
+                                            <div class="ham-ncr-department-list">
+                                                <t t-if="dashboard_rows">
+                                                    <t t-foreach="dashboard_rows" t-as="row" t-key="row['department_name']">
+                                                        <article class="ham-ncr-department-card">
+                                                            <div class="ham-ncr-department-head">
+                                                                <h2 t-esc="row['department_name']"/>
+                                                                <span t-esc="'%s uygunsuzluk' % row['total']"/>
+                                                            </div>
+                                                            <div class="ham-ncr-department-metrics">
+                                                                <span class="ham-ncr-metric-pill is-new-job">
+                                                                    <b t-esc="row['new_job']"/> Yeni İş
+                                                                </span>
+                                                                <span class="ham-ncr-metric-pill is-ongoing">
+                                                                    <b t-esc="row['ongoing']"/> Devam Eden
+                                                                </span>
+                                                                <span class="ham-ncr-metric-pill is-ordered">
+                                                                    <b t-esc="row['ordered']"/> Sipariste
+                                                                </span>
+                                                                <span class="ham-ncr-metric-pill is-done">
+                                                                    <b t-esc="row['done']"/> Tamamlanan
+                                                                </span>
+                                                            </div>
+                                                        </article>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <article class="ham-ncr-department-card ham-ncr-department-card-empty">
+                                                        <div class="ham-ncr-department-head">
+                                                            <h2>Ozet verisi bulunamadi</h2>
+                                                            <span>Filtreleri degistirerek tekrar deneyin.</span>
+                                                        </div>
+                                                    </article>
+                                                </t>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_juju_home" model="website.page">
+        <field name="name">Juju Home</field>
+        <field name="type">qweb</field>
+        <field name="url">/juju-home</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="is_published">True</field>
+        <field name="key">ronix_quality_manager.page_juju_home</field>
+        <field name="arch" type="xml">
+            <t t-name="ronix_quality_manager.page_juju_home">
+                <t t-call="website.layout">
+                    <div id="wrap" class="oe_structure">
+                        <section class="s_ham_mobile s_app_vip_home s_juju_home_page o_colored_level" data-snippet="s_app_vip_home" data-name="VIP Webview Home">
+                            <div class="container">
+                                <div class="ham-vip-phone">
+                                    <div class="ham-vip-hero">
+                                        <div class="ham-vip-hero-media o_not_editable">
+                                            <img src="/web/image/2372-24b8fa61/f1731432-cfe1-44f7-8100-e88cff87fec5.webp" alt="Juju Hero" class="ham-vip-hero-img o_editable_media img img-fluid o_we_custom_image" data-mimetype="image/webp" data-original-id="2371" data-original-src="/web/image/2371-6bd88509/f1731432-cfe1-44f7-8100-e88cff87fec5.jpg" data-mimetype-before-conversion="image/jpeg" loading="lazy"/>
+                                        </div>
+                                        <div class="ham-vip-hero-overlay"/>
+                                        <div class="ham-vip-swoosh">
+                                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                                                <path fill="url(#swoosh-gradient)" fill-opacity="1" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,192C1120,192,1280,128,1360,96L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
+                                                <defs>
+                                                    <linearGradient id="swoosh-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%" stop-color="#141113"/>
+                                                        <stop offset="50%" stop-color="#0a0809"/>
+                                                        <stop offset="100%" stop-color="#050505"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#fce1a3"/>
+                                                        <stop offset="50%" stop-color="#c98a3e"/>
+                                                        <stop offset="100%" stop-color="#ffeac5"/>
+                                                    </linearGradient>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <div class="ham-vip-swoosh-border">
+                                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                                                <path fill="none" stroke="url(#gold-gradient)" stroke-width="4" d="M0,160L80,144C160,128,320,96,480,112C640,128,800,192,960,192C1120,192,1280,128,1360,96L1440,64"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div class="ham-vip-body">
+                                        <div class="ham-vip-grid">
+                                            <a href="/duyurular" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-glass"/></div>
+                                                <div class="ham-vip-card-title">Duyurular</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/bilgilendirmeler" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-building-o"/></div>
+                                                <div class="ham-vip-card-title">Bilgilendirmeler</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/egitimler" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-leaf"/></div>
+                                                <div class="ham-vip-card-title">Juju Egitim Akademisi</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/operasyonel-uygunsuzluk-raporu" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-cutlery"/></div>
+                                                <div class="ham-vip-card-title">Operasyonel Uygunsuzluk Raporu</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/kalite-denetim-raporu" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-check-circle-o"/></div>
+                                                <div class="ham-vip-card-title">Kalite Denetim Raporu</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/haftalik-kalite-denetim-formu" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-clipboard"/></div>
+                                                <div class="ham-vip-card-title">Haftalik Denetim Formu</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/denetime-hazir-miyim" class="ham-vip-card btn btn-custom mb-2">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-envelope-o"/></div>
+                                                <div class="ham-vip-card-title">Denetime Hazir Miyim?</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/odoo/action-ronix_quality_manager.action_ronix_quality_guest_complaint_report" class="ham-vip-card" style="background-image: url('/hotspot_app_manager/static/src/img/rama_bg_abstract.png')">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-wrench"/></div>
+                                                <div class="ham-vip-card-title">Misafir Sikayet Takip Listesi</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/urun-izleme-formu" class="ham-vip-card btn btn-custom">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-ship"/></div>
+                                                <div class="ham-vip-card-title">Urun Izlenebilirlik</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/mal-kabul-formu" class="ham-vip-card btn btn-custom">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-truck"/></div>
+                                                <div class="ham-vip-card-title">Mal Kabul Formu</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                            <a href="/kasaphane-urun-izleme-formu" class="ham-vip-card btn btn-custom">
+                                                <div class="ham-vip-card-icon"><i class="fa fa-clipboard"/></div>
+                                                <div class="ham-vip-card-title">Kasaphane Ürün İzleme</div>
+                                                <div class="ham-vip-card-arrow"><i class="fa fa-arrow-right"/></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="s_ham_mobile s_ham_shell_mode o_colored_level" data-snippet="s_app_shell_mode" data-name="App Shell Mode">
+                            <div class="container">
+                                <div class="ham-shell-mode-badge">
+                                    <i class="fa fa-mobile"/>
+                                    <span class="o_default_snippet_text">App Shell Mode: header and footer hidden on this page.</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="s_ham_mobile s_app_vip_nav_dock o_colored_level" data-snippet="s_app_vip_nav_dock" data-name="VIP Webview Navbar">
+                            <div class="ham-vip-dock-wrapper">
+                                <div class="ham-vip-dock">
+                                    <a href="#"><i class="fa fa-bell-o"/></a>
+                                    <a href="#"><i class="fa fa-compass"/></a>
+                                    <a href="/juju-home" class="ham-vip-dock-main"><i class="fa fa-home"/></a>
+                                    <a href="#"><i class="fa fa-calendar-o"/></a>
+                                    <a href="#"><i class="fa fa-map-o"/></a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="s_ham_mobile s_app_vip_header o_colored_level" data-snippet="s_app_vip_header" data-name="VIP Webview Header">
+                            <div class="ham-vip-header">
+                                <div class="ham-vip-logo">
+                                    <img src="/web/image/2368-65a822c4/logo%20%281%29.svg" alt="Juju Logo" class="img-fluid img o_we_custom_image" data-mimetype="image/svg+xml" data-original-id="2368" data-original-src="/web/image/2368-65a822c4/logo%20%281%29.svg" data-mimetype-before-conversion="image/svg+xml" loading="lazy"/>
+                                </div>
+                                <div class="ham-vip-actions">
+                                    <a href="/juju-profile" class="ham-vip-btn ham-vip-profile-link" aria-label="Profile">
+                                        <i class="fa fa-user-o"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <template id="inspection_department_list_template" name="Inspection Department List">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile s_ham_inspection_page">
+                    <div class="container">
+                        <div class="ham-inspection-shell">
+                            <div class="ham-inspection-stage">
+                                <header class="ham-ann-head ham-inspection-head">
+                                    <span class="ham-info-kicker">Juju Quality</span>
+                                    <h1>Kalite Denetim Raporu</h1>
+                                    <div class="ham-info-ornament" aria-hidden="true">
+                                        <span/>
+                                        <i class="fa fa-diamond"/>
+                                        <span/>
+                                    </div>
+                                    <p>Departman secerek haftalik puan gelisimini, iyi kotu soru dagilimini ve ay bazli denetim detaylarini inceleyin.</p>
+                                </header>
+
+                                <div class="ham-inspection-board">
+                                    <div class="ham-inspection-board-head">
+                                        <strong>Departmanlar</strong>
+                                        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                                            <span t-esc="'%s departman listeleniyor' % len(department_cards)"/>
+                                            <a href="/haftalik-kalite-denetim-formu" class="ham-ann-button ham-ann-button-secondary">Denetim Formu</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="ham-inspection-department-grid">
+                                        <t t-if="department_cards">
+                                            <t t-foreach="department_cards" t-as="card" t-key="card['department'].id">
+                                                <a t-att-href="'/kalite-denetim-raporu/%s' % card['department'].id" class="ham-inspection-department-tile">
+                                                    <div class="ham-inspection-department-top">
+                                                        <h2 t-esc="card['department'].name"/>
+                                                        <span t-if="card['latest_report']" t-esc="card['latest_period']"/>
+                                                        <span t-else="">Henuz rapor yok</span>
+                                                    </div>
+                                                    <div class="ham-inspection-score-row">
+                                                        <div class="ham-inspection-score-box">
+                                                            <small>Ortalama</small>
+                                                            <strong t-esc="card['average_score']"/>
+                                                        </div>
+                                                        <div class="ham-inspection-score-box">
+                                                            <small>Rapor</small>
+                                                            <strong t-esc="card['report_count']"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ham-inspection-tile-cta">
+                                                        <span>Detayli Raporu Ac</span>
+                                                        <i class="fa fa-angle-right"/>
+                                                    </div>
+                                                </a>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <article class="ham-inspection-empty-card">
+                                                <h2>Departman bulunamadi</h2>
+                                                <p>Backend tarafinda departman ve haftalik raporlar olusturuldugunda burada listelenecek.</p>
+                                            </article>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="inspection_department_detail_template" name="Inspection Department Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile s_ham_inspection_page">
+                    <div class="container">
+                        <div class="ham-inspection-shell">
+                            <div class="ham-inspection-stage">
+                                <header class="ham-ann-head ham-inspection-head">
+                                    <span class="ham-info-kicker">Juju Quality</span>
+                                    <h1 t-esc="department.name"/>
+                                    <div class="ham-info-ornament" aria-hidden="true">
+                                        <span/>
+                                        <i class="fa fa-diamond"/>
+                                        <span/>
+                                    </div>
+                                    <p>Bu departmanin haftalara gore puan performansi, soru bazli basari analizi ve ay ay denetim detaylari.</p>
+                                </header>
+
+                                <div class="ham-inspection-board">
+                                    <div class="ham-inspection-board-head">
+                                        <strong>Genel Ozet</strong>
+                                        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                                            <a href="/haftalik-kalite-denetim-formu" class="ham-ann-button ham-ann-button-secondary">Denetim Formu</a>
+                                            <a href="/kalite-denetim-raporu" class="ham-ann-button ham-ann-button-secondary">Tum Departmanlar</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="ham-inspection-summary-grid">
+                                        <article class="ham-inspection-summary-card">
+                                            <span>Ortalama Puan</span>
+                                            <strong t-esc="average_score"/>
+                                        </article>
+                                        <article class="ham-inspection-summary-card">
+                                            <span>Toplam Rapor</span>
+                                            <strong t-esc="len(reports)"/>
+                                        </article>
+                                        <article class="ham-inspection-summary-card">
+                                            <span>Toplam Soru</span>
+                                            <strong t-esc="len(question_stats)"/>
+                                        </article>
+                                    </div>
+
+                                    <div class="ham-inspection-score-trend">
+                                        <div class="ham-inspection-section-head">
+                                            <strong>Son Puan Gelisimi</strong>
+                                            <span>En guncel 8 hafta</span>
+                                        </div>
+                                        <div class="ham-inspection-score-list">
+                                            <t t-if="score_points">
+                                                <t t-foreach="score_points" t-as="point" t-key="point['label']">
+                                                    <article class="ham-inspection-score-item">
+                                                        <div>
+                                                            <h2 t-esc="point['label']"/>
+                                                        </div>
+                                                        <strong t-esc="point['score']"/>
+                                                    </article>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <article class="ham-inspection-empty-card">
+                                                    <h2>Henuz rapor yok</h2>
+                                                    <p>Bu departman icin haftalik kalite denetim raporu bulunmuyor.</p>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <div class="ham-inspection-question-analytics">
+                                        <div class="ham-inspection-section-head">
+                                            <strong>Soru Bazli Analiz</strong>
+                                            <span>Hangi sorular iyi, hangileri gelisim istiyor</span>
+                                        </div>
+                                        <div class="ham-inspection-question-list">
+                                            <t t-foreach="question_stats" t-as="stat" t-key="stat['question'].id">
+                                                <article class="ham-inspection-question-card">
+                                                    <div class="ham-inspection-question-head">
+                                                        <h2 t-esc="stat['question'].name"/>
+                                                        <strong t-esc="str(stat['success_rate']) + '%'"/>
+                                                    </div>
+                                                    <div class="ham-inspection-question-metrics">
+                                                        <span class="ham-ncr-metric-pill ham-inspection-answer-pill is-suitable"><b t-esc="stat['yes_count']"/> Uygun</span>
+                                                        <span class="ham-ncr-metric-pill ham-inspection-answer-pill is-unsuitable"><b t-esc="stat['no_count']"/> Uygun Değil</span>
+                                                        <span class="ham-ncr-metric-pill"><b t-esc="stat['total']"/> Toplam</span>
+                                                    </div>
+                                                    <div class="ham-inspection-question-footer">
+                                                        <t t-if="stat['recent_bad_periods']">
+                                                            <span>Kotu haftalar:</span>
+                                                            <p t-esc="', '.join(stat['recent_bad_periods'])"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span>Sonuc:</span>
+                                                            <p>Bu soruda kayitli olumsuz sonuc yok.</p>
+                                                        </t>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <div class="ham-inspection-monthly-reports">
+                                        <div class="ham-inspection-section-head">
+                                            <strong>Ay ve Hafta Bazli Detaylar</strong>
+                                            <span>Her haftada iyi ve kotu gelen sorular</span>
+                                        </div>
+                                        <div class="ham-inspection-month-list">
+                                            <t t-foreach="month_groups" t-as="month_group" t-key="month_group['label']">
+                                                <article class="ham-inspection-month-card">
+                                                    <div class="ham-inspection-month-head">
+                                                        <h2 t-esc="month_group['label']"/>
+                                                        <span t-esc="'%s hafta kaydi' % len(month_group['reports'])"/>
+                                                    </div>
+                                                    <div class="ham-inspection-week-list">
+                                                        <t t-foreach="month_group['reports']" t-as="week_item" t-key="week_item['report'].id">
+                                                            <article class="ham-inspection-week-card">
+                                                                <div class="ham-inspection-week-head">
+                                                                    <div>
+                                                                        <h3 t-esc="week_item['period_label']"/>
+                                                                        <p t-esc="'%s soru cevaplandi' % week_item['report'].answer_count"/>
+                                                                    </div>
+                                                                    <strong t-esc="str(week_item['report'].score) + '%'"/>
+                                                                </div>
+                                                                <div class="ham-inspection-week-columns">
+                                                                    <div class="ham-inspection-week-column">
+                                                                        <span>Iyi Gelen Sorular</span>
+                                                                        <ul>
+                                                                            <t t-if="week_item['good_lines']">
+                                                                                <t t-foreach="week_item['good_lines']" t-as="line" t-key="line.id">
+                                                                                    <li t-esc="line.question_text"/>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <li>Uygun bulunan soru yok.</li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="ham-inspection-week-column is-negative">
+                                                                        <span>Gelisim Gerektiren Sorular</span>
+                                                                        <ul>
+                                                                            <t t-if="week_item['bad_lines']">
+                                                                                <t t-foreach="week_item['bad_lines']" t-as="line" t-key="line.id">
+                                                                                    <li t-esc="line.question_text"/>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <li>Bu haftada olumsuz soru yok.</li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </article>
+                                                        </t>
+                                                    </div>
+                                                </article>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="inspection_frontend_form_template" name="Inspection Frontend Form">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile s_ham_inspection_frontend_page">
+                    <div class="container">
+                        <div class="ham-tracking-shell">
+                            <div class="ham-tracking-stage">
+                                <header class="ham-tracking-head">
+                                    <span class="ham-info-kicker">Juju Quality</span>
+                                    <h1>Haftalik Kalite Denetim Formu</h1>
+                                    <p>Departman secin, tum sorulari uygun veya uygun degil olarak isaretleyip denetimi frontend uzerinden kaydedin.</p>
+                                </header>
+
+                                <t t-if="success">
+                                    <div class="ham-tracking-success">Haftalik denetim raporu kaydedildi.</div>
+                                </t>
+
+                                <form action="/haftalik-kalite-denetim-formu/submit" method="post" class="ham-inspection-form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="line_payload" value="[]" class="ham-inspection-line-payload"/>
+
+                                    <section class="ham-tracking-card">
+                                        <div class="ham-tracking-card-head">
+                                            <h2>Genel Bilgi</h2>
+                                        </div>
+                                        <div class="ham-tracking-subcard ham-tracking-subcard-intro">
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                    <span>Departman</span>
+                                                    <select name="department_id" class="ham-inspection-department-select" required="required">
+                                                        <option value="">Departman Secin</option>
+                                                        <t t-foreach="departments" t-as="department" t-key="department.id">
+                                                            <option t-att-value="department.id"><t t-esc="department.name"/></option>
+                                                        </t>
+                                                    </select>
+                                                </label>
+                                                <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                    <span>Yil</span>
+                                                    <input type="number" name="report_year" t-att-value="today_year" min="2020" max="2100" required="required"/>
+                                                </label>
+                                                <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                    <span>Ay</span>
+                                                    <select name="report_month" required="required">
+                                                        <t t-foreach="month_selection" t-as="month_item" t-key="month_item[0]">
+                                                            <option t-att-value="month_item[0]" t-att-selected="month_item[0] == current_month and 'selected' or None">
+                                                                <t t-esc="month_item[1]"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </label>
+                                                <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                    <span>Hafta</span>
+                                                    <select name="report_week" required="required">
+                                                        <t t-foreach="week_selection" t-as="week_item" t-key="week_item[0]">
+                                                            <option t-att-value="week_item[0]"><t t-esc="week_item[1]"/></option>
+                                                        </t>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="ham-tracking-card">
+                                        <div class="ham-tracking-card-head">
+                                            <h2>Soru Cevaplari</h2>
+                                        </div>
+                                        <div class="ham-tracking-line-list ham-inspection-question-list-form"
+                                             t-att-data-question-map="question_payload_json">
+                                            <article class="ham-inspection-empty-card ham-inspection-form-empty">
+                                                <h2>Departman secin</h2>
+                                                <p>Sorular secilen departmana gore otomatik listelenecek.</p>
+                                            </article>
+                                        </div>
+                                    </section>
+
+                                    <div class="ham-tracking-submit-wrap">
+                                        <button type="submit" class="ham-tracking-submit">Denetimi Kaydet</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="guest_complaint_result_frontend_template" name="Guest Complaint Result Frontend">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_mobile ham-guest-complaint-report" style="background:linear-gradient(180deg,#f7f1ea 0%,#efe6da 100%);padding:32px 0 56px;">
+                    <style>
+                        .ham-guest-complaint-report {
+                            overflow-x: hidden;
+                        }
+                        .ham-guest-complaint-report * {
+                            box-sizing: border-box;
+                        }
+                        .ham-guest-complaint-item-label {
+                            min-width: 0;
+                            overflow-wrap: anywhere;
+                        }
+                        .ham-guest-complaint-summary {
+                            overflow-x: auto;
+                        }
+                        @media (max-width: 991px) {
+                            .ham-guest-complaint-charts {
+                                grid-template-columns: 1fr !important;
+                            }
+                        }
+                        @media (max-width: 767px) {
+                            .ham-guest-complaint-report {
+                                padding: 18px 0 34px !important;
+                            }
+                            .ham-guest-complaint-report .container {
+                                max-width: 100% !important;
+                                padding-left: 12px !important;
+                                padding-right: 12px !important;
+                            }
+                            .ham-guest-complaint-shell {
+                                max-width: 100% !important;
+                            }
+                            .ham-guest-complaint-card {
+                                border-radius: 18px !important;
+                                padding: 14px !important;
+                            }
+                            .ham-guest-complaint-header {
+                                align-items: stretch !important;
+                            }
+                            .ham-guest-complaint-title {
+                                font-size: 26px !important;
+                                line-height: 1.12 !important;
+                            }
+                            .ham-guest-complaint-metrics {
+                                grid-template-columns: 1fr !important;
+                                min-width: 0 !important;
+                                max-width: none !important;
+                                width: 100% !important;
+                            }
+                            .ham-guest-complaint-chart-card {
+                                border-radius: 18px !important;
+                                padding: 14px !important;
+                            }
+                            .ham-guest-complaint-chart-head {
+                                align-items: flex-start !important;
+                                flex-direction: column !important;
+                            }
+                            .ham-guest-complaint-chart-body {
+                                grid-template-columns: 1fr !important;
+                                gap: 14px !important;
+                            }
+                            .ham-guest-complaint-donut-wrap {
+                                min-width: 0 !important;
+                            }
+                            .ham-guest-complaint-donut {
+                                width: 154px !important;
+                                height: 154px !important;
+                            }
+                            .ham-guest-complaint-donut-center {
+                                inset: 28px !important;
+                                font-size: 11px !important;
+                            }
+                            .ham-guest-complaint-item-meta {
+                                white-space: normal !important;
+                                text-align: right;
+                            }
+                        }
+                    </style>
+                    <div class="container">
+                        <div class="ham-guest-complaint-shell" style="max-width:1180px;margin:0 auto;">
+                            <div class="ham-guest-complaint-card" style="background:rgba(255,253,249,0.88);border:1px solid #e0d1bf;border-radius:28px;padding:28px;box-shadow:0 22px 60px rgba(86,61,40,0.10);backdrop-filter:blur(14px);">
+                                <div class="ham-guest-complaint-header" style="display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:22px;">
+                                    <div>
+                                        <span style="display:inline-block;padding:6px 12px;border-radius:999px;background:#efe1d4;color:#8e5b43;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;">Juju Quality</span>
+                                        <h1 class="ham-guest-complaint-title" style="margin:12px 0 8px;font-size:34px;line-height:1.05;color:#3f2c20;">Misafir Sikayet Analiz Raporu</h1>
+                                        <p style="margin:0;color:#7d675a;font-size:15px;">Secilen yorumlardan uretilen yonetsel grafik raporu</p>
+                                    </div>
+                                    <div class="ham-guest-complaint-metrics" style="display:grid;grid-template-columns:repeat(2,minmax(160px,1fr));gap:12px;min-width:320px;flex:1;max-width:470px;">
+                                        <div style="background:#fffaf4;border:1px solid #e8d9ca;border-radius:18px;padding:14px;">
+                                            <strong style="display:block;color:#9e7d63;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;">Lokasyon</strong>
+                                            <span style="display:block;margin-top:8px;font-size:18px;font-weight:700;color:#473126;" t-esc="payload['summary']['location_name']"/>
+                                        </div>
+                                        <div style="background:#fffaf4;border:1px solid #e8d9ca;border-radius:18px;padding:14px;">
+                                            <strong style="display:block;color:#9e7d63;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;">Tarih Araligi</strong>
+                                            <span style="display:block;margin-top:8px;font-size:18px;font-weight:700;color:#473126;" t-esc="payload['summary']['date_from'] + ' - ' + payload['summary']['date_to']"/>
+                                        </div>
+                                        <div style="background:#fffaf4;border:1px solid #e8d9ca;border-radius:18px;padding:14px;">
+                                            <strong style="display:block;color:#9e7d63;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;">Analiz Edilen Kayit</strong>
+                                            <span style="display:block;margin-top:8px;font-size:24px;font-weight:700;color:#473126;" t-esc="payload['summary']['analyzed_report_count']"/>
+                                        </div>
+                                        <div style="background:#fffaf4;border:1px solid #e8d9ca;border-radius:18px;padding:14px;">
+                                            <strong style="display:block;color:#9e7d63;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;">Yorum Sayisi</strong>
+                                            <span style="display:block;margin-top:8px;font-size:24px;font-weight:700;color:#473126;" t-esc="payload['summary']['analyzed_comment_count']"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ham-guest-complaint-charts" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;">
+                                    <t t-set="sections" t-value="[
+                                        ('En Cok Sikayet Edilen Konular', payload['complaint_topics'], payload['complaint_topics_chart_style']),
+                                        ('Departman Bazli Dagilim', payload['departments'], payload['departments_chart_style']),
+                                        ('En Cok Beğenilen Konular', payload['likes'], payload['likes_chart_style']),
+                                        ('En Cok Ariza Alinan Oda/Mekanlar', payload['rooms'], payload['rooms_chart_style']),
+                                    ]"/>
+                                    <t t-foreach="sections" t-as="section">
+                                        <article class="ham-guest-complaint-chart-card" style="background:#fffdf9;border:1px solid #e6d7c8;border-radius:24px;padding:20px;box-shadow:0 14px 32px rgba(102,73,51,0.06);">
+                                            <div class="ham-guest-complaint-chart-head" style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;">
+                                                <h2 style="margin:0;font-size:20px;color:#4b3428;" t-esc="section[0]"/>
+                                                <span style="font-size:12px;color:#9a816d;text-transform:uppercase;letter-spacing:0.1em;">Grafik ve Liste</span>
+                                            </div>
+                                            <div class="ham-guest-complaint-chart-body" style="display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center;">
+                                                <div class="ham-guest-complaint-donut-wrap" style="display:flex;justify-content:center;">
+                                                    <div class="ham-guest-complaint-donut" t-att-style="'width:188px;height:188px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 16px rgba(255,255,255,0.42);' + section[2]">
+                                                        <div class="ham-guest-complaint-donut-center" style="position:absolute;inset:34px;background:#fffdf9;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;color:#5b4335;font-size:13px;font-weight:700;line-height:1.4;">
+                                                            <span t-esc="section[0]"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="display:flex;flex-direction:column;gap:10px;">
+                                                    <t t-if="section[1]">
+                                                        <t t-foreach="section[1]" t-as="item" t-key="item['label']">
+                                                            <div style="background:#fcf6ef;border:1px solid #eadccd;border-radius:16px;padding:12px 14px;">
+                                                                <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px;">
+                                                                    <div class="ham-guest-complaint-item-label" style="display:flex;align-items:center;gap:10px;min-width:0;">
+                                                                        <span t-att-style="'width:12px;height:12px;border-radius:50%;display:inline-block;flex:none;background:' + item['color'] + ';'"/>
+                                                                        <strong style="color:#4d3729;font-size:14px;" t-esc="item['label']"/>
+                                                                    </div>
+                                                                    <span class="ham-guest-complaint-item-meta" style="color:#8a6a56;font-size:13px;font-weight:700;white-space:nowrap;" t-esc="str(item['count']) + ' adet / %' + str(item['percentage'])"/>
+                                                                </div>
+                                                                <div style="height:9px;background:#efe3d8;border-radius:999px;overflow:hidden;">
+                                                                    <div t-att-style="'height:100%;border-radius:999px;background:' + item['color'] + ';width:' + str(item['percentage']) + '%;'"/>
+                                                                </div>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div style="background:#fcf6ef;border:1px dashed #dcc8b6;border-radius:16px;padding:18px;color:#8b7463;">Gosterilecek veri bulunamadi.</div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </t>
+                                </div>
+
+                                <div class="ham-guest-complaint-summary" style="margin-top:18px;background:#fffdf9;border:1px solid #e6d7c8;border-radius:24px;padding:22px;box-shadow:0 14px 32px rgba(102,73,51,0.06);">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;">
+                                        <h2 style="margin:0;font-size:20px;color:#4b3428;">Python Yonetici Ozeti</h2>
+                                        <span style="font-size:12px;color:#9a816d;text-transform:uppercase;letter-spacing:0.1em;">Detayli Rapor</span>
+                                    </div>
+                                    <div t-out="payload['python_summary']"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

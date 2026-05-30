@@ -16,9 +16,8 @@ publicWidget.registry.QrWaiterCall = publicWidget.Widget.extend({
             // Reset state
             $modal.find('.js-qr-call-type').removeClass('active');
             $modal.find('.js-qr-custom-message').val('');
-            // Bootstrap 5 modal
-            var modal = bootstrap.Modal.getOrCreateInstance($modal[0]);
-            modal.show();
+            // Show modal using jQuery wrapper
+            $modal.modal('show');
         }
     },
 
@@ -42,17 +41,15 @@ publicWidget.registry.QrWaiterCall = publicWidget.Widget.extend({
             custom_message: customMessage,
         }).then(function (result) {
             // Close call modal
-            var callModal = bootstrap.Modal.getInstance($('#waiterCallModal')[0]);
-            if (callModal) callModal.hide();
+            $('#waiterCallModal').modal('hide');
 
             if (result.success) {
                 // Show success modal
                 var $successModal = $('#waiterCallSuccessModal');
                 if ($successModal.length) {
-                    var successModal = bootstrap.Modal.getOrCreateInstance($successModal[0]);
-                    successModal.show();
+                    $successModal.modal('show');
                     setTimeout(function () {
-                        successModal.hide();
+                        $successModal.modal('hide');
                     }, 2500);
                 }
             } else if (result.error) {

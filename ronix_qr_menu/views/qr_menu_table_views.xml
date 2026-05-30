@@ -50,5 +50,6 @@
               name="Tables"
               parent="menu_qr_menu_root"
               action="action_qr_menu_table"
-              sequence="20"/>
+              sequence="20"
+              groups="ronix_qr_menu.group_qr_menu_user,ronix_qr_menu.group_qr_menu_manager,ronix_qr_menu.group_qr_menu_admin"/>
 </odoo>

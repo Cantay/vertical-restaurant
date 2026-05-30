@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_tracking_form_template" name="Product Tracking Form">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_ham_product_tracking_form">
+                    <div class="ham-tracking-shell">
+                        <div class="ham-tracking-stage">
+                            <header class="ham-tracking-head">
+                                <span class="ham-info-kicker">Juju Quality</span>
+                                <h1>Urun Izleme Formu</h1>
+                                <p>Gunluk urun izleme kaydini olusturup tum alanlari tek ekrandan kaydedin.</p>
+                            </header>
+
+                            <t t-if="success">
+                                <div class="ham-tracking-success">
+                                    Form basariyla kaydedildi.
+                                </div>
+                            </t>
+
+                            <form action="/urun-izleme-formu/submit" method="post" class="ham-tracking-form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="line_payload" value="[]" class="ham-tracking-line-payload"/>
+
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Genel Bilgi</h2>
+                                    </div>
+                                    <div class="ham-tracking-subcard ham-tracking-subcard-intro">
+                                        <div class="ham-tracking-grid ham-tracking-grid-2">
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Form Tarihi</span>
+                                                <input type="date" name="tracking_date" t-att-value="today"/>
+                                            </label>
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Islemi Yapan Adi Soyadi</span>
+                                                <input type="text" name="operator_name"/>
+                                            </label>
+                                            <label class="ham-tracking-field ham-tracking-field-highlight">
+                                                <span>Bolum</span>
+                                                <input type="text" name="section_name"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Sabah Kontrolleri</h2>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Bufe Sunumu</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-5">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="morning_buffet_time"/></label>
+                                            <label class="ham-tracking-field"><span>Sicak Sunum 1. Kontrol</span><input type="number" step="0.01" name="morning_hot_service_control_1"/></label>
+                                            <label class="ham-tracking-field"><span>Sicak Sunum 2. Kontrol</span><input type="number" step="0.01" name="morning_hot_service_control_2"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Sunum 1. Kontrol</span><input type="number" step="0.01" name="morning_cold_service_control_1"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Sunum 2. Kontrol</span><input type="number" step="0.01" name="morning_cold_service_control_2"/></label>
+                                        </div>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Soguk Dolap Derecesi</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-3">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="morning_cold_storage_time"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Dolap (+4 C)</span><input type="number" step="0.01" name="morning_cold_storage_temp"/></label>
+                                            <label class="ham-tracking-field"><span>Sok Dolap (-18 C)</span><input type="number" step="0.01" name="morning_shock_storage_temp"/></label>
+                                        </div>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Urun Isleme Ortam Sicakligi</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-3">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="morning_environment_time"/></label>
+                                            <label class="ham-tracking-field"><span>Sicaklik (C)</span><input type="number" step="0.01" name="morning_environment_temperature"/></label>
+                                            <label class="ham-tracking-field"><span>Nem (%)</span><input type="number" step="0.01" name="morning_environment_humidity"/></label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Aksam Kontrolleri</h2>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Bufe Sunumu</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-5">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="evening_buffet_time"/></label>
+                                            <label class="ham-tracking-field"><span>Sicak Sunum 1. Kontrol</span><input type="number" step="0.01" name="evening_hot_service_control_1"/></label>
+                                            <label class="ham-tracking-field"><span>Sicak Sunum 2. Kontrol</span><input type="number" step="0.01" name="evening_hot_service_control_2"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Sunum 1. Kontrol</span><input type="number" step="0.01" name="evening_cold_service_control_1"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Sunum 2. Kontrol</span><input type="number" step="0.01" name="evening_cold_service_control_2"/></label>
+                                        </div>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Soguk Dolap Derecesi</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-3">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="evening_cold_storage_time"/></label>
+                                            <label class="ham-tracking-field"><span>Soguk Dolap (+4 C)</span><input type="number" step="0.01" name="evening_cold_storage_temp"/></label>
+                                            <label class="ham-tracking-field"><span>Sok Dolap (-18 C)</span><input type="number" step="0.01" name="evening_shock_storage_temp"/></label>
+                                        </div>
+                                    </div>
+                                    <div class="ham-tracking-subcard">
+                                        <h3>Urun Isleme Ortam Sicakligi</h3>
+                                        <div class="ham-tracking-grid ham-tracking-grid-3">
+                                            <label class="ham-tracking-field"><span>Saat</span><input type="time" name="evening_environment_time"/></label>
+                                            <label class="ham-tracking-field"><span>Sicaklik (C)</span><input type="number" step="0.01" name="evening_environment_temperature"/></label>
+                                            <label class="ham-tracking-field"><span>Nem (%)</span><input type="number" step="0.01" name="evening_environment_humidity"/></label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card s_ham_product_tracking_lines" data-sample-period="morning">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Sabah Numune Alımı</h2>
+                                        <button type="button" class="ham-tracking-add-line">Satir Ekle</button>
+                                    </div>
+                                    <div class="ham-tracking-line-list">
+                                        <article class="ham-tracking-line-card">
+                                            <div class="ham-tracking-line-head">
+                                                <h3 class="ham-tracking-line-title">1. Urun</h3>
+                                            </div>
+                                            <input type="hidden" data-line-field="sample_period" value="morning"/>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Tarih</span><input type="date" data-line-field="line_date" t-att-value="today"/></label>
+                                                <label class="ham-tracking-field"><span>Urunun Adi</span><input type="text" data-line-field="product_name"/></label>
+                                                <label class="ham-tracking-field"><span>Hazirlik Suresi (dk)</span><input type="number" data-line-field="preparation_duration"/></label>
+                                                <label class="ham-tracking-field"><span>Pisirme Suresi (dk)</span><input type="number" data-line-field="cooking_duration"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-2">
+                                                <label class="ham-tracking-field"><span>Bitis Urun Merkez Sicakligi</span><input type="number" step="0.01" data-line-field="cooking_end_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Bufe Ismi</span><input type="text" data-line-field="buffet_name"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Saati</span><input type="time" data-line-field="cooling_start_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_start_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Saati</span><input type="time" data-line-field="cooling_end_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_end_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Banket Arabasinda Muhafaza Sicakligi</span><input type="number" step="0.01" data-line-field="banquet_cart_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Tekrar Isitilan Urunun Ic Sicakligi</span><input type="number" step="0.01" data-line-field="reheated_product_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field ham-tracking-field-check"><span>Sahit Numune Alindi Mi?</span><input type="checkbox" data-line-field="witness_sample_taken"/></label>
+                                                <label class="ham-tracking-field"><span>Sahit Numune Urun Sicakligi</span><input type="number" step="0.01" data-line-field="witness_product_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Geri Donen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="returned_quantity"/></label>
+                                                <label class="ham-tracking-field"><span>Imha Edilen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="destroyed_quantity"/></label>
+                                            </div>
+                                            <div class="ham-tracking-line-actions">
+                                                <button type="button" class="ham-tracking-remove-line">Satiri Sil</button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card s_ham_product_tracking_lines" data-sample-period="noon">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Öğle Numune Alımı</h2>
+                                        <button type="button" class="ham-tracking-add-line">Satir Ekle</button>
+                                    </div>
+                                    <div class="ham-tracking-line-list">
+                                        <article class="ham-tracking-line-card">
+                                            <div class="ham-tracking-line-head">
+                                                <h3 class="ham-tracking-line-title">1. Urun</h3>
+                                            </div>
+                                            <input type="hidden" data-line-field="sample_period" value="noon"/>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Tarih</span><input type="date" data-line-field="line_date" t-att-value="today"/></label>
+                                                <label class="ham-tracking-field"><span>Urunun Adi</span><input type="text" data-line-field="product_name"/></label>
+                                                <label class="ham-tracking-field"><span>Hazirlik Suresi (dk)</span><input type="number" data-line-field="preparation_duration"/></label>
+                                                <label class="ham-tracking-field"><span>Pisirme Suresi (dk)</span><input type="number" data-line-field="cooking_duration"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-2">
+                                                <label class="ham-tracking-field"><span>Bitis Urun Merkez Sicakligi</span><input type="number" step="0.01" data-line-field="cooking_end_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Bufe Ismi</span><input type="text" data-line-field="buffet_name"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Saati</span><input type="time" data-line-field="cooling_start_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_start_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Saati</span><input type="time" data-line-field="cooling_end_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_end_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Banket Arabasinda Muhafaza Sicakligi</span><input type="number" step="0.01" data-line-field="banquet_cart_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Tekrar Isitilan Urunun Ic Sicakligi</span><input type="number" step="0.01" data-line-field="reheated_product_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field ham-tracking-field-check"><span>Sahit Numune Alindi Mi?</span><input type="checkbox" data-line-field="witness_sample_taken"/></label>
+                                                <label class="ham-tracking-field"><span>Sahit Numune Urun Sicakligi</span><input type="number" step="0.01" data-line-field="witness_product_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Geri Donen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="returned_quantity"/></label>
+                                                <label class="ham-tracking-field"><span>Imha Edilen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="destroyed_quantity"/></label>
+                                            </div>
+                                            <div class="ham-tracking-line-actions">
+                                                <button type="button" class="ham-tracking-remove-line">Satiri Sil</button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+
+                                <section class="ham-tracking-card s_ham_product_tracking_lines" data-sample-period="evening">
+                                    <div class="ham-tracking-card-head">
+                                        <h2>Akşam Numune Alımı</h2>
+                                        <button type="button" class="ham-tracking-add-line">Satir Ekle</button>
+                                    </div>
+                                    <div class="ham-tracking-line-list">
+                                        <article class="ham-tracking-line-card">
+                                            <div class="ham-tracking-line-head">
+                                                <h3 class="ham-tracking-line-title">1. Urun</h3>
+                                            </div>
+                                            <input type="hidden" data-line-field="sample_period" value="evening"/>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Tarih</span><input type="date" data-line-field="line_date" t-att-value="today"/></label>
+                                                <label class="ham-tracking-field"><span>Urunun Adi</span><input type="text" data-line-field="product_name"/></label>
+                                                <label class="ham-tracking-field"><span>Hazirlik Suresi (dk)</span><input type="number" data-line-field="preparation_duration"/></label>
+                                                <label class="ham-tracking-field"><span>Pisirme Suresi (dk)</span><input type="number" data-line-field="cooking_duration"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-2">
+                                                <label class="ham-tracking-field"><span>Bitis Urun Merkez Sicakligi</span><input type="number" step="0.01" data-line-field="cooking_end_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Bufe Ismi</span><input type="text" data-line-field="buffet_name"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Saati</span><input type="time" data-line-field="cooling_start_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Baslangic Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_start_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Saati</span><input type="time" data-line-field="cooling_end_time"/></label>
+                                                <label class="ham-tracking-field"><span>Sogutma Bitis Sicakligi</span><input type="number" step="0.01" data-line-field="cooling_end_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-3">
+                                                <label class="ham-tracking-field"><span>Banket Arabasinda Muhafaza Sicakligi</span><input type="number" step="0.01" data-line-field="banquet_cart_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Tekrar Isitilan Urunun Ic Sicakligi</span><input type="number" step="0.01" data-line-field="reheated_product_temperature"/></label>
+                                            </div>
+                                            <div class="ham-tracking-grid ham-tracking-grid-4">
+                                                <label class="ham-tracking-field ham-tracking-field-check"><span>Sahit Numune Alindi Mi?</span><input type="checkbox" data-line-field="witness_sample_taken"/></label>
+                                                <label class="ham-tracking-field"><span>Sahit Numune Urun Sicakligi</span><input type="number" step="0.01" data-line-field="witness_product_temperature"/></label>
+                                                <label class="ham-tracking-field"><span>Geri Donen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="returned_quantity"/></label>
+                                                <label class="ham-tracking-field"><span>Imha Edilen Miktar (Kuvet)</span><input type="number" step="0.01" data-line-field="destroyed_quantity"/></label>
+                                            </div>
+                                            <div class="ham-tracking-line-actions">
+                                                <button type="button" class="ham-tracking-remove-line">Satiri Sil</button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+
+                                <div class="ham-tracking-submit-wrap">
+                                    <button type="submit" class="ham-tracking-submit">Formu Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>
