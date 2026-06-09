@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Ronix Food Delivery',
+    'name': 'Ronix Yemek Teslimat Platformu',
     'version': '1.0',
-    'summary': 'Food Delivery Application for Odoo',
+    'summary': 'Restoran, sipariş, sepet, adres ve teslimat akışlarını yöneten yemek teslimat uygulaması',
     'description': """
-        Rebuilt Ronix Food Delivery module.
+Ronix Yemek Teslimat Platformu
+==============================
+
+Restoran listeleme, ürün seçimi, sepet, ödeme, favoriler,
+adres yönetimi, sipariş takibi ve restoran değerlendirmelerini
+tek akışta sunan kapsamlı bir yemek teslimat çözümüdür.
     """,
-    'author': 'Antigravity',
-    'website': 'https://www.ronix.com',
+    'author': 'Cantay Aktura',
+    'website': 'https://www.lugatsoft.com',
     'category': 'Website',
     'depends': [
         'base',

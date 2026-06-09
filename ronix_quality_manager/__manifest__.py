@@ -1,21 +1,25 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Ronix Quality Manager',
+    'name': 'Ronix Kalite ve Operasyon Yönetimi',
     'version': '18.0.1.0.2',
     'category': 'Operations/Quality',
-    'summary': 'Manage mobile app locations and menu buttons',
+    'summary': 'Lokasyon bazlı kalite, denetim, eğitim ve operasyon süreçlerini yönetir',
     'description': """
-Ronix Quality Manager
-===================
-Provides a dedicated backend for mobile application menu management.
+Ronix Kalite ve Operasyon Yönetimi
+==================================
+Lokasyon bazlı kalite süreçleri, bilgi ve duyuru akışları,
+eğitim kayıtları, denetim listeleri, uygunsuzluk takibi,
+ürün izleme ve çeşitli operasyon formlarını tek backend yapısında toplar.
 
-- Define mobile app locations with unique tokens
-- Manage main menu and side menu buttons per location
-- Expose public endpoints for mobile app button feeds
-- Provide mobile-first hotel website snippets for webview apps
+- Lokasyon ve mobil uygulama buton yönetimi
+- Duyuru, bilgi ve eğitim içerikleri
+- Denetim, kabul ve izleme formları
+- Şikayet, uygunsuzluk ve operasyon kayıtları
+- Website ve webview kullanımına uygun içerik sayfaları
     """,
-    'author': 'Odoo Custom',
+    'author': 'Cantay Aktura',
+    'website': 'https://www.lugatsoft.com',
     'depends': [
         'base',
         'website',

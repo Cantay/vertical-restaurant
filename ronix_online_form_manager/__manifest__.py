@@ -1,19 +1,20 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Ronix Cevrimici Form Yonetimi',
+    'name': 'Ronix Çevrimiçi Form Yönetimi',
     'version': '18.0.1.0.0',
     'category': 'Operations',
-    'summary': 'Lokasyon bazli dinamik cevrimici form yonetimi',
+    'summary': 'Lokasyon bazlı dinamik çevrimiçi formlar oluşturur ve başvuruları yönetir',
     'description': """
-Ronix Cevrimici Form Yonetimi
+Ronix Çevrimiçi Form Yönetimi
 =============================
 
-Lokasyon bazli tekrar kullanilabilir formlar olusturun,
-frontend uzerinde yayinlayin ve tum gonderimleri
-yetki kontrollu sekilde backend tarafinda yonetin.
+Lokasyon bazlı tekrar kullanılabilir formlar oluşturur,
+bu formları web sitesinde yayınlar ve tüm gönderimleri
+yetki kontrollü şekilde yönetim panelinde takip etmenizi sağlar.
     """,
-    'author': 'Odoo Custom',
+    'author': 'Cantay Aktura',
+    'website': 'https://www.lugatsoft.com',
     'depends': [
         'base',
         'website',

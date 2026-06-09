@@ -1,15 +1,17 @@
 {
-    'name': 'Ronix QR Menu Bridge',
+    'name': 'Ronix QR Menü Entegrasyon Köprüsü',
     'version': '18.0.1.0.0',
     'category': 'Website',
-    'summary': 'Bridge between Food Delivery and QR Menu modules',
+    'summary': 'Yemek teslimat ile QR menü modülleri arasında veri senkronizasyonu sağlar',
     'description': """
-        Links and syncs data between ronix_food_delivery and ronix_qr_menu:
-        - Restaurant, Category, Product linking
-        - One-click sync with ratings, work hours, addons-to-ingredients
-        - Frontend rating and work hours display on QR menu pages
+Ronix yemek teslimat ve QR menü modülleri arasındaki restoran,
+kategori ve ürün verilerini ilişkilendirir.
+
+- Tek tıkla veri senkronizasyonu yapar
+- Puan, çalışma saati ve ürün detaylarını eşler
+- QR menü sayfalarında restoran bilgilerini görünür hale getirir
     """,
-    'author': 'Lugatsoft',
+    'author': 'Cantay Aktura',
     'website': 'https://www.lugatsoft.com',
     'depends': [
         'ronix_food_delivery',

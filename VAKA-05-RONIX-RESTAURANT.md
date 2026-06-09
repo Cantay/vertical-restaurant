@@ -2,17 +2,17 @@
 
 ## Kısa Kart Metni
 
-Restoranlar için, QR menü, masa içi servis deneyimi, online sipariş, teslimat, PWA ve operasyon kalite süreçlerini aynı yapıda yöneten bütünleşik bir platform geliştirdik. Menüden siparişe, garson çağrısından mobil kullanım ve saha kalite takibine kadar farklı katmanları tek sistemde birleştirdik.
+Restoranlar için, QR menü, masa içi servis deneyimi, online sipariş, POS entegrasyonu, Türkiye sanal POS ödeme altyapısı, PWA ve operasyon kalite süreçlerini aynı yapıda yöneten bütünleşik bir platform geliştirdik. Menüden kasaya, teslimattan mobil kullanım ve saha kalite takibine kadar farklı katmanları tek sistemde birleştirdik.
 
 ## Kısa Vaka Özeti
 
-Bu projede hedef, restoranların dijital yüzünü yalnızca bir menü sayfası ya da basit bir sipariş ekranı olmaktan çıkarıp, salon deneyimi ile paket servis operasyonunu aynı omurgada buluşturan bir sisteme dönüştürmekti. Lugatsoft olarak QR menü, AR destekli ürün sunumu, garson çağırma, alerjen ve besin bilgileri, online sipariş, adres ve ödeme akışları, yorum yönetimi, PWA kurulumu, lokasyon bazlı online formlar ve operasyon kalite bildirimlerini aynı platformda kurguladık.
+Bu projede hedef, restoranların dijital yüzünü yalnızca bir menü sayfası ya da basit bir sipariş ekranı olmaktan çıkarıp, salon deneyimi, paket servis operasyonu, kasa/POS yapısı ve ödeme altyapısını aynı omurgada buluşturan bir sisteme dönüştürmekti. Lugatsoft olarak QR menü, AR destekli ürün sunumu, garson çağırma, alerjen ve besin bilgileri, online sipariş, adres ve ödeme akışları, yorum yönetimi, POS entegrasyonu, Türkiye sanal POS ödeme senaryoları, PWA kurulumu, lokasyon bazlı online formlar ve operasyon kalite bildirimlerini aynı platformda kurguladık.
 
-Ortaya çıkan yapı, restoran için hem salon içi deneyimi güçlendiren hem de paket servis operasyonunu hızlandıran dijital bir merkez haline geldi.
+Ortaya çıkan yapı, restoran için hem salon içi deneyimi güçlendiren hem de sipariş, ödeme ve operasyon yönetimini tek merkezde toplayan dijital bir merkez haline geldi.
 
 ## Problem
 
-Restoranlarda müşteri deneyimi ve operasyon çoğu zaman birbirinden kopuk araçlarla yönetilir. Masadaki müşteri menüyü başka yerden görür, paket sipariş başka sistemden akar, teslimat süreci farklı ekiplerce takip edilir. Bu da hem kullanıcı tarafında dağınık bir deneyim hem de işletme tarafında yönetim zorluğu üretir.
+Restoranlarda müşteri deneyimi ve operasyon çoğu zaman birbirinden kopuk araçlarla yönetilir. Masadaki müşteri menüyü başka yerden görür, paket sipariş başka sistemden akar, teslimat süreci farklı ekiplerce takip edilir, kasa tarafındaki POS yapısı ise bu akışlardan ayrı çalışır. Bu da hem kullanıcı tarafında dağınık bir deneyim hem de işletme tarafında yönetim zorluğu üretir.
 
 Bu proje için ihtiyaç duyulan yapı:
 
@@ -23,12 +23,14 @@ Bu proje için ihtiyaç duyulan yapı:
 - Adres, ödeme, favoriler, kuponlar ve sipariş geçmişi gibi kullanıcı fonksiyonlarını tek yapıda toplamak
 - Yeni siparişleri restoran ekibine anlık ulaştırmak
 - QR menü ile teslimat uygulamasını ayrı veri yapıları yerine tek bir içerik omurgasında yönetmek
+- Salon tarafındaki POS ve masa yapısını dijital sipariş katmanlarıyla eşleştirmek
+- Türkiye'deki banka altyapılarına uygun, güvenli ve taksitli online ödeme sunmak
 - Mobil uygulama benzeri kurulum deneyimi ve lokasyon bazlı operasyon formları sunmak
 - Misafir geri bildirimi ve kalite süreçlerini dijitalleştirmek
 
 ## Çözüm
 
-Lugatsoft olarak restoran sektörüne özel, çok katmanlı bir dijital deneyim altyapısı geliştirdik. Bu yapı ilk aşamada `Ronix QR Menu`, `Ronix Food Delivery` ve bu iki sistemi veri ve görünüm tarafında bağlayan `Ronix QR Menu Bridge` ile kuruldu; ikinci aşamada ise `Ronix PWA Manager`, `Ronix Online Form Manager` ve `Ronix Quality Manager` katmanlarıyla genişletildi.
+Lugatsoft olarak restoran sektörüne özel, çok katmanlı bir dijital deneyim altyapısı geliştirdik. Bu yapı ilk aşamada `Ronix QR Menu`, `Ronix Food Delivery` ve bu iki sistemi veri ve görünüm tarafında bağlayan `Ronix QR Menu Bridge` ile kuruldu; ikinci aşamada `Ronix PWA Manager`, `Ronix Online Form Manager` ve `Ronix Quality Manager` ile genişletildi; üçüncü katmanda ise `Ronix POS Bridge` ve `Türkiye Sanal POS Ödeme Sistemi` ile operasyon ve ödeme entegrasyonu tamamlandı.
 
 Kurulan yapı içinde:
 
@@ -42,6 +44,8 @@ Kurulan yapı içinde:
 - Kupon, bahşiş, ürün eklentileri ve restoran yorumları desteklendi
 - Yeni siparişler için backend uyarı ve operasyon ekranı oluşturuldu
 - QR menü ile food delivery arasında restoran, kategori ve ürün senkronizasyonu kuruldu
+- POS restaurant ile food delivery ve QR menu arasında restoran, kategori, ürün ve masa eşleştirmeleri bağlandı
+- Banka seçimi, taksit, 3D Secure, iade ve işlem takibi destekleyen Türkiye uyumlu sanal POS altyapısı eklendi
 - Belirli path'ler için installable PWA deneyimi kurgulandı
 - Lokasyon bazlı tekrar kullanılabilir online formlar ve gönderim yönetimi eklendi
 - Misafir şikayetleri, denetim, ürün takibi ve kalite operasyonları için özel yönetim katmanı oluşturuldu
@@ -104,28 +108,38 @@ Platforma tekrar kullanılabilir ve lokasyon bazlı çalışan online form altya
 
 `Ronix Quality Manager` ile mobil uygulama lokasyonları, menü buton akışları, duyurular, eğitim içerikleri, denetim checklist'leri, operasyonel uygunsuzluklar, inspeksiyon raporları, ürün takibi, mal kabul süreçleri ve misafir şikayet yönetimi için ayrı bir operasyon katmanı kurgulandı. Böylece platform sadece sipariş ve servis yönetimi yapan bir yapı olmaktan çıkıp, kalite ve sürekli iyileştirme süreçlerini de destekleyen daha kapsamlı bir işletme çözümüne dönüştü.
 
+### 15. POS, Masa ve Menü Arasında Operasyon Köprüsü
+
+`Ronix POS Bridge` ile restoran içindeki POS yapısı, QR menü ve online sipariş katmanları birbirine bağlandı. `pos.config`, restoran kayıtları, kategori yapıları, ürün uygunluk bayrakları ve masa verileri arasında çift yönlü eşleştirme kurgulandı. Böylece salon tarafındaki kasa operasyonu ile dijital sipariş akışları aynı veri mantığında buluştu.
+
+### 16. Türkiye'ye Uygun Sanal POS ve Taksitli Ödeme
+
+`turkey_pos_payment` katmanı ile Türkiye bankalarına uygun sanal POS entegrasyonu, 3D Secure akışı, banka ve taksit seçimi, ürün veya kategori bazlı taksit senaryoları, iptal ve iade işlemleri, ödeme kayıtları ve raporlama yapısı desteklendi. Bu sayede restoranın online sipariş deneyimi yalnızca teknik olarak değil, yerel ödeme beklentileri açısından da daha güçlü hale geldi.
+
 ## Sağlanan Değer
 
 Bu proje ile:
 
-- restoranın salon içi ve online sipariş deneyimi aynı sistemde toplandı,
+- restoranın salon içi, online sipariş ve POS deneyimi aynı sistemde toplandı,
 - müşteri tarafında daha modern ve daha akıcı bir kullanım sunuldu,
 - menü yönetimi daha zengin ve daha güncel hale geldi,
 - operasyon ekibi için yeni sipariş ve masa talepleri daha görünür oldu,
 - QR menü ile teslimat sistemleri arasında veri tekrarının önüne geçildi,
+- POS, masa ve ürün verileri tek omurgada yönetilebilir hale geldi,
+- Türkiye pazarına uygun banka, taksit ve güvenli ödeme deneyimi sağlandı,
 - mobil uygulama benzeri kullanım deneyimi güçlendirildi,
 - lokasyon bazlı form ve kalite süreçleri dijitalleştirildi,
 - restoran markaları için daha güçlü bir dijital servis altyapısı kuruldu.
 
-Lugatsoft bu projede yalnızca bir QR menü ya da sipariş ekranı geliştirmedi; restoranların dijital servis, müşteri deneyimi, mobil kullanım ve operasyon kalite süreçlerini aynı çatı altında birleştiren ölçeklenebilir bir platform kurdu.
+Lugatsoft bu projede yalnızca bir QR menü ya da sipariş ekranı geliştirmedi; restoranların dijital servis, ödeme, müşteri deneyimi, mobil kullanım ve operasyon kalite süreçlerini aynı çatı altında birleştiren ölçeklenebilir bir platform kurdu.
 
 ## Sitede Kullanılabilecek Güçlü Vurgu Cümleleri
 
-- Restoran deneyimini masa içinden teslimata kadar tek sistemde kurguluyoruz.
-- QR menü, online sipariş, PWA ve operasyon bildirimlerini aynı dijital omurgada birleştiriyoruz.
-- Sadece ürün listeleyen değil, servis kalitesini artıran restoran platformları geliştiriyoruz.
-- Menü verisini, sipariş akışını, kalite süreçlerini ve müşteri deneyimini tek merkezden yönetilebilir hale getiriyoruz.
+- Restoran deneyimini masa içinden teslimata ve kasaya kadar tek sistemde kurguluyoruz.
+- QR menü, online sipariş, POS ve sanal POS altyapısını aynı dijital omurgada birleştiriyoruz.
+- Sadece ürün listeleyen değil, servis ve ödeme kalitesini artıran restoran platformları geliştiriyoruz.
+- Menü verisini, sipariş akışını, ödeme süreçlerini, kalite operasyonlarını ve müşteri deneyimini tek merkezden yönetilebilir hale getiriyoruz.
 
 ## Etiketler
 
-`QR Menü` `Online Sipariş` `Food Delivery` `PWA` `Kalite Yönetimi` `Garson Çağırma` `AR Menü` `Müşteri Deneyimi`
+`QR Menü` `Online Sipariş` `Food Delivery` `POS Entegrasyonu` `Sanal POS` `3D Secure` `PWA` `Kalite Yönetimi` `Garson Çağırma` `AR Menü`

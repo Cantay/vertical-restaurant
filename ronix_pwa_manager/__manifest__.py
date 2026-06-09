@@ -1,15 +1,16 @@
 {
-    "name": "Ronix PWA Manager",
+    "name": "Ronix PWA Yönetimi",
     "version": "18.0.1.0.0",
     "category": "Website",
-    "summary": "Create path-based PWAs with custom names and icons",
+    "summary": "Belirli website yolları için özel ad ve ikonlu PWA uygulamaları oluşturur",
     "description": """
-Ronix PWA Manager
-=================
-Create installable PWAs for specific website paths with dedicated names,
-icons, manifest files, and install buttons.
+Ronix PWA Yönetimi
+==================
+Belirli website yolları için ayrı ad, ikon, manifest dosyası
+ve kurulum butonu içeren yüklenebilir PWA uygulamaları oluşturur.
 """,
-    "author": "Odoo Custom",
+    "author": "Cantay Aktura",
+    "website": "https://www.lugatsoft.com",
     "depends": ["website"],
     "data": [
         "security/ir.model.access.csv",
