@@ -1,11 +1,77 @@
+import base64
+
 from odoo import models
+from odoo.modules.module import get_module_resource
 
 DEMO_XMLID_PREFIX = 'ronix_food_delivery.demo_'
+
+PRODUCT_IMAGE_RULES = (
+    ('cheese burger', 'th-cheeseburger.png'),
+    ('classic burger', 'th-burger.png'),
+    ('bbq burger', 'th-burger.png'),
+    ('tavuk burger', 'th-burger.png'),
+    ('burger', 'th-burger.png'),
+    ('coca-cola', 'th-coke.png'),
+    ('coca cola', 'th-coke.png'),
+    ('espresso', 'th-espresso.png'),
+    ('yeşil çay', 'th-green_tea.png'),
+    ('yesil cay', 'th-green_tea.png'),
+    ('salmon roll', 'th-salmon.png'),
+    ('california roll', 'th-maki.png'),
+    ('dragon roll', 'th-maki.png'),
+    ('sashimi', 'th-salmon-avocado.png'),
+    ('sake', 'th-green_tea.png'),
+    ('margherita', 'th-pizza-ma.png'),
+    ('pepperoni', 'th-pizza.png'),
+    ('quattro', 'th-pizza-ve.png'),
+    ('napoli', 'th-pizza-fu.png'),
+    ('pizza', 'th-pizza.png'),
+    ('spaghetti', 'th-pasta.png'),
+    ('penne', 'th-pasta.png'),
+    ('fettuccine', 'th-pasta-4f.png'),
+    ('pasta', 'th-pasta.png'),
+    ('san pellegrino', 'th-water.png'),
+)
+
+CATEGORY_IMAGE_RULES = (
+    ('içecek', 'soft-drink-icon.png'),
+    ('icecek', 'soft-drink-icon.png'),
+    ('burger', 'th-burger.png'),
+    ('pizza', 'th-pizza.png'),
+    ('makarna', 'th-pasta.png'),
+    ('sushi', 'th-maki.png'),
+)
 
 
 class FoodDemoDataLoader(models.AbstractModel):
     _name = 'food.demo.data.loader'
     _description = 'Food Demo Data Loader'
+
+    def _get_demo_product_image(self, product_name, category_name):
+        product_key = (product_name or '').casefold()
+        category_key = (category_name or '').casefold()
+        filename = False
+
+        for needle, image_name in PRODUCT_IMAGE_RULES:
+            if needle in product_key:
+                filename = image_name
+                break
+
+        if not filename:
+            for needle, image_name in CATEGORY_IMAGE_RULES:
+                if needle in category_key:
+                    filename = image_name
+                    break
+
+        if not filename:
+            filename = 'food_category.png'
+
+        image_path = get_module_resource('ronix_food_delivery', 'static/src/img', filename)
+        if not image_path:
+            return False
+
+        with open(image_path, 'rb') as image_file:
+            return base64.b64encode(image_file.read())
 
     def _get_demo_restaurants(self):
         return [
@@ -352,6 +418,7 @@ class FoodDemoDataLoader(models.AbstractModel):
                         'name': item['name'],
                         'list_price': item['price'],
                         'description_sale': item.get('desc', ''),
+                        'image_1920': self._get_demo_product_image(item['name'], cat_name),
                         'is_food': True,
                         'food_restaurant_id': restaurant.id,
                         'type': 'consu',
