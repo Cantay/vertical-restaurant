@@ -3,26 +3,11 @@
     'version': '18.0.1.0.0',
     'category': 'Website',
     'summary': 'Food Delivery ve QR Menu modülleri arasında veri eşleştirme köprüsü',
-    'description': """
-Ronix QR Menu Bridge
-====================
-
-Bu modül, Ronix Food Delivery ve Ronix QR Menu modülleri arasında restoran,
-kategori ve ürün verilerini eşleştirir. Food Delivery tarafındaki restoran
-bilgileri, çalışma saatleri, puanlar, yorum sayıları ve ürün eklentileri QR
-menü tarafına aktarılabilir.
-
-Öne çıkan özellikler:
-
-* Food Delivery restoranı ile QR Menü restoranını birbirine bağlama.
-* Kategori ve ürün kayıtları arasında karşılıklı referans alanları.
-* Tek tıkla Food Delivery verilerini QR Menü restoranına aktarma.
-* Restoran puanı, yemek puanı, yorum sayısı ve çalışma saatlerini QR menüde
-  gösterme.
-* Ürün eklentilerini QR menü içerik/ingredient yapısına uygun şekilde taşıma.
-* QR menü frontend sayfalarında restoran puanı ve çalışma saati görünümü için
-  ek şablon ve stil desteği.
-    """,
+    'description': """Food Delivery ve QR Menu modülleri arasında restoran, kategori ve ürün verilerini eşleştirir.
+Food Delivery restoranı ile QR Menü restoranını karşılıklı referans alanlarıyla bağlar.
+Tek tıkla restoran bilgisi, çalışma saatleri, puanlar ve yorum sayılarını QR menüye aktarır.
+Ürün eklentilerini QR menü içerik yapısına uygun şekilde senkronize eder.
+QR menü frontend ekranlarında restoran puanı ve çalışma saati gösterimi sağlar.""",
     'author': 'Lugatsoft',
     'website': 'https://www.lugatsoft.com',
     'depends': [

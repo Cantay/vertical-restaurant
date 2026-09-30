@@ -3,26 +3,11 @@
     "version": "18.0.1.0.0",
     "category": "Website",
     "summary": "Website yolları için özel isim, ikon ve manifest ile PWA oluşturma",
-    "description": """
-Ronix PWA Manager
-=================
-
-Bu modül, Odoo website üzerinde belirli URL yolları için kurulabilir PWA
-uygulamaları tanımlamayı sağlar. Her uygulama için özel ad, kısa ad, ikon,
-renkler, başlangıç URL'i ve manifest dosyası üretilebilir; frontend tarafında
-uygun sayfalarda PWA kurulum butonu gösterilir.
-
-Öne çıkan özellikler:
-
-* Website yolu bazlı PWA uygulama kayıtları.
-* Uygulama adı, kısa ad, ikon, tema rengi, arka plan rengi ve başlangıç URL'i
-  yönetimi.
-* Dinamik manifest endpointleriyle her PWA için ayrı manifest üretimi.
-* Frontend kurulum butonu, install prompt yakalama ve kullanıcı dostu kurulum
-  akışı.
-* Website içinde birden fazla marka, lokasyon veya uygulama deneyimini ayrı PWA
-  olarak yayınlama.
-""",
+    "description": """Odoo website üzerinde belirli URL yolları için kurulabilir PWA uygulamaları tanımlar.
+Her PWA için özel ad, kısa ad, ikon, tema rengi, arka plan rengi ve başlangıç URL'i yönetir.
+Dinamik manifest endpointleriyle her uygulama için ayrı manifest dosyası üretir.
+Frontend kurulum butonu ve install prompt akışıyla kullanıcıya kolay kurulum deneyimi sunar.
+Birden fazla marka, lokasyon veya web uygulamasını aynı website içinde ayrı PWA olarak yayınlar.""",
     "author": "Odoo Custom",
     "depends": ["website"],
     "data": [

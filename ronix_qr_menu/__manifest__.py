@@ -3,26 +3,12 @@
     'version': '18.0.1.0.0',
     'category': 'Website',
     'summary': 'QR kodlu dijital menü, AR ürün görüntüleme, garson çağırma ve besin bilgisi',
-    'description': """
-Ronix QR Menu
-=============
-
-Bu modül, restoranlar için QR kod tabanlı dijital menü sistemi sağlar. Her
-masa için QR kod üretilebilir; müşteriler kategori ve ürünleri web üzerinden
-görüntüleyebilir, ürün detaylarında içerik, alerjen, besin değeri ve 3D/AR
-görünüm bilgilerine ulaşabilir.
-
-Öne çıkan özellikler:
-
-* Restoran, masa, kategori, ürün ve alerjen kayıtları için backend yönetimi.
-* Masa bazlı QR kod oluşturma ve QR menü URL'i üretme.
-* Kategori ve ürünlerden oluşan mobil uyumlu dijital menü sayfaları.
-* Ürün içerikleri, alerjenler, kalori/besin bilgileri ve detay açıklamaları.
-* 3D model-viewer ile AR ürün görüntüleme desteği.
-* Garson çağırma sistemi ve backend tarafında çağrı takibi.
-* Frontend QR menü, ürün detay sayfası, AR görüntüleyici ve garson çağırma
-  JavaScript bileşenleri.
-    """,
+    'description': """Restoranlar için QR kod tabanlı mobil uyumlu dijital menü sistemi sağlar.
+Restoran, masa, kategori, ürün ve alerjen kayıtlarını backend tarafında yönetir.
+Her masa için QR kod ve QR menü bağlantısı üretir.
+Ürün detaylarında içerik, alerjen, kalori, besin bilgisi ve açıklama gösterir.
+3D model-viewer ile AR ürün görüntüleme deneyimini destekler.
+Garson çağırma sistemiyle masa taleplerini backend tarafında takip eder.""",
     'author': 'Lugatsoft',
     'website': 'https://www.lugatsoft.com',
     'depends': [

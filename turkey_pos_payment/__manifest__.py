@@ -4,55 +4,13 @@
     'version': '18.0.1.0.0',
     'category': 'Accounting/Payment Providers',
     'summary': 'Türkiye bankaları için sanal POS, 3D Secure, taksit, iptal ve iade entegrasyonu',
-    'description': """
-Türkiye Sanal POS Ödeme Sistemi
-================================
-
-Bu modül ile Türkiye'deki tüm bankaların sanal POS sistemlerini Odoo'da kullanabilirsiniz.
-
-Desteklenen Bankalar:
----------------------
-- Akbank (AkbankPos)
-- Garanti BBVA (GarantiPos)
-- İş Bankası (EstPos/EstV3Pos/PayFlex)
-- Ziraat Bankası (EstPos/EstV3Pos/PayFlex)
-- Halkbank (EstPos/EstV3Pos)
-- Vakıfbank (PayFlex)
-- Vakıf Katılım (VakifKatilimPos)
-- Yapı Kredi Bankası (PosNet)
-- QNB Finansbank (PayForPos)
-- Denizbank (InterPos)
-- TEB (EstPos/EstV3Pos)
-- Şekerbank (EstPos/EstV3Pos)
-- Kuveyt Türk (KuveytPos)
-- Param POS (ParamPos)
-- Tosla (ToslaPos)
-
-Özellikler:
------------
-- 3D Secure, 3D Pay, NonSecure ödeme seçenekleri
-- Kategori bazlı taksit seçenekleri
-- Ürün sayfasında taksit sekmesi
-- Ödeme sayfasında banka ve taksit seçimi
-- Taksit farkının sepete yansıtılması
-- İptal ve iade işlemleri
-- Durum sorgulama
-- Sipariş tarihçesi sorgulama
-- Tekrarlanan ödeme desteği
-- QR kod ile ödeme
-- Ödeme kayıtları ve raporlama
-- Banka bazlı yevmiye kayıtları
-- Otomatik hesap planı oluşturma
-
-Teknik Özellikler:
-------------------
-- XML API entegrasyonu
-- SHA-256/SHA-512 şifreleme desteği
-- Güvenli 3D Secure akışı
-- Webhook desteği
-- Otomatik hata yönetimi
-- Kart BIN numarası ile banka tespiti
-    """,
+    'description': """Türkiye'deki bankaların sanal POS sistemlerini Odoo ödeme altyapısına bağlar.
+Akbank, Garanti BBVA, İş Bankası, Ziraat, Halkbank, Vakıfbank, Yapı Kredi, QNB Finansbank ve diğer sağlayıcıları destekler.
+3D Secure, 3D Pay ve NonSecure ödeme akışları için ödeme sağlayıcı yapılandırması sunar.
+Kategori bazlı taksit, ürün sayfasında taksit gösterimi ve ödeme sayfasında taksit seçimi sağlar.
+Taksit farkını sepete yansıtır ve ödeme işlem kayıtları üzerinden raporlama yapar.
+İptal, iade, durum sorgulama, sipariş tarihçesi, QR ödeme ve tekrarlanan ödeme akışlarını destekler.
+Banka bazlı yevmiye kayıtları, webhook yönetimi, otomatik hata işleme ve kart BIN tespiti içerir.""",
     'author': 'Odoo Turkey Community',
     'website': 'https://github.com/mewebstudio/pos',
     'license': 'LGPL-3',

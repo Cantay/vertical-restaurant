@@ -5,27 +5,12 @@
     'version': '18.0.1.0.0',
     'category': 'Operations',
     'summary': 'Lokasyon bazlı dinamik çevrimiçi form tasarımı, yayınlama ve gönderim yönetimi',
-    'description': """
-Ronix Çevrimiçi Form Yönetimi
-=============================
-
-Bu modül, lokasyon bazlı çevrimiçi formlar oluşturmayı, website üzerinden
-yayınlamayı ve gelen gönderimleri backend tarafında yetki kontrollü şekilde
-yönetmeyi sağlar. Kalite yönetimi lokasyonlarıyla entegre çalışarak her
-lokasyona özel form linkleri, alan yapıları ve gönderim kayıtları üretir.
-
-Öne çıkan özellikler:
-
-* Lokasyon bazlı form şablonları ve kısa URL üretimi.
-* Metin, sayı, tarih, tarih-saat, seçim ve onay gibi farklı alan tipleri.
-* Zorunlu alan, yardım metni, placeholder, kolon genişliği ve seçim seçenekleri
-  yönetimi.
-* Formları taslak/yayında durumlarıyla yönetme ve arşivleme.
-* Public frontend form sayfaları ve gönderim endpointleri.
-* Gelen gönderimleri alan değerleriyle birlikte backend tarafında izleme.
-* Takvim rengi, takvim tarihi, durum, not ve PDF çıktısı desteği.
-* Form yerleşimini frontend tasarım aracıyla kaydetme altyapısı.
-    """,
+    'description': """Lokasyon bazlı çevrimiçi formlar oluşturur, yayınlar ve gönderimleri backend tarafında yönetir.
+Kalite yönetimi lokasyonlarıyla entegre çalışarak her lokasyona özel form linkleri üretir.
+Metin, sayı, tarih, tarih-saat, seçim ve onay gibi farklı alan tiplerini destekler.
+Zorunlu alan, yardım metni, placeholder, kolon genişliği ve seçim seçenekleri tanımlar.
+Public frontend form sayfaları, gönderim endpointleri ve backend gönderim takibi sağlar.
+Takvim rengi, takvim tarihi, durum, not ve PDF çıktısı desteği sunar.""",
     'author': 'Odoo Custom',
     'depends': [
         'base',

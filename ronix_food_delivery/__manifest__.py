@@ -3,34 +3,12 @@
     'name': 'Ronix Food Delivery',
     'version': '1.0',
     'summary': 'Restoranlar için online yemek siparişi ve teslimat uygulaması',
-    'description': """
-Ronix Food Delivery
-===================
-
-Bu modül, restoranların Odoo üzerinde online yemek siparişi, sepet, ödeme,
-adres, favori, yorum ve teslimat süreçlerini yönetmesini sağlar. Website Sale
-ve satış siparişi altyapısını kullanarak müşteriye mobil uyumlu bir yemek
-siparişi deneyimi sunar; restoran tarafında ise sipariş hazırlama, kurye,
-teslimat ücreti ve iptal akışlarını takip eder.
-
-Öne çıkan özellikler:
-
-* Restoran, çalışma saati, ürün, eklenti ve teslimat adresi yönetimi.
-* Ana sayfa, restoran listesi, popüler ürünler, favoriler, sepet ve sipariş
-  ekranları için frontend şablonları.
-* Kullanıcı hesabı, profil, adresler, ödeme yöntemleri, bildirimler, kuponlar
-  ve destek sayfaları.
-* Sepete ürün ekleme, eklenti seçimi, ürün notu, kupon uygulama ve bahşiş
-  siparişi oluşturma.
-* Online ödeme adımı, kayıtlı kart yönetimi ve varsayılan kart seçimi.
-* Restoran ve ürün yorumları, değerlendirme etiketleri ve ortalama puan takibi.
-* Sipariş hazırlık, yolda, teslim edildi ve iptal durumları için backend
-  operasyon alanları.
-* Teslimat ücreti, teslimat mesafesi, platform komisyonu ve kurye bilgisi
-  takibi.
-* Yeni sipariş uyarıları ve restoran operasyon ekranlarıyla mutfak/teslimat
-  sürecini izleme.
-    """,
+    'description': """Restoranlar için mobil uyumlu online yemek siparişi deneyimi sunar.
+Restoran, çalışma saati, ürün, eklenti ve teslimat adresi yönetimi sağlar.
+Sepet, kupon, bahşiş, ödeme, kayıtlı kart ve sipariş takibi akışlarını destekler.
+Restoran ve ürün yorumlarıyla puan, etiket ve müşteri geri bildirimi takibi yapar.
+Hazırlık, kurye yolda, teslim edildi ve iptal durumlarını backend operasyonlarına taşır.
+Teslimat ücreti, mesafe, platform komisyonu ve kurye bilgilerini sipariş üzerinde izler.""",
     'author': 'Antigravity',
     'website': 'https://www.ronix.com',
     'category': 'Website',
