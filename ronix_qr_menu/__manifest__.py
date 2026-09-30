@@ -2,15 +2,26 @@
     'name': 'Ronix QR Menu',
     'version': '18.0.1.0.0',
     'category': 'Website',
-    'summary': 'QR Code Digital Menu with AR, Waiter Call & Nutrition Info',
+    'summary': 'QR kodlu dijital menü, AR ürün görüntüleme, garson çağırma ve besin bilgisi',
     'description': """
-        QR Code based digital menu system for restaurants.
-        Features:
-        - QR code generation per table
-        - Digital menu with categories and items
-        - Food ingredients, allergens, and nutrition info
-        - AR product viewing (3D model-viewer)
-        - Waiter call system with real-time notifications
+Ronix QR Menu
+=============
+
+Bu modül, restoranlar için QR kod tabanlı dijital menü sistemi sağlar. Her
+masa için QR kod üretilebilir; müşteriler kategori ve ürünleri web üzerinden
+görüntüleyebilir, ürün detaylarında içerik, alerjen, besin değeri ve 3D/AR
+görünüm bilgilerine ulaşabilir.
+
+Öne çıkan özellikler:
+
+* Restoran, masa, kategori, ürün ve alerjen kayıtları için backend yönetimi.
+* Masa bazlı QR kod oluşturma ve QR menü URL'i üretme.
+* Kategori ve ürünlerden oluşan mobil uyumlu dijital menü sayfaları.
+* Ürün içerikleri, alerjenler, kalori/besin bilgileri ve detay açıklamaları.
+* 3D model-viewer ile AR ürün görüntüleme desteği.
+* Garson çağırma sistemi ve backend tarafında çağrı takibi.
+* Frontend QR menü, ürün detay sayfası, AR görüntüleyici ve garson çağırma
+  JavaScript bileşenleri.
     """,
     'author': 'Lugatsoft',
     'website': 'https://www.lugatsoft.com',

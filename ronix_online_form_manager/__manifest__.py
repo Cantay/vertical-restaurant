@@ -1,17 +1,30 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Ronix Cevrimici Form Yonetimi',
+    'name': 'Ronix Çevrimiçi Form Yönetimi',
     'version': '18.0.1.0.0',
     'category': 'Operations',
-    'summary': 'Lokasyon bazli dinamik cevrimici form yonetimi',
+    'summary': 'Lokasyon bazlı dinamik çevrimiçi form tasarımı, yayınlama ve gönderim yönetimi',
     'description': """
-Ronix Cevrimici Form Yonetimi
+Ronix Çevrimiçi Form Yönetimi
 =============================
 
-Lokasyon bazli tekrar kullanilabilir formlar olusturun,
-frontend uzerinde yayinlayin ve tum gonderimleri
-yetki kontrollu sekilde backend tarafinda yonetin.
+Bu modül, lokasyon bazlı çevrimiçi formlar oluşturmayı, website üzerinden
+yayınlamayı ve gelen gönderimleri backend tarafında yetki kontrollü şekilde
+yönetmeyi sağlar. Kalite yönetimi lokasyonlarıyla entegre çalışarak her
+lokasyona özel form linkleri, alan yapıları ve gönderim kayıtları üretir.
+
+Öne çıkan özellikler:
+
+* Lokasyon bazlı form şablonları ve kısa URL üretimi.
+* Metin, sayı, tarih, tarih-saat, seçim ve onay gibi farklı alan tipleri.
+* Zorunlu alan, yardım metni, placeholder, kolon genişliği ve seçim seçenekleri
+  yönetimi.
+* Formları taslak/yayında durumlarıyla yönetme ve arşivleme.
+* Public frontend form sayfaları ve gönderim endpointleri.
+* Gelen gönderimleri alan değerleriyle birlikte backend tarafında izleme.
+* Takvim rengi, takvim tarihi, durum, not ve PDF çıktısı desteği.
+* Form yerleşimini frontend tasarım aracıyla kaydetme altyapısı.
     """,
     'author': 'Odoo Custom',
     'depends': [

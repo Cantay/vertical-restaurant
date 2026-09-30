@@ -4,16 +4,29 @@
     'name': 'Ronix Quality Manager',
     'version': '18.0.1.0.2',
     'category': 'Operations/Quality',
-    'summary': 'Manage mobile app locations and menu buttons',
+    'summary': 'Restoran ve otel operasyonları için kalite yönetimi ve mobil içerik altyapısı',
     'description': """
 Ronix Quality Manager
-===================
-Provides a dedicated backend for mobile application menu management.
+=====================
 
-- Define mobile app locations with unique tokens
-- Manage main menu and side menu buttons per location
-- Expose public endpoints for mobile app button feeds
-- Provide mobile-first hotel website snippets for webview apps
+Bu modül, restoran ve otel operasyonlarında kalite, denetim, eğitim,
+duyuru, ürün takibi, kasap üretim takibi, mal kabul ve misafir şikayeti
+süreçlerini merkezi olarak yönetmek için hazırlanmıştır. Ayrıca lokasyon bazlı
+mobil uygulama menüleri ve webview içerikleri için public endpoint ve website
+şablonları sağlar.
+
+Öne çıkan özellikler:
+
+* Lokasyon bazlı mobil uygulama tokenları, ana menü ve yan menü butonları.
+* Bilgilendirme, duyuru ve eğitim içeriklerinin backend ve frontend yönetimi.
+* Denetim checklistleri, operasyonel uygunsuzluk kayıtları ve muayene raporları.
+* Ürün takip, kasap üretim takip ve mal kabul formları.
+* Misafir şikayeti raporu, sonuç kaydı, içe aktarma ve analiz sihirbazları.
+* Kalite formları için frontend sayfaları, mobil uyumlu şablonlar ve website
+  snippetleri.
+* Spreadsheet editörü ve kalite kayıtları için raporlama çıktıları.
+* Public controller endpointleriyle mobil uygulama ve webview ekranlarına veri
+  servis etme.
     """,
     'author': 'Odoo Custom',
     'depends': [

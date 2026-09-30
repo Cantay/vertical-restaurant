@@ -3,7 +3,7 @@
     'name': 'Türkiye Sanal POS Ödeme Sistemi',
     'version': '18.0.1.0.0',
     'category': 'Accounting/Payment Providers',
-    'summary': 'Türkiye Bankaları Sanal POS Entegrasyonu - Tüm Bankalar',
+    'summary': 'Türkiye bankaları için sanal POS, 3D Secure, taksit, iptal ve iade entegrasyonu',
     'description': """
 Türkiye Sanal POS Ödeme Sistemi
 ================================
